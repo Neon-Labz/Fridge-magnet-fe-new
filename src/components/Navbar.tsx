@@ -5,7 +5,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingBag, User, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  Menu,
+  X,
+  ShoppingBag,
+  User,
+  LogOut,
+  LayoutDashboard,
+  ShoppingCart,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuthUser {
@@ -20,6 +28,7 @@ export default function Navbar() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,7 +36,20 @@ export default function Navbar() {
     fetchUser();
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const syncCart = () => {
+      const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+      setCartCount(cart.length);
+    };
+    syncCart();
+    window.addEventListener("storage", syncCart);
+    window.addEventListener("cartUpdated", syncCart);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("storage", syncCart);
+      window.removeEventListener("cartUpdated", syncCart);
+    };
   }, []);
 
   const fetchUser = async () => {
@@ -64,7 +86,7 @@ export default function Navbar() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
           ? "bg-white/95 backdrop-blur-md shadow-lg shadow-cyan-100/50"
-          : "bg-white/80 backdrop-blur-sm"
+          : "bg-white/80 backdrop-blur-sm",
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,7 +94,12 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-10 h-10 rounded-xl overflow-hidden">
-              <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
+              <Image
+                src="/images/logo.png"
+                alt="Magnify"
+                fill
+                className="object-cover"
+              />
             </div>
             <span className="text-2xl font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
               Magnify
@@ -87,7 +114,7 @@ export default function Navbar() {
                 href={link.href}
                 className={cn(
                   "relative text-sm font-semibold transition-colors duration-200 hover:text-cyan-600",
-                  pathname === link.href ? "text-cyan-600" : "text-slate-700"
+                  pathname === link.href ? "text-cyan-600" : "text-slate-700",
                 )}
               >
                 {link.label}
@@ -126,7 +153,10 @@ export default function Navbar() {
                           className="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-cyan-50 transition-colors"
                           onClick={() => setUserMenuOpen(false)}
                         >
-                          <LayoutDashboard size={16} className="text-cyan-500" />
+                          <LayoutDashboard
+                            size={16}
+                            className="text-cyan-500"
+                          />
                           Admin Dashboard
                         </Link>
                       )}
@@ -142,13 +172,21 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <Link
-                  href="/login"
-                  className="text-sm font-semibold text-slate-700 hover:text-cyan-600 transition-colors"
-                >
-                  Login
-                </Link>
+                <div className="flex items-center gap-3">
+                  <Link href="/checkout" className="relative flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-cyan-600 transition-colors">
+                    <ShoppingCart size={20} className="text-cyan-500"/>
+                    {cartCount > 0 && (
+                      <span className="absolute -top-2 -right-2 w-4 h-4 bg-cyan-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                   <Link
+              href="login"
+              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+            >
+              Login
+            </Link>
                 <Link
                   href="/register"
                   className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
@@ -157,13 +195,7 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
-            <Link
-              href="/shop"
-              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
-            >
-              <ShoppingBag size={16} />
-              Shop
-            </Link>
+           
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -195,7 +227,7 @@ export default function Navbar() {
                     "block px-4 py-3 rounded-xl text-sm font-semibold transition-colors",
                     pathname === link.href
                       ? "bg-cyan-50 text-cyan-600"
-                      : "text-slate-700 hover:bg-slate-50"
+                      : "text-slate-700 hover:bg-slate-50",
                   )}
                 >
                   {link.label}

@@ -14,9 +14,12 @@ import {
   X,
   Frame,
   ChevronLeft,
-  CreditCard,
-  Truck,
   Loader2,
+  ShoppingCart,
+  ImageIcon,
+  CheckCircle2,
+  Package,
+  Truck,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
@@ -31,6 +34,14 @@ interface Product {
   galleryImages: string[];
 }
 
+export interface CartItem {
+  productId: string;
+  productName: string;
+  price: string;
+  imageCount: number;
+  uploadedImageUrls: string[];
+}
+
 export default function ProductDetailPage({
   params,
 }: {
@@ -40,44 +51,19 @@ export default function ProductDetailPage({
   const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<number>(0);
-  const [qty, setQty] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod");
-  const [form, setForm] = useState({
-    customerName: "",
-    customerEmail: "",
-    customerPhone: "",
-    address: "",
-    notes: "",
-  });
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     fetch(`/api/products/${id}`)
       .then((r) => r.json())
-      .then((d) => {
-        setProduct(d.product);
-        setLoading(false);
-      })
+      .then((d) => { setProduct(d.product); setLoading(false); })
       .catch(() => setLoading(false));
 
-    // Pre-fill if logged in
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.user) {
-          setForm((prev) => ({
-            ...prev,
-            customerName: d.user.fullName || "",
-            customerEmail: d.user.email || "",
-            customerPhone: d.user.phone || "",
-            address: d.user.shippingAddress || "",
-          }));
-        }
-      })
-      .catch(() => {});
+    const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    setCartCount(cart.length);
   }, [id]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -98,129 +84,180 @@ export default function ProductDetailPage({
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const uploadImages = async (): Promise<string[]> => {
-    if (uploadedFiles.length === 0) return [];
-    const formData = new FormData();
-    uploadedFiles.forEach((f) => formData.append("files", f));
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    if (!res.ok) throw new Error("Upload failed");
-    const data = await res.json();
-    return data.urls as string[];
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAddToCart = async () => {
     if (!product) return;
 
     if (uploadedFiles.length === 0) {
       toast.error("Please upload at least one photo");
       return;
     }
-
     if (uploadedFiles.length < product.imageCount) {
       toast.error(`Please upload exactly ${product.imageCount} photos`);
       return;
     }
 
-    setSubmitting(true);
+    setUploading(true);
     try {
-      const urls = await uploadImages();
-      setUploadedUrls(urls);
-
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product.id,
-          ...form,
-          qty,
-          uploadedImages: urls,
-          paymentMethod,
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to place order");
-      }
-
+      const formData = new FormData();
+      uploadedFiles.forEach((f) => formData.append("files", f));
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Upload failed");
       const data = await res.json();
-      toast.success(`Order ${data.order.orderId} placed successfully! 🎉`);
-      router.push(`/order-success?orderId=${data.order.orderId}`);
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to place order");
+
+      const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+      cart.push({
+        productId: product.id,
+        productName: product.productName,
+        price: product.price,
+        imageCount: product.imageCount,
+        uploadedImageUrls: data.urls,
+      });
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+      setCartCount(cart.length);
+      setUploadedFiles([]);
+      window.dispatchEvent(new Event("cartUpdated"));
+
+      toast.success(
+        (t) => (
+          <div className="flex flex-col gap-2">
+            <p className="font-semibold text-sm">Added to cart! 🛒</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => { toast.dismiss(t.id); }}
+                className="text-xs px-3 py-1.5 bg-slate-100 rounded-lg font-medium"
+              >
+                Keep Shopping
+              </button>
+              <button
+                onClick={() => { toast.dismiss(t.id); router.push("/checkout"); }}
+                className="text-xs px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-lg font-medium"
+              >
+                Go to Checkout
+              </button>
+            </div>
+          </div>
+        ),
+        { duration: 6000 }
+      );
+    } catch {
+      toast.error("Failed to upload images. Please try again.");
     } finally {
-      setSubmitting(false);
+      setUploading(false);
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+          <p className="text-slate-400 text-sm font-medium">Loading product…</p>
+        </div>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
         <div className="text-center">
-          <Frame size={48} className="text-cyan-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-slate-700">Product Not Found</h2>
+          <div className="w-20 h-20 bg-cyan-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Frame size={36} className="text-cyan-300" />
+          </div>
+          <h2 className="text-2xl font-black text-slate-700">Product Not Found</h2>
+          <p className="text-slate-400 mt-2 text-sm">This product may have been removed.</p>
+          <button
+            onClick={() => router.push("/shop")}
+            className="mt-6 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-sm hover:shadow-lg transition-all"
+          >
+            Back to Shop
+          </button>
         </div>
       </div>
     );
   }
 
-  const totalPrice = Number(product.price) * qty;
   const maxImages = product.imageCount;
+  const uploadProgress = Math.round((uploadedFiles.length / maxImages) * 100);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 mb-8 transition-colors text-sm font-medium"
-        >
-          <ChevronLeft size={18} />
-          Back to Shop
-        </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
+        <div className="flex items-center justify-between mb-10">
+          <motion.button
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={() => router.back()}
+            className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-600 transition-colors text-sm font-medium group"
+          >
+            <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+            Back to Shop
+          </motion.button>
+
+          {cartCount > 0 && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={() => router.push("/checkout")}
+              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all"
+            >
+              <ShoppingCart size={15} />
+              Checkout
+              <span className="bg-white text-cyan-600 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            </motion.button>
+          )}
+        </div>
 
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="grid lg:grid-cols-2 gap-12"
+          className="grid lg:grid-cols-2 gap-10 xl:gap-16"
         >
-          {/* Product Images */}
-          <motion.div variants={fadeUp}>
-            <div className="relative h-80 lg:h-[440px] rounded-3xl overflow-hidden bg-gradient-to-br from-cyan-50 to-teal-50 mb-4 shadow-xl">
+          {/* ── Left: Product Images ── */}
+          <motion.div variants={fadeUp} className="space-y-4">
+            <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-cyan-50 to-teal-50 shadow-xl shadow-cyan-100/50">
               {product.galleryImages && product.galleryImages.length > 0 ? (
                 <Image
                   src={product.galleryImages[selectedImage]}
                   alt={product.productName}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-all duration-500"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full">
-                  <Frame size={64} className="text-cyan-200" />
+                <div className="flex flex-col items-center justify-center h-full gap-3">
+                  <Frame size={56} className="text-cyan-200" />
+                  <p className="text-cyan-300 text-sm font-medium">No preview available</p>
+                </div>
+              )}
+              {product.stock <= 5 && product.stock > 0 && (
+                <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                  Only {product.stock} left!
+                </div>
+              )}
+              {product.stock === 0 && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-3xl">
+                  <span className="bg-white text-slate-700 px-6 py-3 rounded-2xl font-black text-lg shadow-xl">
+                    Out of Stock
+                  </span>
                 </div>
               )}
             </div>
+
             {product.galleryImages && product.galleryImages.length > 1 && (
-              <div className="flex gap-3">
+              <div className="flex gap-3 overflow-x-auto pb-1">
                 {product.galleryImages.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
+                    className={`relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-200 ${
                       selectedImage === i
-                        ? "border-cyan-500 shadow-lg"
-                        : "border-slate-200 hover:border-cyan-300"
+                        ? "border-cyan-500 shadow-lg shadow-cyan-200/60 scale-105"
+                        : "border-slate-200 hover:border-cyan-300 opacity-70 hover:opacity-100"
                     }`}
                   >
                     <Image src={img} alt={`View ${i + 1}`} fill className="object-cover" />
@@ -229,232 +266,147 @@ export default function ProductDetailPage({
               </div>
             )}
 
-            {/* Product info */}
-            <div className="mt-6 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <p className="text-xs text-slate-400 font-mono">{product.productId}</p>
-                  <h1 className="text-2xl font-black text-slate-900 mt-1">{product.productName}</h1>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {[
+                { icon: <Package size={13} />, label: "Premium Quality" },
+                { icon: <Truck size={13} />, label: "Fast Delivery" },
+                { icon: <CheckCircle2 size={13} />, label: "Satisfaction Guaranteed" },
+              ].map((f) => (
+                <span
+                  key={f.label}
+                  className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-500 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+                >
+                  <span className="text-cyan-500">{f.icon}</span>
+                  {f.label}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── Right: Product Info + Upload ── */}
+          <motion.div variants={fadeUp} className="space-y-5">
+
+            {/* Product header */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+              <p className="text-xs text-slate-400 font-mono mb-1">{product.productId}</p>
+              <h1 className="text-2xl font-black text-slate-900 leading-tight mb-3">
+                {product.productName}
+              </h1>
+              {product.description && (
+                <div
+                  className="text-sm text-slate-500 leading-relaxed prose prose-sm max-w-none mb-4"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
+              )}
+              <div className="flex items-end justify-between pt-3 border-t border-slate-100">
+                <div className="flex gap-3">
+                  <div className="bg-cyan-50 rounded-2xl px-4 py-2.5 text-center">
+                    <p className="text-xl font-black text-cyan-700">{product.imageCount}</p>
+                    <p className="text-xs text-cyan-500 font-medium">Photos</p>
+                  </div>
+                  <div className="bg-teal-50 rounded-2xl px-4 py-2.5 text-center">
+                    <p className="text-xl font-black text-teal-700">{product.stock}</p>
+                    <p className="text-xs text-teal-500 font-medium">In Stock</p>
+                  </div>
                 </div>
                 <div className="text-right">
                   <p className="text-3xl font-black text-cyan-600">{formatPrice(product.price)}</p>
                   <p className="text-xs text-slate-400">per set</p>
                 </div>
               </div>
-              {product.description && (
-                <div
-                  className="text-sm text-slate-600 leading-relaxed prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              )}
-              <div className="flex gap-3 mt-4">
-                <div className="flex-1 bg-cyan-50 rounded-xl p-3 text-center">
-                  <p className="text-lg font-black text-cyan-700">{product.imageCount}</p>
-                  <p className="text-xs text-cyan-600">Max Photos</p>
-                </div>
-                <div className="flex-1 bg-teal-50 rounded-xl p-3 text-center">
-                  <p className="text-lg font-black text-teal-700">{product.stock}</p>
-                  <p className="text-xs text-teal-600">In Stock</p>
-                </div>
-              </div>
             </div>
-          </motion.div>
 
-          {/* Order Form */}
-          <motion.div variants={fadeUp}>
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-cyan-50">
-              <h2 className="text-2xl font-black text-slate-900 mb-6">Place Your Order</h2>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Photo Upload */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">
-                    Upload Your Photos{" "}
-                    <span className="text-cyan-600 font-black">
-                      ({uploadedFiles.length}/{maxImages})
-                    </span>
-                  </label>
-                  <div
-                    {...getRootProps()}
-                    className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-                      isDragActive
-                        ? "border-cyan-400 bg-cyan-50"
-                        : uploadedFiles.length >= maxImages
-                        ? "border-slate-200 bg-slate-50 cursor-not-allowed"
-                        : "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/30"
-                    }`}
-                  >
-                    <input {...getInputProps()} disabled={uploadedFiles.length >= maxImages} />
-                    <Upload size={32} className="text-cyan-400 mx-auto mb-2" />
-                    <p className="text-sm font-semibold text-slate-600">
-                      {isDragActive ? "Drop photos here" : "Drag & drop photos or click to browse"}
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Upload exactly {maxImages} photos • JPG, PNG, WEBP
-                    </p>
+            {/* Photo Upload */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center">
+                    <ImageIcon size={14} className="text-cyan-600" />
                   </div>
+                  <h2 className="text-sm font-bold text-slate-700">Upload Your Photos</h2>
+                </div>
+                <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                  uploadedFiles.length === maxImages
+                    ? "bg-green-100 text-green-600"
+                    : "bg-cyan-100 text-cyan-600"
+                }`}>
+                  {uploadedFiles.length}/{maxImages}
+                </span>
+              </div>
 
-                  {uploadedFiles.length > 0 && (
-                    <div className="mt-3 grid grid-cols-4 gap-2">
-                      {uploadedFiles.map((file, i) => (
-                        <div key={i} className="relative group">
-                          <div className="relative h-16 rounded-xl overflow-hidden bg-slate-100">
-                            <Image
-                              src={URL.createObjectURL(file)}
-                              alt={file.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(i)}
-                            className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <X size={10} />
-                          </button>
-                        </div>
-                      ))}
+              <div className="w-full bg-slate-100 rounded-full h-1.5 mb-4">
+                <div
+                  className="bg-gradient-to-r from-cyan-500 to-teal-500 h-1.5 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+
+              <div
+                {...getRootProps()}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
+                  isDragActive
+                    ? "border-cyan-400 bg-cyan-50 scale-[1.01]"
+                    : uploadedFiles.length >= maxImages
+                      ? "border-slate-200 bg-slate-50 cursor-not-allowed opacity-60"
+                      : "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/40"
+                }`}
+              >
+                <input {...getInputProps()} disabled={uploadedFiles.length >= maxImages} />
+                <div className="w-12 h-12 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Upload size={22} className="text-cyan-500" />
+                </div>
+                <p className="text-sm font-semibold text-slate-600">
+                  {isDragActive ? "Drop your photos here!" : "Drag & drop or click to browse"}
+                </p>
+                <p className="text-xs text-slate-400 mt-1">
+                  {uploadedFiles.length >= maxImages
+                    ? "Maximum photos reached"
+                    : `Upload exactly ${maxImages} photos • JPG, PNG, WEBP`}
+                </p>
+              </div>
+
+              {uploadedFiles.length > 0 && (
+                <div className="mt-4 grid grid-cols-4 sm:grid-cols-5 gap-2">
+                  {uploadedFiles.map((file, i) => (
+                    <div key={i} className="relative group">
+                      <div className="relative h-16 rounded-xl overflow-hidden bg-slate-100 ring-2 ring-transparent group-hover:ring-cyan-300 transition-all">
+                        <Image src={URL.createObjectURL(file)} alt={file.name} fill className="object-cover" />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(i)}
+                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+                      >
+                        <X size={10} />
+                      </button>
                     </div>
-                  )}
+                  ))}
                 </div>
+              )}
 
-                {/* Quantity */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Quantity</label>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setQty(Math.max(1, qty - 1))}
-                      className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-cyan-100 text-slate-700 font-bold transition-colors"
-                    >
-                      −
-                    </button>
-                    <span className="w-12 text-center font-black text-lg text-slate-800">{qty}</span>
-                    <button
-                      type="button"
-                      onClick={() => setQty(Math.min(product.stock, qty + 1))}
-                      className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-cyan-100 text-slate-700 font-bold transition-colors"
-                    >
-                      +
-                    </button>
-                    <span className="text-sm text-slate-500 ml-2">
-                      Total: <span className="font-black text-cyan-600">{formatPrice(totalPrice)}</span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Personal Details */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="col-span-2">
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={form.customerName}
-                      onChange={(e) => setForm({ ...form, customerName: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Email</label>
-                    <input
-                      type="email"
-                      value={form.customerEmail}
-                      onChange={(e) => setForm({ ...form, customerEmail: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Phone</label>
-                    <input
-                      type="tel"
-                      value={form.customerPhone}
-                      onChange={(e) => setForm({ ...form, customerPhone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                      placeholder="+1 555 0000"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Shipping Address *</label>
-                    <textarea
-                      required
-                      value={form.address}
-                      onChange={(e) => setForm({ ...form, address: e.target.value })}
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm resize-none"
-                      placeholder="123 Main St, City, State 12345"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Notes (optional)</label>
-                    <input
-                      type="text"
-                      value={form.notes}
-                      onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                      placeholder="Any special instructions..."
-                    />
-                  </div>
-                </div>
-
-                {/* Payment Method */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Payment Method</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("cod")}
-                      className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === "cod"
-                          ? "border-cyan-500 bg-cyan-50"
-                          : "border-slate-200 hover:border-cyan-200"
-                      }`}
-                    >
-                      <Truck size={20} className={paymentMethod === "cod" ? "text-cyan-600" : "text-slate-400"} />
-                      <div className="text-left">
-                        <p className="font-bold text-sm text-slate-800">Cash on Delivery</p>
-                        <p className="text-xs text-slate-400">Pay when delivered</p>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("card")}
-                      className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === "card"
-                          ? "border-cyan-500 bg-cyan-50"
-                          : "border-slate-200 hover:border-cyan-200"
-                      }`}
-                    >
-                      <CreditCard size={20} className={paymentMethod === "card" ? "text-cyan-600" : "text-slate-400"} />
-                      <div className="text-left">
-                        <p className="font-bold text-sm text-slate-800">Card Payment</p>
-                        <p className="text-xs text-slate-400">Pay securely online</p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={submitting || product.stock === 0}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-4 rounded-2xl font-black text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {submitting ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" />
-                      Placing Order...
-                    </>
-                  ) : (
-                    `Place Order · ${formatPrice(totalPrice)}`
-                  )}
-                </button>
-              </form>
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                disabled={uploading || product.stock === 0}
+                className="mt-5 w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+              >
+                {uploading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Uploading Photos…
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={18} />
+                    {product.stock === 0 ? "Out of Stock" : "Buy Now"}
+                  </>
+                )}
+              </button>
             </div>
           </motion.div>
         </motion.div>
       </div>
+
       <Footer />
     </div>
   );
