@@ -1,18 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || null;
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // If user is already logged in, redirect accordingly
+  useEffect(() => {
+    fetch("/api/auth/me").then((res) => {
+      if (res.ok) {
+        res.json().then((data) => {
+          if (data.user?.role === "admin") {
+            router.replace("/admin");
+          } else if (data.user) {
+            router.replace(redirectUrl || "/");
+          }
+        });
+      }
+    });
+  }, [redirectUrl, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +46,8 @@ export default function LoginPage() {
       if (data.user?.role === "admin") {
         router.push("/admin");
       } else {
-        router.push("/");
+        // Redirect to the originally requested page, or home
+        router.push(redirectUrl || "/");
       }
       router.refresh();
     } catch (err) {
@@ -39,6 +57,75 @@ export default function LoginPage() {
     }
   };
 
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50">
+      <h1 className="text-2xl font-black text-slate-900 mb-1">Sign In</h1>
+      <p className="text-slate-500 text-sm mb-6">Enter your credentials to continue</p>
+
+      {redirectUrl && (
+        <div className="mb-4 px-4 py-3 bg-cyan-50 border border-cyan-100 rounded-xl text-sm text-cyan-700 font-medium">
+          Please sign in to continue to your selected product.
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
+          <div className="relative">
+            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="email"
+              required
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+              placeholder="you@example.com"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1.5">Password</label>
+          <div className="relative">
+            <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            >
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
+        >
+          {loading ? <><Loader2 size={18} className="animate-spin" /> Signing in...</> : "Sign In"}
+        </button>
+      </form>
+
+      <p className="text-center text-sm text-slate-500 mt-6">
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="font-bold text-cyan-600 hover:text-cyan-700">
+          Create one
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+export default function LoginPage() {
   return (
     <div className="min-h-screen hero-gradient flex">
       {/* Left panel */}
@@ -87,64 +174,13 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50">
-            <h1 className="text-2xl font-black text-slate-900 mb-1">Sign In</h1>
-            <p className="text-slate-500 text-sm mb-6">Enter your credentials to continue</p>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
-                <div className="relative">
-                  <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                    placeholder="you@example.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1.5">Password</label>
-                <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                  >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
-              >
-                {loading ? <><Loader2 size={18} className="animate-spin" /> Signing in...</> : "Sign In"}
-              </button>
-            </form>
-
-            <p className="text-center text-sm text-slate-500 mt-6">
-              Don&apos;t have an account?{" "}
-              <Link href="/register" className="font-bold text-cyan-600 hover:text-cyan-700">
-                Create one
-              </Link>
-            </p>
-          </div>
+          <Suspense fallback={
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50 flex items-center justify-center">
+              <Loader2 size={24} className="animate-spin text-cyan-500" />
+            </div>
+          }>
+            <LoginForm />
+          </Suspense>
         </motion.div>
       </div>
     </div>

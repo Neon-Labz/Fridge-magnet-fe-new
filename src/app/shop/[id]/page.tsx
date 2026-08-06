@@ -55,8 +55,33 @@ export default function ProductDetailPage({
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
 
   useEffect(() => {
+    // Check authentication
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (res.ok) {
+          setIsAuthenticated(true);
+        } else {
+          // User not authenticated, redirect to login with return URL
+          router.push(`/login?redirect=/shop/${id}`);
+        }
+      } catch {
+        router.push(`/login?redirect=/shop/${id}`);
+      } finally {
+        setAuthChecking(false);
+      }
+    };
+
+    checkAuth();
+  }, [id, router]);
+
+  useEffect(() => {
+    if (!isAuthenticated || authChecking) return;
+
     fetch(`/api/products/${id}`)
       .then((r) => r.json())
       .then((d) => { setProduct(d.product); setLoading(false); })
@@ -64,7 +89,7 @@ export default function ProductDetailPage({
 
     const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
     setCartCount(cart.length);
-  }, [id]);
+  }, [id, isAuthenticated, authChecking]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "image/*": [] },
@@ -145,6 +170,17 @@ export default function ProductDetailPage({
       setUploading(false);
     }
   };
+
+  if (authChecking || (!isAuthenticated && authChecking === false)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+          <p className="text-slate-400 text-sm font-medium">Checking authentication…</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

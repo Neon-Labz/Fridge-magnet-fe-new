@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 
 type Status = "loading" | "success" | "error";
 
-export default function ActivateAccountPage() {
+function ActivationContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<Status>("loading");
   const [message, setMessage] = useState("");
@@ -48,6 +48,68 @@ export default function ActivateAccountPage() {
   }, [searchParams]);
 
   return (
+    <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50 text-center">
+      {status === "loading" && (
+        <>
+          <div className="flex justify-center mb-4">
+            <Loader2 size={52} className="text-cyan-500 animate-spin" />
+          </div>
+          <h1 className="text-xl font-black text-slate-900 mb-2">
+            Activating your account…
+          </h1>
+          <p className="text-slate-500 text-sm">This will only take a moment.</p>
+        </>
+      )}
+
+      {status === "success" && (
+        <>
+          <div className="flex justify-center mb-4">
+            <CheckCircle size={52} className="text-teal-500" />
+          </div>
+          <h1 className="text-xl font-black text-slate-900 mb-2">
+            Account Activated!
+          </h1>
+          <p className="text-slate-500 text-sm mb-6">{message}</p>
+          <Link
+            href="/login"
+            className="inline-block bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-3 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+          >
+            Sign in to your account
+          </Link>
+        </>
+      )}
+
+      {status === "error" && (
+        <>
+          <div className="flex justify-center mb-4">
+            <XCircle size={52} className="text-red-500" />
+          </div>
+          <h1 className="text-xl font-black text-slate-900 mb-2">
+            Activation Failed
+          </h1>
+          <p className="text-slate-500 text-sm mb-6">{message}</p>
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/register"
+              className="inline-block bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-3 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+            >
+              Register again
+            </Link>
+            <Link
+              href="/"
+              className="text-sm text-slate-500 hover:text-cyan-600 transition-colors"
+            >
+              Back to home
+            </Link>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function ActivateAccountPage() {
+  return (
     <div className="min-h-screen hero-gradient flex items-center justify-center p-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -67,63 +129,19 @@ export default function ActivateAccountPage() {
           </Link>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50 text-center">
-          {status === "loading" && (
-            <>
-              <div className="flex justify-center mb-4">
-                <Loader2 size={52} className="text-cyan-500 animate-spin" />
-              </div>
-              <h1 className="text-xl font-black text-slate-900 mb-2">
-                Activating your account…
-              </h1>
-              <p className="text-slate-500 text-sm">This will only take a moment.</p>
-            </>
-          )}
-
-          {status === "success" && (
-            <>
-              <div className="flex justify-center mb-4">
-                <CheckCircle size={52} className="text-teal-500" />
-              </div>
-              <h1 className="text-xl font-black text-slate-900 mb-2">
-                Account Activated!
-              </h1>
-              <p className="text-slate-500 text-sm mb-6">{message}</p>
-              <Link
-                href="/login"
-                className="inline-block bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-3 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
-              >
-                Sign in to your account
-              </Link>
-            </>
-          )}
-
-          {status === "error" && (
-            <>
-              <div className="flex justify-center mb-4">
-                <XCircle size={52} className="text-red-500" />
-              </div>
-              <h1 className="text-xl font-black text-slate-900 mb-2">
-                Activation Failed
-              </h1>
-              <p className="text-slate-500 text-sm mb-6">{message}</p>
-              <div className="flex flex-col gap-3">
-                <Link
-                  href="/register"
-                  className="inline-block bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-3 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
-                >
-                  Register again
-                </Link>
-                <Link
-                  href="/"
-                  className="text-sm text-slate-500 hover:text-cyan-600 transition-colors"
-                >
-                  Back to home
-                </Link>
-              </div>
-            </>
-          )}
-        </div>
+        <Suspense fallback={
+          <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50 text-center">
+            <div className="flex justify-center mb-4">
+              <Loader2 size={52} className="text-cyan-500 animate-spin" />
+            </div>
+            <h1 className="text-xl font-black text-slate-900 mb-2">
+              Loading…
+            </h1>
+            <p className="text-slate-500 text-sm">Please wait.</p>
+          </div>
+        }>
+          <ActivationContent />
+        </Suspense>
       </motion.div>
     </div>
   );
