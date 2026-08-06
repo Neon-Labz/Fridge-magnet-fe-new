@@ -19,9 +19,48 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [registered, setRegistered] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
+  
+  const validateSriLankanPhone = (phone: string): boolean => {
+    if (!phone) return true; // Optional field, empty is valid
+    
+    // Remove spaces, hyphens, and plus signs for validation
+    const cleaned = phone.replace(/[\s\-+]/g, "");
+    
+    // Mobile numbers: 07X XXXX XXXX (10 digits starting with 070-078)
+    const mobilePattern = /^07[0-8][0-9]{7}$/;
+    
+    // With country code: +94 7X XXXX XXXX
+    const mobileWithCodePattern = /^947[0-8][0-9]{7}$/;
+    
+    // Landline numbers: all valid area codes (011, 021, 023-027, 031-038, 041, 045, 047, 051-052, 054-055, 057, 063, 065-067, 081, 091)
+    const landlinePattern = /^0(11|21|2[3-7]|3[1-8]|4[157]|5[1245]7|6[3567]|81|91)[0-9]{7}$/;
+    
+    return mobilePattern.test(cleaned) || 
+           mobileWithCodePattern.test(cleaned) || 
+           landlinePattern.test(cleaned);
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setForm({ ...form, phoneNumber: value });
+    
+    if (value && !validateSriLankanPhone(value)) {
+      setPhoneError("Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 77 123 4567)");
+    } else {
+      setPhoneError("");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate phone number before submission
+    if (form.phoneNumber && !validateSriLankanPhone(form.phoneNumber)) {
+      toast.error("Please enter a valid Sri Lankan phone number");
+      return;
+    }
+    
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
@@ -181,11 +220,19 @@ export default function RegisterPage() {
                     <input
                       type="tel"
                       value={form.phoneNumber}
-                      onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
-                      placeholder="+94 77 000 0000"
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
+                        phoneError ? "border-red-300 focus:ring-red-300" : "border-slate-200 focus:ring-cyan-300"
+                      } focus:outline-none focus:ring-2 text-sm`}
+                      placeholder="+94 77 123 4567"
                     />
                   </div>
+                  {phoneError && (
+                    <p className="text-xs text-red-500 mt-1.5 ml-1">{phoneError}</p>
+                  )}
+                  <p className="text-xs text-slate-400 mt-1.5 ml-1">
+                    Formats: 077 123 4567, +94 77 123 4567, or 011 234 5678
+                  </p>
                 </div>
 
                 <div>
