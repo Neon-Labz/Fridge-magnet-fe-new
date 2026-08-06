@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
-import { deleteSession } from "@/lib/session";
 
 export async function POST() {
-  try {
-    await deleteSession();
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Logout error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+  const response = NextResponse.json({ success: true });
+  response.cookies.set("magnify_token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 0,
+    path: "/",
+  });
+  return response;
 }

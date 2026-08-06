@@ -25,12 +25,13 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      toast.success(`Welcome back, ${data.user.fullName}! 👋`);
-      if (data.user.role === "admin") {
+      toast.success(`Welcome back, ${data.user?.fullName ?? ""}! 👋`);
+      if (data.user?.role === "admin") {
         router.push("/admin");
       } else {
         router.push("/");
       }
+      router.refresh();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Login failed");
     } finally {

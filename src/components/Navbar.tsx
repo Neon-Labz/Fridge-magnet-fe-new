@@ -50,17 +50,15 @@ export default function Navbar() {
       window.removeEventListener("storage", syncCart);
       window.removeEventListener("cartUpdated", syncCart);
     };
-  }, []);
+  }, [pathname]);
 
   const fetchUser = async () => {
     try {
       const res = await fetch("/api/auth/me");
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      }
+      const data = await res.json();
+      setUser(res.ok ? data.user : null);
     } catch {
-      // not logged in
+      setUser(null);
     }
   };
 
@@ -182,7 +180,7 @@ export default function Navbar() {
                     )}
                   </Link>
                    <Link
-              href="login"
+              href="/login"
               className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
             >
               Login

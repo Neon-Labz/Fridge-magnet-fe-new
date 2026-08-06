@@ -8,6 +8,7 @@ export interface IUser extends Document {
   password: string;
   shippingAddress?: string;
   role: "customer" | "admin";
+  status: "pending" | "active" | "banned";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,6 +21,7 @@ const UserSchema = new Schema<IUser>(
     password: { type: String, required: true },
     shippingAddress: { type: String },
     role: { type: String, enum: ["customer", "admin"], default: "customer" },
+    status: { type: String, enum: ["pending", "active", "banned"], default: "pending" },
   },
   { timestamps: true }
 );

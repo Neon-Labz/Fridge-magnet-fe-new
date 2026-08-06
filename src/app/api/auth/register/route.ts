@@ -1,44 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/db";
-import { User } from "@/db/schema";
-import { hashPassword } from "@/lib/auth";
-import { createSession } from "@/lib/session";
+
+const BACKEND = process.env.BACKEND_URL!;
 
 export async function POST(req: NextRequest) {
   try {
-    await dbConnect();
     const body = await req.json();
-    const { fullName, email, password, phone, shippingAddress } = body;
+    const { fullName, email, password, phoneNumber, customerAddress } = body;
 
-    if (!fullName || !email || !password) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "Full name, email and password are required" },
+        { error: "Email and password are required" },
         { status: 400 }
       );
     }
 
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return NextResponse.json({ error: "Email already registered" }, { status: 409 });
+    const nestRes = await fetch(`${BACKEND}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullName, email, password, phoneNumber, customerAddress }),
+    });
+
+    const data = await nestRes.json();
+
+    if (!nestRes.ok) {
+      return NextResponse.json(
+        { error: data.message ?? "Registration failed" },
+        { status: nestRes.status }
+      );
     }
 
-    const hashedPassword = await hashPassword(password);
-    const user = await User.create({
-      fullName,
-      email,
-      password: hashedPassword,
-      phone: phone || null,
-      shippingAddress: shippingAddress || null,
-      role: "customer",
-    });
-
-    await createSession(String(user._id));
-
-    return NextResponse.json({
-      user: { id: user._id, fullName: user.fullName, email: user.email, role: user.role },
-    });
+    // Registration no longer returns a JWT — the user must activate via email first.
+    return NextResponse.json({ message: data.message });
   } catch (error) {
-    console.error("Register error:", error);
+    console.error("Register proxy error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

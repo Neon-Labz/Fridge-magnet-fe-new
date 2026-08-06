@@ -13,6 +13,7 @@ interface Customer {
   phone: string | null;
   shippingAddress: string | null;
   role: string;
+  status: "pending" | "active" | "banned";
   createdAt: string;
 }
 
@@ -87,9 +88,22 @@ export default function AdminCustomersPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-slate-800 truncate">{customer.fullName}</h3>
-                  <span className="text-xs font-semibold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full capitalize">
-                    {customer.role}
-                  </span>
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                    <span className="text-xs font-semibold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full capitalize">
+                      {customer.role}
+                    </span>
+                    <span
+                      className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${
+                        customer.status === "active"
+                          ? "text-emerald-600 bg-emerald-50"
+                          : customer.status === "banned"
+                          ? "text-red-600 bg-red-50"
+                          : "text-amber-600 bg-amber-50"
+                      }`}
+                    >
+                      {customer.status ?? "pending"}
+                    </span>
+                  </div>
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserByEmail, verifyPassword } from "@/lib/auth";
-import { createSession } from "@/lib/session";
+
+const BACKEND = process.env.BACKEND_URL!;
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,37 +14,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await getUserByEmail(email);
-    if (!user) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
-    const valid = await verifyPassword(password, user.password);
-    if (!valid) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
-    await createSession(String(user._id));
-
-    return NextResponse.json({
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        role: user.role,
-      },
+    const nestRes = await fetch(`${BACKEND}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+
+    const data = await nestRes.json();
+
+    if (!nestRes.ok) {
+      return NextResponse.json(
+        { error: data.message ?? "Invalid email or password" },
+        { status: nestRes.status }
+      );
+    }
+
+    const token: string = data.token ?? data.access_token;
+    const response = NextResponse.json({ user: data.user });
+
+    if (token) {
+      response.cookies.set("magnify_token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60,
+        path: "/",
+      });
+    }
+
+    return response;
   } catch (error) {
-    console.error("Login error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("Login proxy error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
