@@ -60,9 +60,9 @@ export default function AdminOverviewPage() {
       label: "Total Revenue",
       value: formatPrice(stats?.totalRevenue || "0"),
       icon: DollarSign,
-      color: "from-cyan-500 to-teal-500",
-      bg: "bg-cyan-50",
-      textColor: "text-cyan-700",
+      color: "from-blue-500 to-red-600",
+      bg: "bg-blue-50",
+      textColor: "text-red-500",
     },
     {
       label: "Total Orders",
@@ -164,8 +164,8 @@ export default function AdminOverviewPage() {
           <div className="divide-y divide-slate-50">
             {recentOrders.map((order) => (
               <div key={order.id} className="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
-                <div className="w-10 h-10 bg-gradient-to-br from-cyan-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <ShoppingCart size={16} className="text-cyan-600" />
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <ShoppingCart size={16} className="text-blue-600" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-slate-800 text-sm truncate">{order.customerName}</p>

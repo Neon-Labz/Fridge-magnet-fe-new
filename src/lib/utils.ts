@@ -19,7 +19,7 @@ export function generateProductId(): string {
 export function formatPrice(price: string | number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "LKR",
   }).format(Number(price));
 }
 

@@ -43,20 +43,20 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen hero-gradient flex">
       {/* Left panel */}
-      <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-teal-600 to-cyan-600 p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-red-700 to-blue-900 p-12 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 right-20 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute bottom-20 left-20 w-60 h-60 bg-cyan-400/20 rounded-full blur-2xl" />
+          <div className="absolute bottom-20 left-20 w-60 h-60 bg-blue-400/20 rounded-full blur-2xl" />
         </div>
         <div className="relative text-center">
           <Link href="/" className="flex items-center gap-3 justify-center mb-8">
-            <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative w-50 h-15 ">
               <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
-            <span className="text-3xl font-black text-white">Magnify</span>
+           
           </Link>
           <h2 className="text-3xl font-black text-white mb-4">Join Magnify Today!</h2>
-          <p className="text-cyan-100 leading-relaxed max-w-xs">
+          <p className="text-blue-100 leading-relaxed max-w-xs">
             Create your account and start turning your photos into stunning magnetic art.
           </p>
           <div className="mt-10 space-y-3 text-left">
@@ -66,7 +66,7 @@ export default function RegisterPage() {
               "✅ Get exclusive member discounts",
               "✅ Access order history",
             ].map((item) => (
-              <p key={item} className="text-cyan-100 text-sm">{item}</p>
+              <p key={item} className="text-blue-100 text-sm">{item}</p>
             ))}
           </div>
         </div>
@@ -85,13 +85,13 @@ export default function RegisterPage() {
               <div className="relative w-10 h-10 rounded-xl overflow-hidden">
                 <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
-              <span className="text-2xl font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-black bg-gradient-to-r from-blue-500 to-red-700 bg-clip-text text-transparent">
                 Magnify
               </span>
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50">
+          <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-50">
             <h1 className="text-2xl font-black text-slate-900 mb-1">Create Account</h1>
             <p className="text-slate-500 text-sm mb-6">Join thousands of happy customers</p>
 
@@ -105,7 +105,7 @@ export default function RegisterPage() {
                     required
                     value={form.fullName}
                     onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="John Doe"
                   />
                 </div>
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -136,7 +136,7 @@ export default function RegisterPage() {
                     minLength={6}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="Min. 6 characters"
                   />
                   <button
@@ -157,7 +157,7 @@ export default function RegisterPage() {
                     type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="+1 555 0000"
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function RegisterPage() {
                     value={form.shippingAddress}
                     onChange={(e) => setForm({ ...form, shippingAddress: e.target.value })}
                     rows={2}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm resize-none"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm resize-none"
                     placeholder="123 Main St, City, State 12345"
                   />
                 </div>
@@ -180,7 +180,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {loading ? <><Loader2 size={18} className="animate-spin" /> Creating Account...</> : "Create Account"}
               </button>
@@ -188,7 +188,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-slate-500 mt-6">
               Already have an account?{" "}
-              <Link href="/login" className="font-bold text-cyan-600 hover:text-cyan-700">
+              <Link href="/login" className="font-bold text-blue-600 hover:text-red-500">
                 Sign in
               </Link>
             </p>

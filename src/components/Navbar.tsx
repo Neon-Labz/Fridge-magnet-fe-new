@@ -85,7 +85,7 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg shadow-cyan-100/50"
+          ? "bg-white/95 backdrop-blur-md shadow-lg shadow-blue-100/50"
           : "bg-white/80 backdrop-blur-sm",
       )}
     >
@@ -93,17 +93,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden">
+            <div className="relative w-40 h-20 rounded-xl overflow-hidden">
               <Image
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="Magnify"
                 fill
                 className="object-cover"
               />
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
-              Magnify
-            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -113,15 +110,15 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative text-sm font-semibold transition-colors duration-200 hover:text-cyan-600",
-                  pathname === link.href ? "text-cyan-600" : "text-slate-700",
+                  "relative text-md font-semibold transition-colors duration-200 hover:text-blue-600",
+                  pathname === link.href ? "text-blue-600" : "text-slate-700",
                 )}
               >
                 {link.label}
                 {pathname === link.href && (
                   <motion.span
                     layoutId="navIndicator"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-red-600 rounded-full"
                   />
                 )}
               </Link>
@@ -134,7 +131,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200 rounded-full px-4 py-2 text-sm font-semibold text-cyan-700 hover:shadow-md transition-all"
+                  className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-teal-50 border border-cyan-200 rounded-full px-4 py-2 text-sm font-semibold text-red-500 hover:shadow-md transition-all"
                 >
                   <User size={16} />
                   {user.fullName.split(" ")[0]}
@@ -145,17 +142,17 @@ export default function Navbar() {
                       initial={{ opacity: 0, scale: 0.95, y: -10 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-cyan-100 overflow-hidden"
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-blue-100 overflow-hidden"
                     >
                       {user.role === "admin" && (
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-cyan-50 transition-colors"
+                          className="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-blue-50 transition-colors"
                           onClick={() => setUserMenuOpen(false)}
                         >
                           <LayoutDashboard
                             size={16}
-                            className="text-cyan-500"
+                            className="text-blue-500"
                           />
                           Admin Dashboard
                         </Link>
@@ -172,36 +169,38 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
             ) : (
-                <div className="flex items-center gap-3">
-                  <Link href="/checkout" className="relative flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-cyan-600 transition-colors">
-                    <ShoppingCart size={20} className="text-cyan-500"/>
-                    {cartCount > 0 && (
-                      <span className="absolute -top-2 -right-2 w-4 h-4 bg-cyan-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                   <Link
-              href="login"
-              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
-            >
-              Login
-            </Link>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/checkout"
+                  className="relative flex items-center gap-2 text-md font-semibold text-slate-700 hover:text-blue-600 transition-colors"
+                >
+                  <ShoppingCart size={20} className="text-blue-500" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 w-4 h-4 bg-blue-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  href="login"
+                  className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded-full text-md font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+                >
+                  Login
+                </Link>
                 <Link
                   href="/register"
-                  className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+                  className="bg-red-700 text-white px-5 py-2.5 rounded-full text-md font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
                 >
                   Get Started
                 </Link>
               </div>
             )}
-           
           </div>
 
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-cyan-50 transition-colors"
+            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-blue-50 transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -215,7 +214,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-cyan-100"
+            className="lg:hidden bg-white border-t border-blue-100"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => (
@@ -226,7 +225,7 @@ export default function Navbar() {
                   className={cn(
                     "block px-4 py-3 rounded-xl text-sm font-semibold transition-colors",
                     pathname === link.href
-                      ? "bg-cyan-50 text-cyan-600"
+                      ? "bg-blue-50 text-blue-600"
                       : "text-slate-700 hover:bg-slate-50",
                   )}
                 >
@@ -266,7 +265,7 @@ export default function Navbar() {
                     <Link
                       href="/register"
                       onClick={() => setIsOpen(false)}
-                      className="block px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-center"
+                      className="block px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-500 to-red-600 text-white text-center"
                     >
                       Get Started
                     </Link>

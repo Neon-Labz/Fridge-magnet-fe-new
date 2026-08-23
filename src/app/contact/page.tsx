@@ -23,11 +23,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
       <Navbar />
 
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-cyan-600 to-teal-600 overflow-hidden">
+      <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-teal-400/20 rounded-full blur-2xl" />
@@ -42,7 +42,7 @@ export default function ContactPage() {
             💬 Get In Touch
           </span>
           <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">Contact Us</h1>
-          <p className="text-cyan-100 text-lg max-w-xl mx-auto">
+          <p className="text-blue-100 text-lg max-w-xl mx-auto">
             Have a question or need help? We&apos;re here for you!
           </p>
         </motion.div>
@@ -91,8 +91,8 @@ export default function ContactPage() {
               },
             ].map(({ icon: Icon, label, value, sub }) => (
               <div key={label} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Icon size={20} className="text-cyan-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Icon size={20} className="text-blue-600" />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</p>
@@ -105,7 +105,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <motion.div variants={fadeUp} className="lg:col-span-2">
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-cyan-50">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-blue-50">
               <h3 className="text-xl font-black text-slate-900 mb-6">Send us a message</h3>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -116,7 +116,7 @@ export default function ContactPage() {
                       required
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                       placeholder="John Doe"
                     />
                   </div>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                       required
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                     required
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="How can we help?"
                   />
                 </div>
@@ -152,7 +152,7 @@ export default function ContactPage() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     rows={6}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm resize-none"
                     placeholder="Tell us how we can help you..."
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-4 rounded-2xl font-black text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white py-4 rounded-2xl font-black text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {sending ? (
                     <><Loader2 size={18} className="animate-spin" /> Sending...</>
