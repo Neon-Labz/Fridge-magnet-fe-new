@@ -15,10 +15,10 @@ const galleryImages = [
   { url: "https://images.pexels.com/photos/10260849/pexels-photo-10260849.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Souvenir Display" },
   { url: "https://images.pexels.com/photos/3816395/pexels-photo-3816395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Creative Collage" },
   { url: "https://images.pexels.com/photos/16236467/pexels-photo-16236467.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Hanging Memories" },
-  { url: "/images/product-1.jpg", caption: "9-Tile Set Display" },
-  { url: "/images/product-2.jpg", caption: "Single Premium Tile" },
-  { url: "/images/product-3.jpg", caption: "Frame Collection" },
-  { url: "/images/product-4.jpg", caption: "Round Tiles" },
+  { url: "/images/product-1.png", caption: "9-Tile Set Display" },
+  { url: "/images/product-2.png", caption: "Single Premium Tile" },
+  { url: "/images/product-5.png", caption: "Frame Collection" },
+  { url: "/images/product-4.png", caption: "Round Tiles" },
   { url: "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Living Room Gallery" },
   { url: "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Adventure Memories" },
 ];
@@ -40,10 +40,10 @@ export default function GalleryPage() {
       <Navbar />
 
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-teal-600 to-cyan-600 overflow-hidden">
+      <div className="relative pt-24 pb-16 bg-gradient-to-r from-red-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-cyan-400/20 rounded-full blur-2xl" />
+          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
         </div>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -55,7 +55,7 @@ export default function GalleryPage() {
             🖼️ Inspiration
           </span>
           <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">Gallery</h1>
-          <p className="text-cyan-100 text-lg max-w-xl mx-auto">
+          <p className="text-blue-100 text-lg max-w-xl mx-auto">
             See how our customers have transformed their spaces with Magnify magnetic tiles.
           </p>
         </motion.div>

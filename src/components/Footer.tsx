@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Share2, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -10,32 +10,36 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden">
+              <div className="relative w-50 h-20 rounded-xl overflow-hidden">
                 <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
-              <span className="text-2xl font-black bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                Magnify
-              </span>
+             
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+            <p className="text-slate-400 text-md leading-relaxed mb-6">
               Print your favorite photos on premium magnetic tiles and create a gallery of memories in your home.
             </p>
+
+            {/* social icons */}
             <div className="flex gap-3">
-              {[Share2, Share2, Share2].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 bg-white/10 hover:bg-cyan-500 rounded-xl flex items-center justify-center transition-colors"
-                >
-                  <Icon size={16} />
-                </a>
-              ))}
+              <a href="#" aria-label="Facebook" className="w-9 h-9 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Instagram" className="w-9 h-9 bg-white/10 hover:bg-pink-600 rounded-xl flex items-center justify-center transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+              </a>
+             
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-sm uppercase tracking-wider text-cyan-400 mb-4">Quick Links</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wider text-blue-400 mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {[
                 { href: "/", label: "Home" },
@@ -46,7 +50,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-slate-400 hover:text-cyan-400 text-sm transition-colors"
+                    className="text-slate-400 hover:text-blue-400 text-md transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -57,7 +61,7 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <h3 className="font-bold text-sm uppercase tracking-wider text-cyan-400 mb-4">Products</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wider text-blue-400 mb-4">Products</h3>
             <ul className="space-y-2">
               {[
                 "Magnetic Tiles",
@@ -69,7 +73,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href="/shop"
-                    className="text-slate-400 hover:text-cyan-400 text-sm transition-colors"
+                    className="text-slate-400 hover:text-blue-400 text-md transition-colors"
                   >
                     {item}
                   </Link>
@@ -80,19 +84,19 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-bold text-sm uppercase tracking-wider text-cyan-400 mb-4">Contact</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wider text-blue-400 mb-4">Contact</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-slate-400">
-                <MapPin size={16} className="text-cyan-400 mt-0.5 flex-shrink-0" />
+              <li className="flex items-start gap-3 text-md text-slate-400">
+                <MapPin size={16} className="text-blue-400 mt-0.5 flex-shrink-0" />
                 123 Memory Lane, Photo City, PC 12345
               </li>
-              <li className="flex items-center gap-3 text-sm text-slate-400">
-                <Phone size={16} className="text-cyan-400 flex-shrink-0" />
-                +1 (555) 123-4567
+              <li className="flex items-center gap-3 text-md text-slate-400">
+                <Phone size={16} className="text-blue-400 flex-shrink-0" />
+                +94 (77) 123-4567
               </li>
-              <li className="flex items-center gap-3 text-sm text-slate-400">
-                <Mail size={16} className="text-cyan-400 flex-shrink-0" />
-                hello@magnify.com
+              <li className="flex items-center gap-3 text-md text-slate-400">
+                <Mail size={16} className="text-blue-400 flex-shrink-0" />
+                info@magnifycreation.lk
               </li>
             </ul>
           </div>
@@ -102,13 +106,13 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} Magnify. All rights reserved.
+            © {new Date().getFullYear()} Magnify Photo Frames. Curated Memories.
           </p>
           <div className="flex gap-6">
-            <Link href="#" className="text-slate-500 hover:text-cyan-400 text-sm transition-colors">
+            <Link href="#" className="text-slate-500 hover:text-blue-400 text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-slate-500 hover:text-cyan-400 text-sm transition-colors">
+            <Link href="#" className="text-slate-500 hover:text-blue-400 text-sm transition-colors">
               Terms of Service
             </Link>
           </div>

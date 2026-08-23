@@ -155,7 +155,7 @@ export default function AdminProductsPage() {
         </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-cyan-200 transition-all"
+          className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-red-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-cyan-200 transition-all"
         >
           <Plus size={16} />
           Add Product
@@ -176,7 +176,7 @@ export default function AdminProductsPage() {
           <p className="text-slate-400 mb-4">Add your first product to get started</p>
           <button
             onClick={openCreate}
-            className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold"
+            className="bg-gradient-to-r from-blue-500 to-red-600 text-white px-6 py-3 rounded-xl font-bold"
           >
             Add Product
           </button>
@@ -189,7 +189,7 @@ export default function AdminProductsPage() {
               variants={fadeUp}
               className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden group"
             >
-              <div className="relative h-40 bg-gradient-to-br from-cyan-50 to-teal-50">
+              <div className="relative h-40 bg-gradient-to-br from-blue-50 to-teal-50">
                 {product.galleryImages && product.galleryImages.length > 0 ? (
                   <Image
                     src={product.galleryImages[0]}
@@ -214,13 +214,13 @@ export default function AdminProductsPage() {
                   <span>•</span>
                   <span>{product.stock} in stock</span>
                   <span>•</span>
-                  <span className="font-bold text-cyan-600">{formatPrice(product.price)}</span>
+                  <span className="font-bold text-blue-600">{formatPrice(product.price)}</span>
                 </div>
                 <p className="text-xs text-slate-400 mb-3">{formatDate(product.createdAt)}</p>
                 <div className="flex gap-2">
                   <button
                     onClick={() => openEdit(product)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-cyan-50 text-cyan-700 rounded-xl text-xs font-bold hover:bg-cyan-100 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-blue-50 text-red-500 rounded-xl text-xs font-bold hover:bg-blue-100 transition-colors"
                   >
                     <Pencil size={12} />
                     Edit
@@ -266,7 +266,7 @@ export default function AdminProductsPage() {
                   required
                   value={form.productName}
                   onChange={(e) => setForm({ ...form, productName: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                   placeholder="e.g., Premium 9-Tile Set"
                 />
               </div>
@@ -289,7 +289,7 @@ export default function AdminProductsPage() {
                     min={1}
                     value={form.imageCount}
                     onChange={(e) => setForm({ ...form, imageCount: Number(e.target.value) })}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                   />
                 </div>
                 <div>
@@ -300,7 +300,7 @@ export default function AdminProductsPage() {
                     min={0}
                     value={form.stock}
                     onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                   />
                 </div>
                 <div>
@@ -312,7 +312,7 @@ export default function AdminProductsPage() {
                     step="0.01"
                     value={form.price}
                     onChange={(e) => setForm({ ...form, price: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="29.99"
                   />
                 </div>
@@ -324,11 +324,11 @@ export default function AdminProductsPage() {
                 <div
                   {...getRootProps()}
                   className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
-                    isDragActive ? "border-cyan-400 bg-cyan-50" : "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/30"
+                    isDragActive ? "border-blue-400 bg-blue-50" : "border-slate-200 hover:border-blue-300 hover:bg-blue-50/30"
                   }`}
                 >
                   <input {...getInputProps()} />
-                  <Upload size={24} className="text-cyan-400 mx-auto mb-1" />
+                  <Upload size={24} className="text-blue-400 mx-auto mb-1" />
                   <p className="text-sm text-slate-500">Drop images or click to upload</p>
                 </div>
 
@@ -376,7 +376,7 @@ export default function AdminProductsPage() {
                   id="isActive"
                   checked={form.isActive}
                   onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
-                  className="w-4 h-4 accent-cyan-500"
+                  className="w-4 h-4 accent-blue-500"
                 />
                 <label htmlFor="isActive" className="text-sm font-semibold text-slate-700">
                   Product is active (visible in shop)
@@ -394,7 +394,7 @@ export default function AdminProductsPage() {
                 <button
                   type="submit"
                   disabled={saving || uploading}
-                  className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-black text-sm hover:shadow-lg hover:shadow-cyan-200 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-gradient-to-r from-blue-500 to-red-600 text-white rounded-xl font-black text-sm hover:shadow-lg hover:shadow-cyan-200 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {(saving || uploading) ? (
                     <><Loader2 size={16} className="animate-spin" /> {uploading ? "Uploading..." : "Saving..."}</>

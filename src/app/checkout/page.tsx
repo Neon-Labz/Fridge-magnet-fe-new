@@ -109,14 +109,14 @@ export default function CheckoutPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
-        <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
+        <div className="w-14 h-14 border-4 border-cyan-200 border-t-blue-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => router.push("/shop")}
-          className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-600 mb-10 transition-colors text-sm font-medium group"
+          className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 mb-10 transition-colors text-sm font-medium group"
         >
           <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
           Continue Shopping
@@ -140,7 +140,7 @@ export default function CheckoutPage() {
           <motion.div variants={fadeUp} className="space-y-4">
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-xl font-black text-slate-800">Your Order</h2>
-              <span className="text-xs font-bold bg-cyan-100 text-cyan-600 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-bold bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full">
                 {cart.length} item{cart.length > 1 ? "s" : ""}
               </span>
             </div>
@@ -161,8 +161,8 @@ export default function CheckoutPage() {
                         ))}
                       </div>
                     ) : (
-                      <div className="w-20 h-20 bg-cyan-50 rounded-2xl flex items-center justify-center">
-                        <ImageIcon size={20} className="text-cyan-300" />
+                      <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center">
+                        <ImageIcon size={20} className="text-blue-300" />
                       </div>
                     )}
                   </div>
@@ -172,7 +172,7 @@ export default function CheckoutPage() {
                     <p className="text-xs text-slate-400 mt-1">
                       {item.uploadedImageUrls.length} photo{item.uploadedImageUrls.length > 1 ? "s" : ""} uploaded
                     </p>
-                    <p className="text-base font-black text-cyan-600 mt-2">{formatPrice(item.price)}</p>
+                    <p className="text-base font-black text-blue-600 mt-2">{formatPrice(item.price)}</p>
                   </div>
 
                   <button
@@ -200,7 +200,7 @@ export default function CheckoutPage() {
               </div>
               <div className="flex justify-between pt-3 border-t border-slate-100">
                 <span className="font-bold text-slate-800">Total</span>
-                <span className="text-2xl font-black text-cyan-600">{formatPrice(totalPrice.toString())}</span>
+                <span className="text-2xl font-black text-blue-600">{formatPrice(totalPrice.toString())}</span>
               </div>
             </div>
           </motion.div>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-5">
                   <div className="w-8 h-8 bg-teal-100 rounded-xl flex items-center justify-center">
-                    <MapPin size={15} className="text-teal-600" />
+                    <MapPin size={15} className="text-red-700" />
                   </div>
                   <h2 className="text-lg font-black text-slate-800">Delivery Details</h2>
                 </div>
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
                       value={form.customerName}
                       onChange={(e) => setForm({ ...form, customerName: e.target.value })}
                       placeholder="Your full name"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 transition-all"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
                     />
                   </div>
                   <div className="col-span-2 sm:col-span-1">
@@ -236,7 +236,7 @@ export default function CheckoutPage() {
                       value={form.customerPhone}
                       onChange={(e) => setForm({ ...form, customerPhone: e.target.value })}
                       placeholder="+94 77 000 0000"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 transition-all"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
                     />
                   </div>
                   <div className="col-span-2">
@@ -246,7 +246,7 @@ export default function CheckoutPage() {
                       value={form.customerEmail}
                       onChange={(e) => setForm({ ...form, customerEmail: e.target.value })}
                       placeholder="you@example.com"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 transition-all"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
                     />
                   </div>
                   <div className="col-span-2">
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
                       value={form.address}
                       onChange={(e) => setForm({ ...form, address: e.target.value })}
                       placeholder="Street, city, postal code…"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 transition-all resize-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all resize-none"
                     />
                   </div>
                   <div className="col-span-2">
@@ -267,7 +267,7 @@ export default function CheckoutPage() {
                       value={form.notes}
                       onChange={(e) => setForm({ ...form, notes: e.target.value })}
                       placeholder="Any special instructions…"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 transition-all resize-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all resize-none"
                     />
                   </div>
                 </div>
@@ -276,8 +276,8 @@ export default function CheckoutPage() {
               {/* Payment Method */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 bg-cyan-100 rounded-xl flex items-center justify-center">
-                    <CreditCard size={15} className="text-cyan-600" />
+                  <div className="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <CreditCard size={15} className="text-blue-600" />
                   </div>
                   <h2 className="text-lg font-black text-slate-800">Payment Method</h2>
                 </div>
@@ -288,17 +288,17 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("cod")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "cod"
-                        ? "border-cyan-500 bg-cyan-50 shadow-sm"
+                        ? "border-blue-500 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      paymentMethod === "cod" ? "bg-cyan-500" : "bg-slate-100"
+                      paymentMethod === "cod" ? "bg-blue-500" : "bg-slate-100"
                     }`}>
                       <Truck size={16} className={paymentMethod === "cod" ? "text-white" : "text-slate-400"} />
                     </div>
                     <div className="text-left">
-                      <p className={`text-xs font-bold ${paymentMethod === "cod" ? "text-cyan-700" : "text-slate-600"}`}>
+                      <p className={`text-xs font-bold ${paymentMethod === "cod" ? "text-red-500" : "text-slate-600"}`}>
                         Cash on Delivery
                       </p>
                       <p className="text-xs text-slate-400">Pay on arrival</p>
@@ -309,17 +309,17 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("card")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "card"
-                        ? "border-cyan-500 bg-cyan-50 shadow-sm"
+                        ? "border-blue-500 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      paymentMethod === "card" ? "bg-cyan-500" : "bg-slate-100"
+                      paymentMethod === "card" ? "bg-blue-500" : "bg-slate-100"
                     }`}>
                       <CreditCard size={16} className={paymentMethod === "card" ? "text-white" : "text-slate-400"} />
                     </div>
                     <div className="text-left">
-                      <p className={`text-xs font-bold ${paymentMethod === "card" ? "text-cyan-700" : "text-slate-600"}`}>
+                      <p className={`text-xs font-bold ${paymentMethod === "card" ? "text-red-500" : "text-slate-600"}`}>
                         Card Payment
                       </p>
                       <p className="text-xs text-slate-400">Pay online</p>
@@ -330,7 +330,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+                  className="w-full bg-gradient-to-r from-blue-500 to-red-600 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
                 >
                   {submitting ? (
                     <>

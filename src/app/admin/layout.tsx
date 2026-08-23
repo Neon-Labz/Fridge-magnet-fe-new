@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!user) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+        <div className="w-16 h-16 border-4 border-cyan-200 border-t-blue-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
             <div>
-              <span className="text-lg font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
+              <span className="text-lg font-black bg-gradient-to-r from-blue-500 to-red-700 bg-clip-text text-transparent">
                 Magnify
               </span>
               <p className="text-xs text-slate-400">Admin Panel</p>
@@ -99,8 +99,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
                   isActive
-                    ? "bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-200"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-cyan-600"
+                    ? "bg-gradient-to-r from-blue-500 to-red-600 text-white shadow-lg shadow-cyan-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
                 )}
               >
                 <Icon size={18} />
@@ -114,7 +114,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* User */}
         <div className="p-4 border-t border-slate-100">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
               {user.fullName.charAt(0)}
             </div>
             <div className="flex-1 min-w-0">
@@ -166,7 +166,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/"
             target="_blank"
-            className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-cyan-600 bg-cyan-50 px-3 py-2 rounded-xl hover:bg-cyan-100 transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-2 rounded-xl hover:bg-blue-100 transition-colors"
           >
             View Site →
           </Link>

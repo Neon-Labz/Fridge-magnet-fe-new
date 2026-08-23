@@ -2,6 +2,19 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import { Space_Grotesk, Inter } from "next/font/google";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Magnify – Premium Magnetic Photo Tiles",
@@ -11,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="bg-white text-slate-900 antialiased">
         {children}
         <Toaster
