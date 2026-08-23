@@ -189,7 +189,7 @@ export default function AdminProductsPage() {
               variants={fadeUp}
               className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden group"
             >
-              <div className="relative h-40 bg-gradient-to-br from-cyan-50 to-teal-50">
+              <div className="relative h-40 bg-gradient-to-br from-blue-50 to-teal-50">
                 {product.galleryImages && product.galleryImages.length > 0 ? (
                   <Image
                     src={product.galleryImages[0]}
@@ -220,7 +220,7 @@ export default function AdminProductsPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openEdit(product)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-cyan-50 text-cyan-700 rounded-xl text-xs font-bold hover:bg-cyan-100 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-blue-50 text-cyan-700 rounded-xl text-xs font-bold hover:bg-cyan-100 transition-colors"
                   >
                     <Pencil size={12} />
                     Edit
@@ -324,7 +324,7 @@ export default function AdminProductsPage() {
                 <div
                   {...getRootProps()}
                   className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
-                    isDragActive ? "border-cyan-400 bg-cyan-50" : "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/30"
+                    isDragActive ? "border-cyan-400 bg-blue-50" : "border-slate-200 hover:border-cyan-300 hover:bg-blue-50/30"
                   }`}
                 >
                   <input {...getInputProps()} />

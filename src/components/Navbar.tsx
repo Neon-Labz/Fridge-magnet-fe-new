@@ -93,17 +93,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden">
+            <div className="relative w-40 h-20 rounded-xl overflow-hidden">
               <Image
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="Magnify"
                 fill
                 className="object-cover"
               />
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
-              Magnify
-            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -113,7 +110,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative text-sm font-semibold transition-colors duration-200 hover:text-cyan-600",
+                  "relative text-md font-semibold transition-colors duration-200 hover:text-cyan-600",
                   pathname === link.href ? "text-cyan-600" : "text-slate-700",
                 )}
               >
@@ -134,7 +131,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200 rounded-full px-4 py-2 text-sm font-semibold text-cyan-700 hover:shadow-md transition-all"
+                  className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-teal-50 border border-cyan-200 rounded-full px-4 py-2 text-sm font-semibold text-cyan-700 hover:shadow-md transition-all"
                 >
                   <User size={16} />
                   {user.fullName.split(" ")[0]}
@@ -150,7 +147,7 @@ export default function Navbar() {
                       {user.role === "admin" && (
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-cyan-50 transition-colors"
+                          className="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-blue-50 transition-colors"
                           onClick={() => setUserMenuOpen(false)}
                         >
                           <LayoutDashboard
@@ -172,36 +169,38 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
             ) : (
-                <div className="flex items-center gap-3">
-                  <Link href="/checkout" className="relative flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-cyan-600 transition-colors">
-                    <ShoppingCart size={20} className="text-cyan-500"/>
-                    {cartCount > 0 && (
-                      <span className="absolute -top-2 -right-2 w-4 h-4 bg-cyan-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                   <Link
-              href="login"
-              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
-            >
-              Login
-            </Link>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/checkout"
+                  className="relative flex items-center gap-2 text-md font-semibold text-slate-700 hover:text-cyan-600 transition-colors"
+                >
+                  <ShoppingCart size={20} className="text-cyan-500" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 w-4 h-4 bg-cyan-500 text-white text-[10px] font-black rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  href="login"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-md font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+                >
+                  Login
+                </Link>
                 <Link
                   href="/register"
-                  className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
+                  className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-5 py-2.5 rounded-full text-md font-semibold hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5"
                 >
                   Get Started
                 </Link>
               </div>
             )}
-           
           </div>
 
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-cyan-50 transition-colors"
+            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-blue-50 transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -226,7 +225,7 @@ export default function Navbar() {
                   className={cn(
                     "block px-4 py-3 rounded-xl text-sm font-semibold transition-colors",
                     pathname === link.href
-                      ? "bg-cyan-50 text-cyan-600"
+                      ? "bg-blue-50 text-cyan-600"
                       : "text-slate-700 hover:bg-slate-50",
                   )}
                 >

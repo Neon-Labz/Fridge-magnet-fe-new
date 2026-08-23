@@ -12,7 +12,7 @@ function OrderSuccessContent() {
   const orderId = params.get("orderId");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -38,7 +38,7 @@ function OrderSuccessContent() {
           Thank you for your order! We&apos;ll start printing your memories and deliver them to you soon.
         </p>
 
-        <div className="bg-cyan-50 rounded-2xl p-4 mb-6 text-left">
+        <div className="bg-blue-50 rounded-2xl p-4 mb-6 text-left">
           <p className="text-sm font-semibold text-slate-700 mb-2">What happens next?</p>
           <ul className="space-y-1.5">
             {[
@@ -60,7 +60,7 @@ function OrderSuccessContent() {
         <div className="flex gap-3">
           <Link
             href="/"
-            className="flex-1 flex items-center justify-center gap-2 py-3 border-2 border-slate-200 text-slate-700 rounded-xl font-semibold text-sm hover:border-cyan-300 hover:bg-cyan-50 transition-all"
+            className="flex-1 flex items-center justify-center gap-2 py-3 border-2 border-slate-200 text-slate-700 rounded-xl font-semibold text-sm hover:border-cyan-300 hover:bg-blue-50 transition-all"
           >
             <Home size={16} />
             Home

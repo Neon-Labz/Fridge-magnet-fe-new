@@ -23,7 +23,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
       <Navbar />
 
       {/* Header */}
@@ -105,7 +105,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <motion.div variants={fadeUp} className="lg:col-span-2">
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-cyan-50">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-blue-50">
               <h3 className="text-xl font-black text-slate-900 mb-6">Send us a message</h3>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">

@@ -58,7 +58,7 @@ export default function LoginPage() {
             Sign in to manage your orders and create beautiful memory galleries.
           </p>
           <div className="mt-12 grid grid-cols-2 gap-4">
-            {["/images/product-1.jpg", "/images/product-2.jpg", "/images/product-3.jpg", "/images/product-4.jpg"].map((img, i) => (
+            {["/images/product-1.png", "/images/product-2.png", "/images/product-3.png", "/images/product-4.png"].map((img, i) => (
               <div key={i} className="relative h-28 rounded-2xl overflow-hidden shadow-lg">
                 <Image src={img} alt="" fill className="object-cover opacity-80" />
               </div>
@@ -86,7 +86,7 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50">
+          <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-50">
             <h1 className="text-2xl font-black text-slate-900 mb-1">Sign In</h1>
             <p className="text-slate-500 text-sm mb-6">Enter your credentials to continue</p>
 

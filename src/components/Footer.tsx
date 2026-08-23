@@ -10,14 +10,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden">
+              <div className="relative w-50 h-20 rounded-xl overflow-hidden">
                 <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
-              <span className="text-2xl font-black bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                Magnify
-              </span>
+             
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+            <p className="text-slate-400 text-md leading-relaxed mb-6">
               Print your favorite photos on premium magnetic tiles and create a gallery of memories in your home.
             </p>
             <div className="flex gap-3">
@@ -46,7 +44,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-slate-400 hover:text-cyan-400 text-sm transition-colors"
+                    className="text-slate-400 hover:text-cyan-400 text-md transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -69,7 +67,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href="/shop"
-                    className="text-slate-400 hover:text-cyan-400 text-sm transition-colors"
+                    className="text-slate-400 hover:text-cyan-400 text-md transition-colors"
                   >
                     {item}
                   </Link>
@@ -82,15 +80,15 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider text-cyan-400 mb-4">Contact</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-slate-400">
+              <li className="flex items-start gap-3 text-md text-slate-400">
                 <MapPin size={16} className="text-cyan-400 mt-0.5 flex-shrink-0" />
                 123 Memory Lane, Photo City, PC 12345
               </li>
-              <li className="flex items-center gap-3 text-sm text-slate-400">
+              <li className="flex items-center gap-3 text-md text-slate-400">
                 <Phone size={16} className="text-cyan-400 flex-shrink-0" />
                 +1 (555) 123-4567
               </li>
-              <li className="flex items-center gap-3 text-sm text-slate-400">
+              <li className="flex items-center gap-3 text-md text-slate-400">
                 <Mail size={16} className="text-cyan-400 flex-shrink-0" />
                 hello@magnify.com
               </li>

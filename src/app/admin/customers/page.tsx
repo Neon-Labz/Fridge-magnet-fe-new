@@ -87,7 +87,7 @@ export default function AdminCustomersPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-slate-800 truncate">{customer.fullName}</h3>
-                  <span className="text-xs font-semibold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full capitalize">
+                  <span className="text-xs font-semibold text-cyan-600 bg-blue-50 px-2 py-0.5 rounded-full capitalize">
                     {customer.role}
                   </span>
                 </div>

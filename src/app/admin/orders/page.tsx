@@ -177,7 +177,7 @@ export default function AdminOrdersPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedOrder(order)}
-                          className="w-8 h-8 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center hover:bg-cyan-100 transition-colors"
+                          className="w-8 h-8 bg-blue-50 text-cyan-600 rounded-lg flex items-center justify-center hover:bg-cyan-100 transition-colors"
                         >
                           <Eye size={14} />
                         </button>
@@ -240,7 +240,7 @@ export default function AdminOrdersPage() {
                   <p className="text-xs text-slate-400">Qty × Price</p>
                   <p className="font-bold text-slate-800 text-sm">{selectedOrder.qty} × {formatPrice(Number(selectedOrder.totalPrice) / selectedOrder.qty)}</p>
                 </div>
-                <div className="bg-cyan-50 rounded-xl p-3">
+                <div className="bg-blue-50 rounded-xl p-3">
                   <p className="text-xs text-cyan-600">Total</p>
                   <p className="font-black text-cyan-700">{formatPrice(selectedOrder.totalPrice)}</p>
                 </div>

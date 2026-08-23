@@ -148,7 +148,7 @@ export default function ProductDetailPage({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
         <div className="flex flex-col items-center gap-4">
           <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
           <p className="text-slate-400 text-sm font-medium">Loading product…</p>
@@ -159,9 +159,9 @@ export default function ProductDetailPage({
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
         <div className="text-center">
-          <div className="w-20 h-20 bg-cyan-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <Frame size={36} className="text-cyan-300" />
           </div>
           <h2 className="text-2xl font-black text-slate-700">Product Not Found</h2>
@@ -181,7 +181,7 @@ export default function ProductDetailPage({
   const uploadProgress = Math.round((uploadedFiles.length / maxImages) * 100);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
@@ -220,7 +220,7 @@ export default function ProductDetailPage({
         >
           {/* ── Left: Product Images ── */}
           <motion.div variants={fadeUp} className="space-y-4">
-            <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-cyan-50 to-teal-50 shadow-xl shadow-cyan-100/50">
+            <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-teal-50 shadow-xl shadow-cyan-100/50">
               {product.galleryImages && product.galleryImages.length > 0 ? (
                 <Image
                   src={product.galleryImages[selectedImage]}
@@ -300,7 +300,7 @@ export default function ProductDetailPage({
               )}
               <div className="flex items-end justify-between pt-3 border-t border-slate-100">
                 <div className="flex gap-3">
-                  <div className="bg-cyan-50 rounded-2xl px-4 py-2.5 text-center">
+                  <div className="bg-blue-50 rounded-2xl px-4 py-2.5 text-center">
                     <p className="text-xl font-black text-cyan-700">{product.imageCount}</p>
                     <p className="text-xs text-cyan-500 font-medium">Photos</p>
                   </div>
@@ -345,10 +345,10 @@ export default function ProductDetailPage({
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
                   isDragActive
-                    ? "border-cyan-400 bg-cyan-50 scale-[1.01]"
+                    ? "border-cyan-400 bg-blue-50 scale-[1.01]"
                     : uploadedFiles.length >= maxImages
                       ? "border-slate-200 bg-slate-50 cursor-not-allowed opacity-60"
-                      : "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/40"
+                      : "border-slate-200 hover:border-cyan-300 hover:bg-blue-50/40"
                 }`}
               >
                 <input {...getInputProps()} disabled={uploadedFiles.length >= maxImages} />

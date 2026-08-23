@@ -50,7 +50,7 @@ export default function ShopPage() {
   }, [search, products]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
       <Navbar />
 
       {/* Header */}
@@ -106,7 +106,7 @@ export default function ShopPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-24">
-            <div className="w-24 h-24 bg-cyan-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <Frame size={40} className="text-cyan-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-700 mb-2">No Products Found</h3>
@@ -125,7 +125,7 @@ export default function ShopPage() {
                 variants={fadeUp}
                 className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
               >
-                <div className="relative h-56 bg-gradient-to-br from-cyan-50 to-teal-50 overflow-hidden">
+                <div className="relative h-56 bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
                   {product.galleryImages && product.galleryImages.length > 0 ? (
                     <Image
                       src={product.galleryImages[0]}

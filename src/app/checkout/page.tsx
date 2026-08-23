@@ -109,14 +109,14 @@ export default function CheckoutPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-50/30 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
         <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
@@ -161,7 +161,7 @@ export default function CheckoutPage() {
                         ))}
                       </div>
                     ) : (
-                      <div className="w-20 h-20 bg-cyan-50 rounded-2xl flex items-center justify-center">
+                      <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center">
                         <ImageIcon size={20} className="text-cyan-300" />
                       </div>
                     )}
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("cod")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "cod"
-                        ? "border-cyan-500 bg-cyan-50 shadow-sm"
+                        ? "border-cyan-500 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
@@ -309,7 +309,7 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("card")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "card"
-                        ? "border-cyan-500 bg-cyan-50 shadow-sm"
+                        ? "border-cyan-500 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >

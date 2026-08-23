@@ -61,7 +61,7 @@ export default function AdminOverviewPage() {
       value: formatPrice(stats?.totalRevenue || "0"),
       icon: DollarSign,
       color: "from-cyan-500 to-teal-500",
-      bg: "bg-cyan-50",
+      bg: "bg-blue-50",
       textColor: "text-cyan-700",
     },
     {

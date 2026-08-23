@@ -166,7 +166,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/"
             target="_blank"
-            className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-cyan-600 bg-cyan-50 px-3 py-2 rounded-xl hover:bg-cyan-100 transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-cyan-600 bg-blue-50 px-3 py-2 rounded-xl hover:bg-cyan-100 transition-colors"
           >
             View Site →
           </Link>

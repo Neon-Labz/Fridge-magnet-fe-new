@@ -50,10 +50,10 @@ export default function RegisterPage() {
         </div>
         <div className="relative text-center">
           <Link href="/" className="flex items-center gap-3 justify-center mb-8">
-            <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative w-42 h-15 ">
               <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
-            <span className="text-3xl font-black text-white">Magnify</span>
+           
           </Link>
           <h2 className="text-3xl font-black text-white mb-4">Join Magnify Today!</h2>
           <p className="text-cyan-100 leading-relaxed max-w-xs">
@@ -91,7 +91,7 @@ export default function RegisterPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-xl border border-cyan-50">
+          <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-50">
             <h1 className="text-2xl font-black text-slate-900 mb-1">Create Account</h1>
             <p className="text-slate-500 text-sm mb-6">Join thousands of happy customers</p>
 

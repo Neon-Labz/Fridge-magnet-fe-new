@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --cyan-50: #ecfeff;
+  --blue-50: #ecfeff;
   --cyan-100: #cffafe;
   --cyan-200: #a5f3fc;
   --cyan-300: #67e8f9;
@@ -10,6 +10,31 @@
   --cyan-600: #0891b2;
   --teal-500: #14b8a6;
   --teal-600: #0d9488;
+}
+
+
+:root {
+  /* Magnify Primary Blue */
+  --blue-50: #EEF3FC;
+  --blue-100: #DCE6F8;
+  --blue-200: #B9CDEF;
+  --blue-300: #91B0E5;
+  --blue-400: #5F88CF;
+  --blue-500: #15479C;
+  --blue-600: #123D87;
+  --blue-700: #0F3270;
+  --blue-800: #0B2859;
+  --blue-900: #071C40;
+
+  /* Magnify Accent Red */
+  --red-400: #F46A5B;
+  --red-500: #EF3E2C;
+  --red-600: #D83223;
+  --red-700: #B82A1E;
+
+  /* Optional secondary brand blue */
+  --brand-blue: #15479C;
+  --brand-red: #EF3E2C;
 }
 
 @keyframes float {
@@ -55,6 +80,11 @@
 
 html {
   scroll-behavior: smooth;
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+body {
+  font-family: var(--font-space-grotesk), sans-serif;
 }
 
 * {
