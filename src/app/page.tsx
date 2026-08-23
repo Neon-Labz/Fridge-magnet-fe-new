@@ -61,7 +61,6 @@ const carouselImages = [
   "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   "https://images.pexels.com/photos/3816395/pexels-photo-3816395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   "/images/product-1.png",
-  "/images/product-3.png",
   "/images/product-4.png",
   "/images/product-5.png",
 ];
@@ -222,7 +221,7 @@ export default function HomePage() {
                     style={{ animationDelay: "0.5s" }}
                   >
                     <Image
-                      src="/images/product-3.png"
+                      src="/images/product-2.png"
                       alt="Gallery"
                       width={300}
                       height={200}
@@ -275,7 +274,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Bar */}
-      <section className="bg-gradient-to-r from-blue-600 to-red-700 text-white py-8">
+      <section className="bg-gradient-to-r from-blue-900 to-red-700 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -462,100 +461,100 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-         <section className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection>
-          <motion.div variants={fadeUp} className="text-center mb-16">
-            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
-              Simple Process
-            </span>
-            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
-              How It <span className="gradient-text">Works</span>
-            </h2>
-          </motion.div>
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <motion.div variants={fadeUp} className="text-center mb-16">
+              <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
+                Simple Process
+              </span>
+              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
+                How It <span className="gradient-text">Works</span>
+              </h2>
+            </motion.div>
 
-          <div className="relative">
-            {/* dashed "stick line" connecting the tiles */}
-            <svg
-              className="hidden md:block absolute top-16 left-0 w-full h-4"
-              viewBox="0 0 1000 20"
-              preserveAspectRatio="none"
-            >
-              <line
-                x1="120"
-                y1="10"
-                x2="880"
-                y2="10"
-                stroke="url(#lineGrad)"
-                strokeWidth="2"
-                strokeDasharray="1 12"
-                strokeLinecap="round"
-              />
-              <defs>
-                <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#a5f3fc" />
-                  <stop offset="50%" stopColor="#22d3ee" />
-                  <stop offset="100%" stopColor="#5eead4" />
-                </linearGradient>
-              </defs>
-            </svg>
+            <div className="relative">
+              {/* dashed "stick line" connecting the tiles */}
+              <svg
+                className="hidden md:block absolute top-16 left-0 w-full h-4"
+                viewBox="0 0 1000 20"
+                preserveAspectRatio="none"
+              >
+                <line
+                  x1="120"
+                  y1="10"
+                  x2="880"
+                  y2="10"
+                  stroke="url(#lineGrad)"
+                  strokeWidth="2"
+                  strokeDasharray="1 12"
+                  strokeLinecap="round"
+                />
+                <defs>
+                  <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#a5f3fc" />
+                    <stop offset="50%" stopColor="#22d3ee" />
+                    <stop offset="100%" stopColor="#5eead4" />
+                  </linearGradient>
+                </defs>
+              </svg>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-14 gap-x-8">
-              {[
-                {
-                  step: "01",
-                  icon: "📸",
-                  title: "Choose Your Photos",
-                  desc: "Select your favorite memories from your device. Upload up to the photo count for your chosen product.",
-                  rotate: "-rotate-2",
-                },
-                {
-                  step: "02",
-                  icon: "🎨",
-                  title: "Pick Your Product",
-                  desc: "Choose from our range of magnetic tile sets, frames, and collections to match your style.",
-                  rotate: "rotate-1",
-                },
-                {
-                  step: "03",
-                  icon: "✨",
-                  title: "Receive & Display",
-                  desc: "We print and deliver your premium tiles. Simply stick them anywhere and rearrange whenever you like!",
-                  rotate: "-rotate-1",
-                },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  variants={fadeUp}
-                  whileHover={{ rotate: 0, y: -6 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                  className={`relative ${item.rotate} bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_-8px_rgba(15,118,110,0.18)] px-6 pt-8 pb-7 text-center`}
-                >
-                  {/* magnet dot */}
-                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-red-600 shadow-md ring-4 ring-white" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-y-14 gap-x-8">
+                {[
+                  {
+                    step: "01",
+                    icon: "📸",
+                    title: "Choose Your Photos",
+                    desc: "Select your favorite memories from your device. Upload up to the photo count for your chosen product.",
+                    rotate: "-rotate-2",
+                  },
+                  {
+                    step: "02",
+                    icon: "🎨",
+                    title: "Pick Your Product",
+                    desc: "Choose from our range of magnetic tile sets, frames, and collections to match your style.",
+                    rotate: "rotate-1",
+                  },
+                  {
+                    step: "03",
+                    icon: "✨",
+                    title: "Receive & Display",
+                    desc: "We print and deliver your premium tiles. Simply stick them anywhere and rearrange whenever you like!",
+                    rotate: "-rotate-1",
+                  },
+                ].map((item) => (
+                  <motion.div
+                    key={item.step}
+                    variants={fadeUp}
+                    whileHover={{ rotate: 0, y: -6 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                    className={`relative ${item.rotate} bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_-8px_rgba(15,118,110,0.18)] px-6 pt-8 pb-7 text-center`}
+                  >
+                    {/* magnet dot */}
+                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-red-600 shadow-md ring-4 ring-white" />
 
-                  {/* oversized ghost numeral */}
-                  <span className="pointer-events-none select-none absolute -top-3 right-3 text-7xl font-black text-blue-50">
-                    {item.step}
-                  </span>
+                    {/* oversized ghost numeral */}
+                    <span className="pointer-events-none select-none absolute -top-3 right-3 text-7xl font-black text-blue-50">
+                      {item.step}
+                    </span>
 
-                  <div className="relative w-16 h-16 mx-auto mb-5 text-3xl flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100">
-                    {item.icon}
-                  </div>
+                    <div className="relative w-16 h-16 mx-auto mb-5 text-3xl flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100">
+                      {item.icon}
+                    </div>
 
-                  <h3 className="relative text-lg font-black text-slate-800 mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="relative text-slate-500 text-sm leading-relaxed">
-                    {item.desc}
-                  </p>
-                </motion.div>
-              ))}
+                    <h3 className="relative text-lg font-black text-slate-800 mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="relative text-slate-500 text-sm leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </AnimatedSection>
-      </div>
-    </section>
+          </AnimatedSection>
+        </div>
+      </section>
 
       {/* Testimonials */}
       <section className="py-20 bg-gradient-to-b from-blue-50 to-white">
@@ -599,64 +598,64 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-          <section className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection>
-          <motion.div
-            variants={fadeUp}
-            className="relative bg-gradient-to-r from-blue-800 via-blue-900 to-red-700 rounded-[2.5rem] p-12 text-center overflow-hidden"
-          >
-            {/* magnetic board dot texture */}
-            <div
-              className="absolute inset-0 opacity-[0.15]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle, white 1px, transparent 1px)",
-                backgroundSize: "22px 22px",
-              }}
-            />
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <motion.div
+              variants={fadeUp}
+              className="relative bg-gradient-to-r from-blue-800 via-blue-900 to-red-700 rounded-[2.5rem] p-12 text-center overflow-hidden"
+            >
+              {/* magnetic board dot texture */}
+              <div
+                className="absolute inset-0 opacity-[0.15]"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle, white 1px, transparent 1px)",
+                  backgroundSize: "22px 22px",
+                }}
+              />
 
-            {/* scattered photo tiles */}
-            <div className="absolute top-6 left-6 w-20 h-20 bg-white/95 rounded-lg shadow-xl -rotate-12 hidden sm:flex items-center justify-center text-2xl">
-              👨‍👩‍👧
-              <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-blue-400 ring-2 ring-white" />
-            </div>
-            <div className="absolute bottom-8 right-10 w-16 h-16 bg-white/95 rounded-lg shadow-xl rotate-6 hidden md:flex items-center justify-center text-xl">
-              🐾
-              <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-teal-400 ring-2 ring-white" />
-            </div>
-            <div className="absolute top-10 right-16 w-14 h-14 bg-white/90 rounded-lg shadow-lg rotate-12 hidden lg:flex items-center justify-center text-lg">
-              👶
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-blue-300 ring-2 ring-white" />
-            </div>
-
-            <div className="relative z-10">
-              <h2 className="text-3xl lg:text-5xl font-black text-white mb-4">
-                Start Your Memory Gallery Today
-              </h2>
-              <p className="text-blue-50 text-lg mb-8 max-w-xl mx-auto">
-                Join thousands of happy customers who have transformed their
-                walls with Magnify.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link
-                  href="/shop"
-                  className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-                >
-                  Shop Now <ArrowRight size={18} />
-                </Link>
-                <Link
-                  href="/gallery"
-                  className="inline-flex items-center gap-2 bg-white/15 text-white border-2 border-white/50 px-8 py-4 rounded-2xl font-bold backdrop-blur-sm hover:bg-white/25 transition-all"
-                >
-                  View Gallery
-                </Link>
+              {/* scattered photo tiles */}
+              <div className="absolute top-6 left-6 w-20 h-20 bg-white/95 rounded-lg shadow-xl -rotate-12 hidden sm:flex items-center justify-center text-2xl">
+                👨‍👩‍👧
+                <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-blue-400 ring-2 ring-white" />
               </div>
-            </div>
-          </motion.div>
-        </AnimatedSection>
-      </div>
-    </section>
+              <div className="absolute bottom-8 right-10 w-16 h-16 bg-white/95 rounded-lg shadow-xl rotate-6 hidden md:flex items-center justify-center text-xl">
+                🐾
+                <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-teal-400 ring-2 ring-white" />
+              </div>
+              <div className="absolute top-10 right-16 w-14 h-14 bg-white/90 rounded-lg shadow-lg rotate-12 hidden lg:flex items-center justify-center text-lg">
+                👶
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-blue-300 ring-2 ring-white" />
+              </div>
+
+              <div className="relative z-10">
+                <h2 className="text-3xl lg:text-5xl font-black text-white mb-4">
+                  Start Your Memory Gallery Today
+                </h2>
+                <p className="text-blue-50 text-lg mb-8 max-w-xl mx-auto">
+                  Join thousands of happy customers who have transformed their
+                  walls with Magnify.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <Link
+                    href="/shop"
+                    className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                  >
+                    Shop Now <ArrowRight size={18} />
+                  </Link>
+                  <Link
+                    href="/gallery"
+                    className="inline-flex items-center gap-2 bg-white/15 text-white border-2 border-white/50 px-8 py-4 rounded-2xl font-bold backdrop-blur-sm hover:bg-white/25 transition-all"
+                  >
+                    View Gallery
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatedSection>
+        </div>
+      </section>
 
       <Footer />
     </div>
