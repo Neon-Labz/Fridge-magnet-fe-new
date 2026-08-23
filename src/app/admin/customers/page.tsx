@@ -53,7 +53,7 @@ export default function AdminCustomersPage() {
             placeholder="Search customers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
           />
         </div>
       </motion.div>
@@ -82,12 +82,12 @@ export default function AdminCustomersPage() {
               className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 card-hover"
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-red-600 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0">
                   {customer.fullName.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-slate-800 truncate">{customer.fullName}</h3>
-                  <span className="text-xs font-semibold text-cyan-600 bg-blue-50 px-2 py-0.5 rounded-full capitalize">
+                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full capitalize">
                     {customer.role}
                   </span>
                 </div>
@@ -95,18 +95,18 @@ export default function AdminCustomersPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <Mail size={14} className="text-cyan-500 flex-shrink-0" />
+                  <Mail size={14} className="text-blue-500 flex-shrink-0" />
                   <span className="truncate">{customer.email}</span>
                 </div>
                 {customer.phone && (
                   <div className="flex items-center gap-2 text-sm text-slate-600">
-                    <Phone size={14} className="text-cyan-500 flex-shrink-0" />
+                    <Phone size={14} className="text-blue-500 flex-shrink-0" />
                     <span>{customer.phone}</span>
                   </div>
                 )}
                 {customer.shippingAddress && (
                   <div className="flex items-start gap-2 text-sm text-slate-600">
-                    <MapPin size={14} className="text-cyan-500 flex-shrink-0 mt-0.5" />
+                    <MapPin size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
                     <span className="line-clamp-2">{customer.shippingAddress}</span>
                   </div>
                 )}

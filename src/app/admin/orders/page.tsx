@@ -102,8 +102,8 @@ export default function AdminOrdersPage() {
               onClick={() => setFilterStatus(s)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all ${
                 filterStatus === s
-                  ? "bg-cyan-500 text-white shadow-sm"
-                  : "bg-white text-slate-600 border border-slate-200 hover:border-cyan-300"
+                  ? "bg-blue-500 text-white shadow-sm"
+                  : "bg-white text-slate-600 border border-slate-200 hover:border-blue-300"
               }`}
             >
               {s}
@@ -139,7 +139,7 @@ export default function AdminOrdersPage() {
                 {filtered.map((order) => (
                   <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-4 py-3">
-                      <span className="font-mono text-xs font-bold text-cyan-600">{order.orderId}</span>
+                      <span className="font-mono text-xs font-bold text-blue-600">{order.orderId}</span>
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-semibold text-slate-800 text-sm">{order.customerName}</p>
@@ -177,7 +177,7 @@ export default function AdminOrdersPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedOrder(order)}
-                          className="w-8 h-8 bg-blue-50 text-cyan-600 rounded-lg flex items-center justify-center hover:bg-cyan-100 transition-colors"
+                          className="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"
                         >
                           <Eye size={14} />
                         </button>
@@ -241,8 +241,8 @@ export default function AdminOrdersPage() {
                   <p className="font-bold text-slate-800 text-sm">{selectedOrder.qty} × {formatPrice(Number(selectedOrder.totalPrice) / selectedOrder.qty)}</p>
                 </div>
                 <div className="bg-blue-50 rounded-xl p-3">
-                  <p className="text-xs text-cyan-600">Total</p>
-                  <p className="font-black text-cyan-700">{formatPrice(selectedOrder.totalPrice)}</p>
+                  <p className="text-xs text-blue-600">Total</p>
+                  <p className="font-black text-red-500">{formatPrice(selectedOrder.totalPrice)}</p>
                 </div>
                 <div className="bg-slate-50 rounded-xl p-3">
                   <p className="text-xs text-slate-400">Payment</p>
@@ -282,7 +282,7 @@ export default function AdminOrdersPage() {
                       className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize border transition-all ${
                         selectedOrder.orderStatus === s
                           ? statusColors[s]
-                          : "bg-white text-slate-500 border-slate-200 hover:border-cyan-300"
+                          : "bg-white text-slate-500 border-slate-200 hover:border-blue-300"
                       }`}
                     >
                       {s}

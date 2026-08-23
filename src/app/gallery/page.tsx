@@ -40,10 +40,10 @@ export default function GalleryPage() {
       <Navbar />
 
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-teal-600 to-cyan-600 overflow-hidden">
+      <div className="relative pt-24 pb-16 bg-gradient-to-r from-red-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-cyan-400/20 rounded-full blur-2xl" />
+          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
         </div>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -55,7 +55,7 @@ export default function GalleryPage() {
             🖼️ Inspiration
           </span>
           <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">Gallery</h1>
-          <p className="text-cyan-100 text-lg max-w-xl mx-auto">
+          <p className="text-blue-100 text-lg max-w-xl mx-auto">
             See how our customers have transformed their spaces with Magnify magnetic tiles.
           </p>
         </motion.div>

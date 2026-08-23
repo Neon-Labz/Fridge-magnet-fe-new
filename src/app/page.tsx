@@ -121,7 +121,7 @@ export default function HomePage() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-32 -right-32 w-96 h-96 bg-cyan-200/40 rounded-full blur-3xl" />
           <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-teal-200/40 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-100/30 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/30 rounded-full blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
@@ -135,7 +135,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center gap-2 bg-cyan-100 text-cyan-700 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+                className="inline-flex items-center gap-2 bg-blue-100 text-red-500 px-4 py-2 rounded-full text-sm font-semibold mb-6"
               >
                 <Sparkles size={16} />
                 Premium Magnetic Photo Tiles
@@ -152,13 +152,13 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-4 rounded-2xl font-bold text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-900 to-red-600 text-white px-8 py-4 rounded-2xl font-bold text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-1"
                 >
                   Shop Now <ArrowRight size={18} />
                 </Link>
                 <Link
                   href="/gallery"
-                  className="inline-flex items-center gap-2 bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold text-base hover:border-cyan-300 hover:shadow-lg transition-all hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold text-base hover:border-blue-300 hover:shadow-lg transition-all hover:-translate-y-1"
                 >
                   View Gallery
                 </Link>
@@ -168,7 +168,7 @@ export default function HomePage() {
                   {["SJ", "MC", "EW", "AL"].map((initials, i) => (
                     <div
                       key={i}
-                      className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white"
+                      className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-red-600 flex items-center justify-center text-white text-xs font-bold border-2 border-white"
                     >
                       {initials}
                     </div>
@@ -248,11 +248,11 @@ export default function HomePage() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1, type: "spring" }}
-                className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-cyan-100"
+                className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-blue-100"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                    <Magnet size={20} className="text-cyan-600" />
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <Magnet size={20} className="text-blue-600" />
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Premium Quality</p>
@@ -275,7 +275,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Bar */}
-      <section className="bg-gradient-to-r from-cyan-600 to-teal-600 text-white py-8">
+      <section className="bg-gradient-to-r from-blue-600 to-red-700 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -298,7 +298,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <p className="font-bold text-sm">{label}</p>
-                  <p className="text-cyan-100 text-xs">{sub}</p>
+                  <p className="text-blue-100 text-xs">{sub}</p>
                 </div>
               </div>
             ))}
@@ -311,7 +311,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <motion.div variants={fadeUp} className="text-center mb-12">
-              <span className="text-cyan-600 font-semibold text-sm uppercase tracking-wider">
+              <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
                 Our Collection
               </span>
               <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
@@ -335,7 +335,7 @@ export default function HomePage() {
             ) : displayProducts.length === 0 ? (
               <motion.div variants={fadeUp} className="text-center py-16">
                 <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Magnet size={32} className="text-cyan-400" />
+                  <Magnet size={32} className="text-blue-400" />
                 </div>
                 <p className="text-slate-500">
                   No products yet. Check back soon!
@@ -360,10 +360,10 @@ export default function HomePage() {
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
-                          <Frame size={48} className="text-cyan-300" />
+                          <Frame size={48} className="text-blue-300" />
                         </div>
                       )}
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700">
+                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-500">
                         {product.imageCount} photos
                       </div>
                     </div>
@@ -377,12 +377,12 @@ export default function HomePage() {
                           : "Premium magnetic photo tile"}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-2xl font-black text-cyan-600">
+                        <span className="text-2xl font-black text-blue-600">
                           {formatPrice(product.price)}
                         </span>
                         <Link
                           href={`/shop/${product.id}`}
-                          className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
+                          className="bg-gradient-to-r from-blue-900 to-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
                         >
                           Order
                         </Link>
@@ -397,7 +397,7 @@ export default function HomePage() {
               <motion.div variants={fadeUp} className="text-center mt-10">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 bg-white border-2 border-cyan-200 text-cyan-600 px-8 py-4 rounded-2xl font-bold hover:bg-blue-50 hover:border-cyan-400 transition-all hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 bg-white border-2 border-blue-900 text-blue-600 px-8 py-4 rounded-2xl font-bold hover:bg-blue-50 hover:border-blue-400 transition-all hover:-translate-y-0.5"
                 >
                   Show More Products <ArrowRight size={18} />
                 </Link>
@@ -412,7 +412,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <motion.div variants={fadeUp} className="text-center mb-12">
-              <span className="text-cyan-600 font-semibold text-sm uppercase tracking-wider">
+              <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
                 Inspiration
               </span>
               <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
@@ -466,7 +466,7 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <motion.div variants={fadeUp} className="text-center mb-16">
-            <span className="text-cyan-600 font-semibold text-sm uppercase tracking-wider">
+            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
               Simple Process
             </span>
             <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
@@ -532,14 +532,14 @@ export default function HomePage() {
                   className={`relative ${item.rotate} bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_-8px_rgba(15,118,110,0.18)] px-6 pt-8 pb-7 text-center`}
                 >
                   {/* magnet dot */}
-                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 shadow-md ring-4 ring-white" />
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-red-600 shadow-md ring-4 ring-white" />
 
                   {/* oversized ghost numeral */}
                   <span className="pointer-events-none select-none absolute -top-3 right-3 text-7xl font-black text-blue-50">
                     {item.step}
                   </span>
 
-                  <div className="relative w-16 h-16 mx-auto mb-5 text-3xl flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-cyan-100">
+                  <div className="relative w-16 h-16 mx-auto mb-5 text-3xl flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100">
                     {item.icon}
                   </div>
 
@@ -562,7 +562,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <motion.div variants={fadeUp} className="text-center mb-12">
-              <span className="text-cyan-600 font-semibold text-sm uppercase tracking-wider">
+              <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">
                 Reviews
               </span>
               <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mt-2 mb-4">
@@ -584,7 +584,7 @@ export default function HomePage() {
                     &ldquo;{t.text}&rdquo;
                   </p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {t.avatar}
                     </div>
                     <span className="font-bold text-slate-800 text-sm">
@@ -604,7 +604,7 @@ export default function HomePage() {
         <AnimatedSection>
           <motion.div
             variants={fadeUp}
-            className="relative bg-gradient-to-r from-cyan-500 via-cyan-600 to-teal-600 rounded-[2.5rem] p-12 text-center overflow-hidden"
+            className="relative bg-gradient-to-r from-blue-800 via-blue-900 to-red-700 rounded-[2.5rem] p-12 text-center overflow-hidden"
           >
             {/* magnetic board dot texture */}
             <div
@@ -619,7 +619,7 @@ export default function HomePage() {
             {/* scattered photo tiles */}
             <div className="absolute top-6 left-6 w-20 h-20 bg-white/95 rounded-lg shadow-xl -rotate-12 hidden sm:flex items-center justify-center text-2xl">
               👨‍👩‍👧
-              <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-cyan-400 ring-2 ring-white" />
+              <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-blue-400 ring-2 ring-white" />
             </div>
             <div className="absolute bottom-8 right-10 w-16 h-16 bg-white/95 rounded-lg shadow-xl rotate-6 hidden md:flex items-center justify-center text-xl">
               🐾
@@ -627,7 +627,7 @@ export default function HomePage() {
             </div>
             <div className="absolute top-10 right-16 w-14 h-14 bg-white/90 rounded-lg shadow-lg rotate-12 hidden lg:flex items-center justify-center text-lg">
               👶
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-300 ring-2 ring-white" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-blue-300 ring-2 ring-white" />
             </div>
 
             <div className="relative z-10">
@@ -641,7 +641,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 bg-white text-cyan-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
                 >
                   Shop Now <ArrowRight size={18} />
                 </Link>

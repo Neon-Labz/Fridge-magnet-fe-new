@@ -41,20 +41,20 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen hero-gradient flex">
       {/* Left panel */}
-      <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-cyan-600 to-teal-600 p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gradient-to-br from-blue-900 to-red-700 p-12 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute bottom-20 right-20 w-60 h-60 bg-teal-400/20 rounded-full blur-2xl" />
         </div>
         <div className="relative text-center">
           <Link href="/" className="flex items-center gap-3 justify-center mb-8">
-            <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative w-50 h-15 ">
               <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
-            <span className="text-3xl font-black text-white">Magnify</span>
+           
           </Link>
           <h2 className="text-3xl font-black text-white mb-4">Welcome Back!</h2>
-          <p className="text-cyan-100 leading-relaxed max-w-xs">
+          <p className="text-blue-100 leading-relaxed max-w-xs">
             Sign in to manage your orders and create beautiful memory galleries.
           </p>
           <div className="mt-12 grid grid-cols-2 gap-4">
@@ -80,7 +80,7 @@ export default function LoginPage() {
               <div className="relative w-10 h-10 rounded-xl overflow-hidden">
                 <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
-              <span className="text-2xl font-black bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-black bg-gradient-to-r from-blue-500 to-red-700 bg-clip-text text-transparent">
                 Magnify
               </span>
             </Link>
@@ -100,7 +100,7 @@ export default function LoginPage() {
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -115,7 +115,7 @@ export default function LoginPage() {
                     required
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
                     placeholder="••••••••"
                   />
                   <button
@@ -131,7 +131,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white py-3.5 rounded-xl font-black hover:shadow-lg hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {loading ? <><Loader2 size={18} className="animate-spin" /> Signing in...</> : "Sign In"}
               </button>
@@ -139,7 +139,7 @@ export default function LoginPage() {
 
             <p className="text-center text-sm text-slate-500 mt-6">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="font-bold text-cyan-600 hover:text-cyan-700">
+              <Link href="/register" className="font-bold text-blue-600 hover:text-red-500">
                 Create one
               </Link>
             </p>

@@ -130,7 +130,7 @@ export default function ProductDetailPage({
               </button>
               <button
                 onClick={() => { toast.dismiss(t.id); router.push("/checkout"); }}
-                className="text-xs px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-lg font-medium"
+                className="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-500 to-red-600 text-white rounded-lg font-medium"
               >
                 Go to Checkout
               </button>
@@ -150,7 +150,7 @@ export default function ProductDetailPage({
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-14 h-14 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin" />
+          <div className="w-14 h-14 border-4 border-cyan-200 border-t-blue-500 rounded-full animate-spin" />
           <p className="text-slate-400 text-sm font-medium">Loading product…</p>
         </div>
       </div>
@@ -162,13 +162,13 @@ export default function ProductDetailPage({
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
         <div className="text-center">
           <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Frame size={36} className="text-cyan-300" />
+            <Frame size={36} className="text-blue-300" />
           </div>
           <h2 className="text-2xl font-black text-slate-700">Product Not Found</h2>
           <p className="text-slate-400 mt-2 text-sm">This product may have been removed.</p>
           <button
             onClick={() => router.push("/shop")}
-            className="mt-6 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-sm hover:shadow-lg transition-all"
+            className="mt-6 px-6 py-2.5 bg-gradient-to-r from-blue-500 to-red-600 text-white rounded-xl font-bold text-sm hover:shadow-lg transition-all"
           >
             Back to Shop
           </button>
@@ -190,7 +190,7 @@ export default function ProductDetailPage({
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => router.back()}
-            className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-600 transition-colors text-sm font-medium group"
+            className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 transition-colors text-sm font-medium group"
           >
             <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
             Back to Shop
@@ -201,11 +201,11 @@ export default function ProductDetailPage({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={() => router.push("/checkout")}
-              className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all"
             >
               <ShoppingCart size={15} />
               Checkout
-              <span className="bg-white text-cyan-600 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="bg-white text-blue-600 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             </motion.button>
@@ -220,7 +220,7 @@ export default function ProductDetailPage({
         >
           {/* ── Left: Product Images ── */}
           <motion.div variants={fadeUp} className="space-y-4">
-            <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-teal-50 shadow-xl shadow-cyan-100/50">
+            <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-teal-50 shadow-xl shadow-blue-100/50">
               {product.galleryImages && product.galleryImages.length > 0 ? (
                 <Image
                   src={product.galleryImages[selectedImage]}
@@ -231,7 +231,7 @@ export default function ProductDetailPage({
               ) : (
                 <div className="flex flex-col items-center justify-center h-full gap-3">
                   <Frame size={56} className="text-cyan-200" />
-                  <p className="text-cyan-300 text-sm font-medium">No preview available</p>
+                  <p className="text-blue-300 text-sm font-medium">No preview available</p>
                 </div>
               )}
               {product.stock <= 5 && product.stock > 0 && (
@@ -256,8 +256,8 @@ export default function ProductDetailPage({
                     onClick={() => setSelectedImage(i)}
                     className={`relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-200 ${
                       selectedImage === i
-                        ? "border-cyan-500 shadow-lg shadow-cyan-200/60 scale-105"
-                        : "border-slate-200 hover:border-cyan-300 opacity-70 hover:opacity-100"
+                        ? "border-blue-500 shadow-lg shadow-cyan-200/60 scale-105"
+                        : "border-slate-200 hover:border-blue-300 opacity-70 hover:opacity-100"
                     }`}
                   >
                     <Image src={img} alt={`View ${i + 1}`} fill className="object-cover" />
@@ -276,7 +276,7 @@ export default function ProductDetailPage({
                   key={f.label}
                   className="flex items-center gap-1.5 bg-white border border-slate-100 text-slate-500 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
                 >
-                  <span className="text-cyan-500">{f.icon}</span>
+                  <span className="text-blue-500">{f.icon}</span>
                   {f.label}
                 </span>
               ))}
@@ -301,16 +301,16 @@ export default function ProductDetailPage({
               <div className="flex items-end justify-between pt-3 border-t border-slate-100">
                 <div className="flex gap-3">
                   <div className="bg-blue-50 rounded-2xl px-4 py-2.5 text-center">
-                    <p className="text-xl font-black text-cyan-700">{product.imageCount}</p>
-                    <p className="text-xs text-cyan-500 font-medium">Photos</p>
+                    <p className="text-xl font-black text-red-500">{product.imageCount}</p>
+                    <p className="text-xs text-blue-500 font-medium">Photos</p>
                   </div>
                   <div className="bg-teal-50 rounded-2xl px-4 py-2.5 text-center">
                     <p className="text-xl font-black text-teal-700">{product.stock}</p>
-                    <p className="text-xs text-teal-500 font-medium">In Stock</p>
+                    <p className="text-xs text-red-600 font-medium">In Stock</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-black text-cyan-600">{formatPrice(product.price)}</p>
+                  <p className="text-3xl font-black text-blue-600">{formatPrice(product.price)}</p>
                   <p className="text-xs text-slate-400">per set</p>
                 </div>
               </div>
@@ -320,15 +320,15 @@ export default function ProductDetailPage({
             <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center">
-                    <ImageIcon size={14} className="text-cyan-600" />
+                  <div className="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <ImageIcon size={14} className="text-blue-600" />
                   </div>
                   <h2 className="text-sm font-bold text-slate-700">Upload Your Photos</h2>
                 </div>
                 <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
                   uploadedFiles.length === maxImages
                     ? "bg-green-100 text-green-600"
-                    : "bg-cyan-100 text-cyan-600"
+                    : "bg-blue-100 text-blue-600"
                 }`}>
                   {uploadedFiles.length}/{maxImages}
                 </span>
@@ -336,7 +336,7 @@ export default function ProductDetailPage({
 
               <div className="w-full bg-slate-100 rounded-full h-1.5 mb-4">
                 <div
-                  className="bg-gradient-to-r from-cyan-500 to-teal-500 h-1.5 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-500 to-red-600 h-1.5 rounded-full transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
@@ -345,15 +345,15 @@ export default function ProductDetailPage({
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
                   isDragActive
-                    ? "border-cyan-400 bg-blue-50 scale-[1.01]"
+                    ? "border-blue-400 bg-blue-50 scale-[1.01]"
                     : uploadedFiles.length >= maxImages
                       ? "border-slate-200 bg-slate-50 cursor-not-allowed opacity-60"
-                      : "border-slate-200 hover:border-cyan-300 hover:bg-blue-50/40"
+                      : "border-slate-200 hover:border-blue-300 hover:bg-blue-50/40"
                 }`}
               >
                 <input {...getInputProps()} disabled={uploadedFiles.length >= maxImages} />
-                <div className="w-12 h-12 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <Upload size={22} className="text-cyan-500" />
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Upload size={22} className="text-blue-500" />
                 </div>
                 <p className="text-sm font-semibold text-slate-600">
                   {isDragActive ? "Drop your photos here!" : "Drag & drop or click to browse"}
@@ -369,7 +369,7 @@ export default function ProductDetailPage({
                 <div className="mt-4 grid grid-cols-4 sm:grid-cols-5 gap-2">
                   {uploadedFiles.map((file, i) => (
                     <div key={i} className="relative group">
-                      <div className="relative h-16 rounded-xl overflow-hidden bg-slate-100 ring-2 ring-transparent group-hover:ring-cyan-300 transition-all">
+                      <div className="relative h-16 rounded-xl overflow-hidden bg-slate-100 ring-2 ring-transparent group-hover:ring-blue-300 transition-all">
                         <Image src={URL.createObjectURL(file)} alt={file.name} fill className="object-cover" />
                       </div>
                       <button
@@ -388,7 +388,7 @@ export default function ProductDetailPage({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={uploading || product.stock === 0}
-                className="mt-5 w-full bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+                className="mt-5 w-full bg-gradient-to-r from-blue-500 to-red-600 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
               >
                 {uploading ? (
                   <>

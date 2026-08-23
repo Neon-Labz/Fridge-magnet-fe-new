@@ -54,7 +54,7 @@ export default function ShopPage() {
       <Navbar />
 
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-cyan-600 to-teal-600 overflow-hidden">
+      <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-teal-400/20 rounded-full blur-2xl" />
@@ -71,7 +71,7 @@ export default function ShopPage() {
             <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">
               Shop Our Collection
             </h1>
-            <p className="text-cyan-100 text-lg max-w-xl mx-auto">
+            <p className="text-blue-100 text-lg max-w-xl mx-auto">
               Transform your memories into premium magnetic photo art.
             </p>
           </motion.div>
@@ -88,7 +88,7 @@ export default function ShopPage() {
               placeholder="Search products..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-400 shadow-sm"
+              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 shadow-sm"
             />
           </div>
           <div className="flex items-center gap-2 text-slate-500 text-sm">
@@ -107,7 +107,7 @@ export default function ShopPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-24">
             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Frame size={40} className="text-cyan-300" />
+              <Frame size={40} className="text-blue-300" />
             </div>
             <h3 className="text-2xl font-black text-slate-700 mb-2">No Products Found</h3>
             <p className="text-slate-400">Try adjusting your search.</p>
@@ -138,7 +138,7 @@ export default function ShopPage() {
                       <Frame size={48} className="text-cyan-200" />
                     </div>
                   )}
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700">
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-500">
                     {product.imageCount} photos
                   </div>
                   {product.stock <= 5 && product.stock > 0 && (
@@ -166,7 +166,7 @@ export default function ShopPage() {
                   </p>
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xl font-black text-cyan-600">
+                      <span className="text-xl font-black text-blue-600">
                         {formatPrice(product.price)}
                       </span>
                       <p className="text-xs text-slate-400">{product.stock} in stock</p>
@@ -176,7 +176,7 @@ export default function ShopPage() {
                       className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                         product.stock === 0
                           ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                          : "bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:shadow-lg hover:shadow-cyan-200"
+                          : "bg-gradient-to-r from-blue-900 to-red-600 text-white hover:shadow-lg hover:shadow-cyan-200"
                       }`}
                     >
                       {product.stock === 0 ? "Sold Out" : "Order Now"}

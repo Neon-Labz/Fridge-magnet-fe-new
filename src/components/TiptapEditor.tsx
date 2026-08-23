@@ -89,7 +89,7 @@ export default function TiptapEditor({
   ];
 
   return (
-    <div className="border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-cyan-300 focus-within:border-cyan-400 transition-all">
+    <div className="border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-400 transition-all">
       {/* Toolbar */}
       <div className="bg-slate-50 border-b border-slate-200 px-2 py-1.5 flex flex-wrap gap-0.5">
         {tools.map(({ icon: Icon, action, active, title }) => (
@@ -101,7 +101,7 @@ export default function TiptapEditor({
             className={cn(
               "w-7 h-7 rounded-lg flex items-center justify-center transition-all text-slate-600",
               active
-                ? "bg-cyan-500 text-white"
+                ? "bg-blue-500 text-white"
                 : "hover:bg-slate-200 hover:text-slate-900"
             )}
           >
