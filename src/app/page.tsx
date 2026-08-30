@@ -311,7 +311,6 @@ const carouselImages = [
   "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   "https://images.pexels.com/photos/3816395/pexels-photo-3816395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   "/images/product-1.png",
-  "/images/product-3.png",
   "/images/product-4.png",
   "/images/product-5.png",
 ];
@@ -478,7 +477,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* Features Bar */}
-      <section className="bg-gradient-to-r from-red-700 to-blue-900 text-white py-8">
+      <section className="bg-gradient-to-r from-blue-600 to-red-700 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -781,214 +780,19 @@ export default function HomePage() {
                       {item.icon}
                     </div>
 
-                    <h3 className="relative text-lg font-black text-slate-800 mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="relative text-slate-500 text-sm leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* why choose us  */}
-      <section className="w-full overflow-x-clip bg-[#FBFBFE] py-10 xl:py-12">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-[60px]">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
-            {/* LEFT — Pricing */}
-            <div className="w-full lg:w-1/2 lg:pr-[10px]">
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <span className="h-px w-6 bg-red-700/40" />
-                <span className="text-[12px] font-bold tracking-[1.5px] text-red-700 uppercase">
-                  Our Products
-                </span>
-                <span className="h-px w-6 bg-red-700/40" />
-              </div>
-
-              <h2 className="mt-4 font-manrope text-[28px] sm:text-[34px] font-bold text-blue-900 text-center lg:text-left">
-                Simple, honest pricing.
-              </h2>
-
-              <p className="mt-2 text-[15px] sm:text-[16px] text-black/60 text-center lg:text-left">
-                No hidden costs. Cash on delivery available across the island.
-              </p>
-
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Card 1 */}
-                <div className="relative rounded-2xl bg-[#FCEDE9] p-6 flex flex-col">
-                  <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center">
-                    <ImageIcon
-                      size={20}
-                      className="text-red-700"
-                      strokeWidth={2}
-                    />
-                  </div>
-
-                  <h3 className="mt-5 font-manrope text-[19px] font-bold text-blue-900">
-                    Photo Magnets
+                  <h3 className="relative text-lg font-black text-slate-800 mb-2">
+                    {item.title}
                   </h3>
-
-                  <p className="mt-1 text-[13px] text-black/60">
-                    from{" "}
-                    <span className="text-[20px] font-extrabold text-red-700">
-                      Rs. 1,500
-                    </span>
+                  <p className="relative text-slate-500 text-sm leading-relaxed">
+                    {item.desc}
                   </p>
-
-                  <div className="mt-4 h-px w-full bg-black/10" />
-
-                  <div className="mt-4 space-y-1.5 text-[13px] text-black/70">
-                    <p>Minimum 4 pieces</p>
-                    <p>Square magnetic tiles</p>
-                  </div>
-
-                  <div className="mt-auto pt-8 flex justify-center">
-                    <Image
-                      src="/images/product-6.jpg"
-                      width={100}
-                      height={150}
-                      alt="Photo magnets"
-                      className="w-full object-contain max-w-[300px]"
-                    />
-                  </div>
-                </div>
-
-                {/* Card 2 */}
-                <div className="relative rounded-2xl bg-[#EEF0FB] p-6 flex flex-col overflow-hidden">
-                  <div className="absolute -right-8 top-4 rotate-45 bg-red-700 text-white text-[10px] font-bold tracking-wide px-9 py-1">
-                    POPULAR
-                  </div>
-
-                  <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center">
-                    <Frame
-                      size={20}
-                      className="text-blue-900"
-                      strokeWidth={2}
-                    />
-                  </div>
-
-                  <h3 className="mt-5 font-manrope text-[19px] font-bold text-blue-900">
-                    Magnet Frame Set
-                  </h3>
-
-                  <p className="mt-1 text-[13px] text-black/60">
-                    from{" "}
-                    <span className="text-[20px] font-extrabold text-red-700">
-                      Rs. 2,500
-                    </span>
-                  </p>
-
-                  <div className="mt-4 h-px w-full bg-black/10" />
-
-                  <div className="mt-4 space-y-1.5 text-[13px] text-black/70">
-                    <p>Black or white frame</p>
-                    <p>Holds 4 tiles</p>
-                  </div>
-
-                  <div className="mt-auto pt-6 flex justify-center">
-                    <Image
-                      src="/images/product-5.png"
-                      width={100}
-                      height={150}
-                      alt="Photo magnets"
-                      className="w-full object-contain max-w-[300px]"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="hidden lg:block w-px bg-black/10 mx-[40px]" />
-            <div className="lg:hidden h-px w-full bg-black/10" />
-
-            {/* RIGHT — Features */}
-            <div className="w-full lg:w-1/2 lg:pl-0">
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <span className="h-px w-6 bg-red-700/40" />
-                <span className="text-[12px] font-bold tracking-[1.5px] text-red-700 uppercase">
-                  Why Choose Magnify
-                </span>
-                <span className="h-px w-6 bg-red-700/40" />
-              </div>
-
-              <h2 className="mt-4 font-manrope text-[28px] sm:text-[34px] font-bold text-blue-900 text-center lg:text-left">
-                Premium quality you can trust.
-              </h2>
-
-              <p className="mt-2 text-[15px] sm:text-[16px] text-black/60 text-center lg:text-left max-w-[440px] mx-auto lg:mx-0">
-                We combine high quality materials with vibrant prints to bring
-                your memories to life.
-              </p>
-
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {features.map(({ icon: Icon, title, desc }, i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl border border-black/10 p-5 flex flex-col items-center text-center hover:shadow-md hover:border-[#002B73]/20 transition-all"
-                  >
-                    <div className="w-11 h-11 rounded-full bg-[#F0F2F8] flex items-center justify-center">
-                      <Icon
-                        size={18}
-                        className="text-[#002B73]"
-                        strokeWidth={2}
-                      />
-                    </div>
-                    <h4 className="mt-3 text-[13px] sm:text-[14px] font-bold text-[#002B73] leading-tight">
-                      {title}
-                    </h4>
-                    <p className="mt-1.5 text-[11px] sm:text-[12px] text-black/50 leading-snug">
-                      {desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Every occasion  */}
-      <div className="px-4 pt-10 text-center sm:px-6 sm:pt-14">
-        <div className="flex items-center gap-3 justify-center lg:justify-center">
-          <span className="h-px w-6 bg-red-700/40" />
-          <span className="text-[12px] font-bold tracking-[1.5px] text-red-700 uppercase">
-            Perfect for Every Occasion
-          </span>
-          <span className="h-px w-6 bg-red-700/40" />
-        </div>
-
-        <h2 className="font-manrope mx-auto mt-3 max-w-[90%] text-[24px] font-extrabold leading-tight text-[#061447] sm:max-w-none sm:text-[28px] xl:text-[34px]">
-          Make every moment memorable.
-        </h2>
-
-        {/* Scroll track — full-bleed on mobile so cards can peek off-screen */}
-        <div className="relative mt-6 w-full overflow-hidden pb-4 sm:mt-8">
-          <div className="occasion-scroll-track flex w-max flex-nowrap gap-4 will-change-transform sm:gap-5">
-            {[...occasionCards, ...occasionCards].map((card, index) => (
-              <OccasionImageCard key={`${card.title}-${index}`} {...card} />
-            ))}
-          </div>
-        </div>
-
-        {/* Trust bar */}
-        <div className="mx-auto mt-6 grid max-w-[900px] grid-cols-2 gap-y-3 rounded-[24px] bg-white px-4 py-4 shadow-[0_12px_30px_rgba(12,28,61,0.08)] sm:grid-cols-4 sm:gap-y-0 sm:rounded-[28px] sm:px-6 sm:py-3 xl:max-w-[1180px] xl:rounded-full xl:py-0">
-          {trustItems.map((item, i) => (
-            <div
-              key={item.title}
-              className={`flex items-center justify-center px-2 ${
-                i % 2 === 0 ? "sm:border-r sm:border-[#E7EAF3]" : ""
-              } ${i < 2 ? "border-b border-[#E7EAF3] pb-3 sm:border-b-0 sm:pb-0" : ""}`}
-            >
-              <TrustBarItem {...item} />
-            </div>
-          ))}
-        </div>
+        </AnimatedSection>
       </div>
+    </section>
 
       {/* Testimonials */}
       <section className="py-10 bg-gradient-to-b from-blue-50 to-white">
@@ -1091,33 +895,35 @@ export default function HomePage() {
                 <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-blue-300 ring-2 ring-white" />
               </div>
 
-              <div className="relative z-10">
-                <h2 className="text-3xl lg:text-5xl font-black text-white mb-4">
-                  Start Your Memory Gallery Today
-                </h2>
-                <p className="text-blue-50 text-lg mb-8 max-w-xl mx-auto">
-                  Join thousands of happy customers who have transformed their
-                  walls with Magnify.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <Link
-                    href="/shop"
-                    className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-                  >
-                    Shop Now <ArrowRight size={18} />
-                  </Link>
-                  <Link
-                    href="/gallery"
-                    className="inline-flex items-center gap-2 bg-white/15 text-white border-2 border-white/50 px-8 py-4 rounded-2xl font-bold backdrop-blur-sm hover:bg-white/25 transition-all"
-                  >
-                    View Gallery
-                  </Link>
-                </div>
+            <div className="relative z-10">
+              <h2 className="text-3xl lg:text-5xl font-black text-white mb-4">
+                Start Your Memory Gallery Today
+              </h2>
+              <p className="text-blue-50 text-lg mb-8 max-w-xl mx-auto">
+                Join thousands of happy customers who have transformed their
+                walls with Magnify.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Link
+                  href="/shop"
+                  className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                >
+                  Shop Now <ArrowRight size={18} />
+                </Link>
+                <Link
+                  href="/gallery"
+                  className="inline-flex items-center gap-2 bg-white/15 text-white border-2 border-white/50 px-8 py-4 rounded-2xl font-bold backdrop-blur-sm hover:bg-white/25 transition-all"
+                >
+                  View Gallery
+                </Link>
               </div>
-            </motion.div>
-          </AnimatedSection>
-        </div>
-      </section>
+            </div>
+          </motion.div>
+        </AnimatedSection>
+      </div>
+    </section>
+
+      <Footer />
     </div>
   );
 }
