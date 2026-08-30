@@ -51,7 +51,6 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
-      <Navbar />
 
       {/* Header */}
       <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
@@ -190,7 +189,6 @@ export default function ShopPage() {
       </div>
 
       <div className="py-10" />
-      <Footer />
     </div>
   );
 }

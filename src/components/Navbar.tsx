@@ -265,7 +265,7 @@ export default function Navbar() {
                     <Link
                       href="/register"
                       onClick={() => setIsOpen(false)}
-                      className="block px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-500 to-red-600 text-white text-center"
+                      className="block px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-900 to-red-700 text-white text-center"
                     >
                       Get Started
                     </Link>
