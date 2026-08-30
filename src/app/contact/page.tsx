@@ -24,8 +24,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
-      <Navbar />
-
       {/* Header */}
       <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
@@ -80,8 +78,8 @@ export default function ContactPage() {
               {
                 icon: MapPin,
                 label: "Office",
-                value: "123 Memory Lane",
-                sub: "Photo City, PC 12345",
+                value: "125A, KKS Road, Kokuvil",
+                sub: ", Jaffna, Sri Lanka",
               },
               {
                 icon: Clock,
@@ -173,8 +171,6 @@ export default function ContactPage() {
           </motion.div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 }
