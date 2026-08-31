@@ -95,7 +95,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-40 h-20 rounded-xl overflow-hidden">
               <Image
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="Magnify"
                 fill
                 className="object-cover"
