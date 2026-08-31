@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
@@ -19,11 +18,12 @@ import {
   Headphones,
   ChevronLeft,
   ChevronRight,
-  ImageIcon,
   Printer,
   Package,
   Heart,
-} from "lucide-react";
+  Image as ImageIcon
+}
+ from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import {
   features,
@@ -791,6 +791,153 @@ export default function HomePage() {
             </div>
           </div>
         </AnimatedSection>
+      </div>
+    </section>
+
+      {/* Pricing */}
+    <section className="w-full bg-white py-14 sm:py-20">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-[60px]">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
+
+          {/* LEFT — Pricing */}
+          <div className="w-full lg:w-1/2 lg:pr-[10px]">
+            <div className="flex items-center gap-3 justify-center lg:justify-start">
+              <span className="h-px w-6 bg-red-700/40" />
+              <span className="text-[12px] font-bold tracking-[1.5px] text-red-700 uppercase">
+                Our Products
+              </span>
+              <span className="h-px w-6 bg-red-700/40" />
+            </div>
+
+            <h2 className="mt-4 font-manrope text-[28px] sm:text-[34px] font-bold text-blue-900 text-center lg:text-left">
+              Simple, honest pricing.
+            </h2>
+
+            <p className="mt-2 text-[15px] sm:text-[16px] text-black/60 text-center lg:text-left">
+              No hidden costs. Cash on delivery available across the island.
+            </p>
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Card 1 */}
+              <div className="relative rounded-2xl bg-[#FCEDE9] p-6 flex flex-col">
+                <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                  <ImageIcon size={20} className="text-red-700" strokeWidth={2} />
+                </div>
+
+                <h3 className="mt-5 font-manrope text-[19px] font-bold text-blue-900">
+                  Photo Magnets
+                </h3>
+
+                <p className="mt-1 text-[13px] text-black/60">
+                  from <span className="text-[20px] font-extrabold text-red-700">Rs. 1,500</span>
+                </p>
+
+                <div className="mt-4 h-px w-full bg-black/10" />
+
+                <div className="mt-4 space-y-1.5 text-[13px] text-black/70">
+                  <p>Minimum 4 pieces</p>
+                  <p>Square magnetic tiles</p>
+                </div>
+
+                <div className="mt-auto pt-6 flex justify-center">
+                  <Image
+                    src="/images/product-6.jpg"
+                      alt="Photo magnets"
+                      width={112}
+                      height={96}
+                    className="w-full max-w-[320px] object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="relative rounded-2xl bg-[#EEF0FB] p-6 flex flex-col overflow-hidden">
+                <div className="absolute -right-8 top-4 rotate-45 bg-red-700 text-white text-[10px] font-bold tracking-wide px-9 py-1">
+                  POPULAR
+                </div>
+
+                <div className="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                  <Frame size={20} className="text-blue-900" strokeWidth={2} />
+                </div>
+
+                <h3 className="mt-5 font-manrope text-[19px] font-bold text-blue-900">
+                  Magnet Frame Set
+                </h3>
+
+                <p className="mt-1 text-[13px] text-black/60">
+                  from <span className="text-[20px] font-extrabold text-red-700">Rs. 2,500</span>
+                </p>
+
+                <div className="mt-4 h-px w-full bg-black/10" />
+
+                <div className="mt-4 space-y-1.5 text-[13px] text-black/70">
+                  <p>Black or white frame</p>
+                  <p>Holds 4 tiles</p>
+                </div>
+
+                <div className="mt-auto pt-6 flex justify-center">
+                  <Image
+                    src="/images/product-5.png"
+                      alt="Magnet frame set"
+                      width={112}
+                      height={96}
+                    className="w-full max-w-[320px] object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="hidden lg:block w-px bg-black/10 mx-[60px]" />
+          <div className="lg:hidden h-px w-full bg-black/10" />
+
+          {/* RIGHT — Features */}
+          <div className="w-full lg:w-1/2 lg:pl-0">
+            <div className="flex items-center gap-3 justify-center lg:justify-start">
+              <span className="h-px w-6 bg-red-700/40" />
+              <span className="text-[12px] font-bold tracking-[1.5px] text-red-700 uppercase">
+                Why Choose Magnify
+              </span>
+              <span className="h-px w-6 bg-red-700/40" />
+            </div>
+
+            <h2 className="mt-4 font-manrope text-[28px] sm:text-[34px] font-bold text-blue-900 text-center lg:text-left">
+              Premium quality you can trust.
+            </h2>
+
+            <p className="mt-2 text-[15px] sm:text-[16px] text-black/60 text-center lg:text-left max-w-[440px] mx-auto lg:mx-0">
+              We combine high quality materials with vibrant prints to bring your memories to life.
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {[
+                { icon: Printer, title: "Premium HD Printing", desc: "Sharp, vibrant prints that last." },
+                { icon: Magnet, title: "Strong Magnetic Hold", desc: "Powerful magnets keep memories secure." },
+                { icon: ShieldCheck, title: "Durable & Waterproof", desc: "Scratch resistant and made to last." },
+                { icon: Truck, title: "Islandwide Delivery", desc: "Fast, reliable delivery to your doorstep." },
+                { icon: Package, title: "Secure Packaging", desc: "Carefully packed to ensure safe delivery." },
+                { icon: Heart, title: "Made with Care", desc: "Crafted with love for your special moments." },
+              ].map(({ icon: Icon, title, desc }, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl border border-black/10 p-5 flex flex-col items-center text-center hover:shadow-md hover:border-blue-900/20 transition-all"
+                >
+                  <div className="w-11 h-11 rounded-full bg-[#F0F2F8] flex items-center justify-center">
+                    <Icon size={18} className="text-blue-900" strokeWidth={2} />
+                  </div>
+                  <h4 className="mt-3 text-[13px] sm:text-[14px] font-bold text-blue-900 leading-tight">
+                    {title}
+                  </h4>
+                  <p className="mt-1.5 text-[11px] sm:text-[12px] text-black/50 leading-snug">
+                    {desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
