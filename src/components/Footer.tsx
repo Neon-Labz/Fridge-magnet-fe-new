@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="relative w-50 h-20 rounded-xl overflow-hidden">
-                <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
+                <Image src="/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
              
             </div>

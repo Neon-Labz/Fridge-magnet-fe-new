@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: "Magnify – Premium Magnetic Photo Tiles",
   description:
     "Print your favorite photos on premium magnetic tiles and create a gallery of memories in your home.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
