@@ -2,7 +2,7 @@
 
 :root {
   /* Magnify Primary Blue */
-  --blue-50: #EEF3FC;
+  --blue-50: #F9F9FE;
   --blue-100: #DCE6F8;
   --blue-200: #B9CDEF;
   --blue-300: #91B0E5;
@@ -55,7 +55,7 @@
 
 .card-hover:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+  box-shadow: #DEE8F7 0px 10px 20px -5px;
 }
 
 .glass {
