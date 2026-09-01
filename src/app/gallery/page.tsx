@@ -37,8 +37,6 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <Navbar />
-
       {/* Header */}
       <div className="relative pt-24 pb-16 bg-gradient-to-r from-red-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
@@ -131,8 +129,6 @@ export default function GalleryPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
 }

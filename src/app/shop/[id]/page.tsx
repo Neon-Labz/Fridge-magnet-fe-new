@@ -182,8 +182,6 @@ export default function ProductDetailPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
-      <Navbar />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
         <div className="flex items-center justify-between mb-10">
           <motion.button
@@ -388,7 +386,7 @@ export default function ProductDetailPage({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={uploading || product.stock === 0}
-                className="mt-5 w-full bg-gradient-to-r from-blue-500 to-red-600 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+                className="mt-5 w-full bg-gradient-to-r from-red-600 to-blue-500 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
               >
                 {uploading ? (
                   <>
@@ -406,8 +404,6 @@ export default function ProductDetailPage({
           </motion.div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 }

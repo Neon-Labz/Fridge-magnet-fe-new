@@ -51,7 +51,7 @@ export default function RegisterPage() {
         <div className="relative text-center">
           <Link href="/" className="flex items-center gap-3 justify-center mb-8">
             <div className="relative w-50 h-15 ">
-              <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
+              <Image src="/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
            
           </Link>
@@ -83,7 +83,7 @@ export default function RegisterPage() {
           <div className="lg:hidden flex justify-center mb-8">
             <Link href="/" className="flex items-center gap-2">
               <div className="relative w-10 h-10 rounded-xl overflow-hidden">
-                <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
+                <Image src="/logo.png" alt="Magnify" fill className="object-cover" />
               </div>
               <span className="text-2xl font-black bg-gradient-to-r from-blue-500 to-red-700 bg-clip-text text-transparent">
                 Magnify

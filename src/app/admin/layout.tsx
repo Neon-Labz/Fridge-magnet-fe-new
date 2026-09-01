@@ -76,7 +76,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-6 border-b border-slate-100">
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-9 h-9 rounded-xl overflow-hidden">
-              <Image src="/images/logo.png" alt="Magnify" fill className="object-cover" />
+              <Image src="/logo.png" alt="Magnify" fill className="object-cover" />
             </div>
             <div>
               <span className="text-lg font-black bg-gradient-to-r from-blue-500 to-red-700 bg-clip-text text-transparent">

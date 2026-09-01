@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { Space_Grotesk, Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -20,13 +22,20 @@ export const metadata: Metadata = {
   title: "Magnify – Premium Magnetic Photo Tiles",
   description:
     "Print your favorite photos on premium magnetic tiles and create a gallery of memories in your home.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="bg-white text-slate-900 antialiased">
+        <Navbar />
         {children}
+         <Footer />
         <Toaster
           position="top-right"
           toastOptions={{
