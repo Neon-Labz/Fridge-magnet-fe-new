@@ -272,15 +272,11 @@ export default function GalleryPage() {
               <Image
                 src={activeImage.src}
                 alt={activeImage.alt}
-                width={1000}
-                height={800}
-                className="h-full w-full object-contain"
+                width={activeImage.width}
+                height={activeImage.height}
+                sizes="90vw"
+                className="max-h-[85vh] max-w-full object-contain"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 p-4">
-                <p className="text-center font-semibold text-white">
-                  {activeImage.alt}
-                </p>
-              </div>
 
               <button
                 onClick={closePreview}
