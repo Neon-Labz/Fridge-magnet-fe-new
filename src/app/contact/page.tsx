@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { Mail, Phone, MapPin, Clock, Send, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -23,35 +24,51 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
+    <div className="min-h-screen bg-white">
+      <Navbar />
+
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-teal-400/20 rounded-full blur-2xl" />
-        </div>
+      <div className="relative pt-18 pb-4 bg-white overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-row items-center gap-4 sm:gap-8 lg:gap-16"
         >
-          <span className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-            💬 Get In Touch
-          </span>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">Contact Us</h1>
-          <p className="text-blue-100 text-lg max-w-xl mx-auto">
-            Have a question or need help? We&apos;re here for you!
-          </p>
+          {/* Text block */}
+          <div className="w-1/2 flex flex-col text-left">
+            <h1 className="text-[24px] xs:text-[24px] sm:text-[32px] font-extrabold leading-tight md:text-[40px] lg:text-[56px] lg:leading-[60px]">
+              <span className="text-blue-900">Get in</span>{" "}
+              <span className="text-[#D10A0A]">Touch</span>
+            </h1>
+            <span className="mb-2 sm:mb-4 mt-1 sm:mt-2 block h-1 w-6 sm:w-10 bg-[#D10A0A]" />
+
+            <p className="mt-2 sm:mt-4 max-w-full text-[12px] xs:text-[13px] font-normal leading-[18px] sm:leading-[26px] text-[#6B7280] sm:text-[16px] lg:text-[18px] lg:leading-[29px]">
+              We&apos;re here to help you preserve your most cherished
+              memories and answer any questions you may have.
+            </p>
+          </div>
+
+          {/* Image block */}
+          <div className="relative h-[140px] w-1/2 xs:h-[170px] sm:h-[300px] lg:h-[380px]">
+            <Image
+              src="/contact.png"
+              alt="Get in touch with Magnify"
+              fill
+              priority
+              sizes="(max-width: 1024px) 50vw, 50vw"
+              className="object-contain object-center"
+            />
+          </div>
         </motion.div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="grid lg:grid-cols-3 gap-10"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-10"
         >
           {/* Contact Info */}
           <motion.div variants={fadeUp} className="space-y-6">
@@ -66,31 +83,31 @@ export default function ContactPage() {
               {
                 icon: Mail,
                 label: "Email",
-                value: "hello@magnify.com",
-                sub: "Send us an email anytime",
+                value: "magnifyofficials@gmail.com",
+                sub: "We reply within 24 hours",
               },
               {
                 icon: Phone,
                 label: "Phone",
-                value: "+1 (555) 123-4567",
-                sub: "Mon-Fri, 9am - 6pm",
+                value: "+94 75 391 253",
+                sub: "Mon-Sat, 9am - 6pm",
               },
               {
                 icon: MapPin,
                 label: "Office",
                 value: "125A, KKS Road, Kokuvil",
-                sub: ", Jaffna, Sri Lanka",
+                sub: "Jaffna, Sri Lanka",
               },
               {
                 icon: Clock,
                 label: "Business Hours",
-                value: "Mon – Fri: 9:00 – 18:00",
-                sub: "Sat: 10:00 – 14:00",
+                value: "Mon – Sat: 9:00 – 18:00",
+                sub: "Sunday: Closed",
               },
             ].map(({ icon: Icon, label, value, sub }) => (
               <div key={label} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Icon size={20} className="text-blue-600" />
+                  <Icon size={20} className="text-blue-900" />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</p>
@@ -103,7 +120,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <motion.div variants={fadeUp} className="lg:col-span-2">
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-blue-50">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border border-blue-50">
               <h3 className="text-xl font-black text-slate-900 mb-6">Send us a message</h3>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -115,7 +132,7 @@ export default function ContactPage() {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
-                      placeholder="John Doe"
+                      placeholder="Enter your name"
                     />
                   </div>
                   <div>
@@ -126,7 +143,7 @@ export default function ContactPage() {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm"
-                      placeholder="john@example.com"
+                      placeholder="Enter you email address"
                     />
                   </div>
                 </div>
@@ -158,7 +175,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full bg-gradient-to-r from-blue-900 to-red-600 text-white py-4 rounded-2xl font-black text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-900 text-white py-4 rounded-2xl font-black text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {sending ? (
                     <><Loader2 size={18} className="animate-spin" /> Sending...</>
@@ -171,6 +188,8 @@ export default function ContactPage() {
           </motion.div>
         </motion.div>
       </div>
+
+      <Footer />
     </div>
   );
 }
