@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Loader2, User, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, User, Lock } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
