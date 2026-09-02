@@ -1,130 +1,313 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Building2,
+  Cake,
+  ChevronLeft,
+  ChevronRight,
+  Gem,
+  GraduationCap,
+  Heart,
+  PawPrint,
+  Plane,
+  Smile,
+  Users,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { fadeUp, staggerContainer } from "@/lib/motion";
-import { X, ZoomIn } from "lucide-react";
 
-const galleryImages = [
-  { url: "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Family Memories Wall" },
-  { url: "https://images.pexels.com/photos/5137955/pexels-photo-5137955.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Polaroid Collection" },
-  { url: "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Travel Gallery" },
-  { url: "https://images.pexels.com/photos/10260849/pexels-photo-10260849.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Souvenir Display" },
-  { url: "https://images.pexels.com/photos/3816395/pexels-photo-3816395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Creative Collage" },
-  { url: "https://images.pexels.com/photos/16236467/pexels-photo-16236467.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Hanging Memories" },
-  { url: "/images/product-1.png", caption: "9-Tile Set Display" },
-  { url: "/images/product-2.png", caption: "Single Premium Tile" },
-  { url: "/images/product-5.png", caption: "Frame Collection" },
-  { url: "/images/product-4.png", caption: "Round Tiles" },
-  { url: "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Living Room Gallery" },
-  { url: "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", caption: "Adventure Memories" },
+type GalleryImage = {
+  src: string;
+  alt: string;
+  category: string;
+  width: number;
+  height: number;
+};
+
+type Tab = {
+  name: string;
+  icon: LucideIcon;
+};
+
+const tabs: Tab[] = [
+  { name: "Wedding", icon: Gem },
+  { name: "Birthday", icon: Cake },
+  { name: "Family", icon: Users },
+  { name: "Graduation", icon: GraduationCap },
+  { name: "Couples", icon: Heart },
+  { name: "Kids", icon: Smile },
+  { name: "Pets", icon: PawPrint },
+  { name: "Travel", icon: Plane },
+  { name: "Corporate", icon: Building2 },
+];
+
+const INITIAL_VISIBLE_COUNT = 10;
+
+// TODO: swap these placeholder URLs with your real gallery_images bucket assets.
+const galleryImages: GalleryImage[] = [
+  { src: "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Wedding gallery photo", category: "Wedding", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/5137955/pexels-photo-5137955.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Birthday gallery photo", category: "Birthday", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Family gallery photo", category: "Family", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/10260849/pexels-photo-10260849.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Graduation gallery photo", category: "Graduation", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/3816395/pexels-photo-3816395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Couples gallery photo", category: "Couples", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/16236467/pexels-photo-16236467.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Kids gallery photo", category: "Kids", width: 940, height: 650 },
+  { src: "/images/product-1.png", alt: "Pets gallery photo", category: "Pets", width: 940, height: 650 },
+  { src: "/images/product-2.png", alt: "Travel gallery photo", category: "Travel", width: 940, height: 650 },
+  { src: "/images/product-5.png", alt: "Corporate gallery photo", category: "Corporate", width: 940, height: 650 },
+  { src: "/images/product-4.png", alt: "Wedding gallery photo 2", category: "Wedding", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Family gallery photo 2", category: "Family", width: 940, height: 650 },
+  { src: "https://images.pexels.com/photos/13699200/pexels-photo-13699200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", alt: "Travel gallery photo 2", category: "Travel", width: 940, height: 650 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8028.JPG.jpeg", alt: "Gallery image 1", category: "Wedding", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8029.JPG.jpeg", alt: "Gallery image 2", category: "Family", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8030.JPG.jpeg", alt: "Gallery image 3", category: "Kids", width: 992, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8031.JPG.jpeg", alt: "Gallery image 4", category: "Couples", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8033.JPG.jpeg", alt: "Gallery image 5", category: "Wedding", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8034.JPG.jpeg", alt: "Gallery image 6", category: "Birthday", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8035.JPG.jpeg", alt: "Gallery image 7", category: "Graduation", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8036.JPG.jpeg", alt: "Gallery image 8", category: "Travel", width: 1164, height: 860 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8037.JPG.jpeg", alt: "Gallery image 9", category: "Wedding", width: 2847, height: 3796 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8038.JPG.jpeg", alt: "Gallery image 10", category: "Family", width: 1600, height: 1142 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8039.JPG.jpeg", alt: "Gallery image 11", category: "Pets", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8040.JPG.jpeg", alt: "Gallery image 12", category: "Corporate", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8041.JPG.jpeg", alt: "Gallery image 13", category: "Wedding", width: 648, height: 761 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8042.JPG.jpeg", alt: "Gallery image 14", category: "Kids", width: 1200, height: 1600 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8043.JPG.jpeg", alt: "Gallery image 15", category: "Family", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8044.JPG.jpeg", alt: "Gallery image 16", category: "Wedding", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8045.JPG.jpeg", alt: "Gallery image 17", category: "Graduation", width: 960, height: 1280 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8046.JPG.jpeg", alt: "Gallery image 18", category: "Birthday", width: 1424, height: 2532 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8047.JPG.jpeg", alt: "Gallery image 19", category: "Travel", width: 3024, height: 4032 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8048.JPG.jpeg", alt: "Gallery image 20", category: "Couples", width: 3024, height: 4032 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8049.JPG.jpeg", alt: "Gallery image 21", category: "Wedding", width: 4032, height: 3024 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8050.JPG.jpeg", alt: "Gallery image 22", category: "Kids", width: 2396, height: 3197 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8051.JPG.jpeg", alt: "Gallery image 23", category: "Family", width: 3024, height: 4032 },
+  { src: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/gallery_images/IMG_8052.JPG.jpeg", alt: "Gallery image 24", category: "Wedding", width: 1440, height: 1920 },
 ];
 
 export default function GalleryPage() {
-  const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
+  const [activeTab, setActiveTab] = useState("Wedding");
+  const [showAll, setShowAll] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (lightbox) {
-      document.body.style.overflow = "hidden";
-    } else {
+    setShowAll(false);
+    setPreviewIndex(null);
+  }, [activeTab]);
+
+  useEffect(() => {
+    document.body.style.overflow = previewIndex !== null ? "hidden" : "";
+    return () => {
       document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [lightbox]);
+    };
+  }, [previewIndex]);
+
+  const filteredImages = galleryImages.filter(
+    (img) => img.category === activeTab
+  );
+  const visibleImages = showAll
+    ? filteredImages
+    : filteredImages.slice(0, INITIAL_VISIBLE_COUNT);
+  const hasMoreImages = filteredImages.length > INITIAL_VISIBLE_COUNT;
+
+  const openPreview = (index: number) => setPreviewIndex(index);
+  const closePreview = () => setPreviewIndex(null);
+  const showPrev = () =>
+    setPreviewIndex((i) =>
+      i === null ? null : (i - 1 + visibleImages.length) % visibleImages.length
+    );
+  const showNext = () =>
+    setPreviewIndex((i) =>
+      i === null ? null : (i + 1) % visibleImages.length
+    );
+
+  const activeImage = previewIndex !== null ? visibleImages[previewIndex] : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-red-700 to-blue-900 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl" />
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        >
-          <span className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-            🖼️ Inspiration
-          </span>
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">Gallery</h1>
-          <p className="text-blue-100 text-lg max-w-xl mx-auto">
-            See how our customers have transformed their spaces with Magnify magnetic tiles.
-          </p>
-        </motion.div>
-      </div>
+    <div className="min-h-screen bg-white">
+      <Navbar />
 
-      {/* Gallery Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"
-        >
-          {galleryImages.map((img, i) => (
+      <div className="mx-auto w-full max-w-[1700px] px-4 pt-[70px] sm:px-6 lg:px-[120px]">
+      {/* Hero */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="flex min-h-[230px] w-full flex-row items-center gap-4 overflow-hidden sm:gap-6 sm:min-h-[280px] md:min-h-[320px] lg:min-h-[340px] lg:gap-10"
+      >
+        {/* Text */}
+        <div className="relative z-10 flex w-1/2 shrink-0 flex-col justify-center py-5 lg:w-2/5">
+          <h1 className="mb-2 text-[25px] font-extrabold leading-tight sm:text-[32px] md:text-[40px] lg:text-[52px]">
+            <span className="text-blue-900">Our </span>
+            <span className="text-[#D40B0B]">Gallery</span>
+          </h1>
+
+          <div className="mb-3 h-[3px] w-10 rounded-full bg-[#D40B0B] sm:w-14" />
+
+          <p className="max-w-[360px] text-[11px] leading-relaxed text-gray-500 sm:text-[13px] md:text-[15px] lg:text-[18px]">
+            Explore our collection of beautifully designed fridge magnets
+            and frames. Made with love, printed with precision.
+          </p>
+        </div>
+
+        {/* Image */}
+        <div className="relative flex h-[250px] w-1/2 min-w-0 items-center justify-center overflow-hidden sm:h-[300px] md:h-[340px] lg:h-[380px] lg:w-3/5">
+          <Image
+            src="/gallery.png"
+            alt="Gallery hero"
+            fill
+            priority
+            sizes="(max-width: 1024px) 50vw, 60vw"
+            className="object-contain object-center"
+          />
+        </div>
+      </motion.section>
+
+        {/* Category tabs */}
+        <div className="mt-4 w-full border-b border-gray-200 bg-white">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:flex lg:w-full">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.name;
+
+              return (
+                <button
+                  key={tab.name}
+                  type="button"
+                  onClick={() => setActiveTab(tab.name)}
+                  className={`flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1 border-b-2 px-1 py-2.5 text-[10px] font-semibold transition-all duration-300 sm:py-3 sm:text-xs md:py-4 lg:flex-1 lg:px-2 lg:text-xs ${
+                    isActive
+                      ? "border-[#D40B0B] text-[#D40B0B]"
+                      : "border-transparent text-[#071B3D] hover:text-[#D40B0B]"
+                  }`}
+                >
+                  <tab.icon
+                    className="h-4 w-4 sm:h-5 sm:w-5"
+                    aria-hidden="true"
+                  />
+
+                  <span className="truncate">
+                    {tab.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className="pb-16">
+          {filteredImages.length === 0 ? (
+            <p className="py-16 text-center text-gray-400">
+              No photos in this category yet.
+            </p>
+          ) : (
             <motion.div
-              key={i}
-              variants={fadeUp}
-              className="relative group cursor-pointer break-inside-avoid rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
-              onClick={() => setLightbox(img)}
+              key={activeTab}
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.05 } },
+              }}
+              className="grid grid-cols-2 items-start gap-2 py-4 sm:grid-cols-3 lg:grid-cols-5"
             >
-              <div className="relative">
-                <Image
-                  src={img.url}
-                  alt={img.caption}
-                  width={400}
-                  height={500}
-                  className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <ZoomIn size={24} className="text-white mb-2 mx-auto" />
-                  <p className="text-white font-semibold text-sm text-center">{img.caption}</p>
-                </div>
-              </div>
+              {visibleImages.map((image, index) => (
+                <motion.div
+                  key={`${activeTab}-${image.src}-${index}`}
+                  variants={{
+                    hidden: { opacity: 0, y: 16 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  onClick={() => openPreview(index)}
+                  className="group relative w-full cursor-pointer overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-all duration-500 hover:shadow-lg"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+                    className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
+          )}
+
+          {hasMoreImages && (
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAll((prev) => !prev)}
+                className="cursor-pointer rounded-full bg-[#D40B0B] px-8 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b50909] hover:shadow-lg"
+              >
+                {showAll ? "Show Less" : "View All Gallery"}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightbox && (
+        {activeImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={() => setLightbox(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+            onClick={closePreview}
           >
             <motion.div
-              initial={{ scale: 0.85, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              className="relative max-w-4xl w-full max-h-[85vh] rounded-2xl overflow-hidden"
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-h-[85vh] w-full max-w-4xl overflow-hidden rounded-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={lightbox.url}
-                alt={lightbox.caption}
+                src={activeImage.src}
+                alt={activeImage.alt}
                 width={1000}
                 height={800}
-                className="w-full h-full object-contain"
+                className="h-full w-full object-contain"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 p-4">
-                <p className="text-white font-semibold text-center">{lightbox.caption}</p>
+                <p className="text-center font-semibold text-white">
+                  {activeImage.alt}
+                </p>
               </div>
+
               <button
-                onClick={() => setLightbox(null)}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center transition-colors"
+                onClick={closePreview}
+                aria-label="Close preview"
+                className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/40"
               >
                 <X size={20} className="text-white" />
               </button>
+
+              {visibleImages.length > 1 && (
+                <>
+                  <button
+                    onClick={showPrev}
+                    aria-label="Previous image"
+                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/40"
+                  >
+                    <ChevronLeft size={22} className="text-white" />
+                  </button>
+                  <button
+                    onClick={showNext}
+                    aria-label="Next image"
+                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/40"
+                  >
+                    <ChevronRight size={22} className="text-white" />
+                  </button>
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}

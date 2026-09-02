@@ -50,29 +50,34 @@ export default function ShopPage() {
   }, [search, products]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white">
-
+    <div className="min-h-screen bg-white">
+      <Navbar />
       {/* Header */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-r from-blue-900 to-red-700 overflow-hidden">
+      <div className="relative pt-20 pb-10 bg-white overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-teal-400/20 rounded-full blur-2xl" />
+          {/* <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-50/20 rounded-full blur-2xl" /> */}
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left sm:text-left">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-              🧲 All Products
-            </span>
-            <h1 className="text-4xl lg:text-6xl font-black text-white mb-4">
-              Shop Our Collection
-            </h1>
-            <p className="text-blue-100 text-lg max-w-xl mx-auto">
-              Transform your memories into premium magnetic photo art.
-            </p>
+
+          <div className="relative z-10 flex w-full shrink-0 flex-col items-center justify-center px-4 py-5 text-center sm:w-[42%] sm:items-start sm:px-4 sm:text-left md:w-[40%] md:px-6 lg:w-[40%] lg:pl-8 lg:pr-4">          <h1 className="mb-2 text-[25px] font-extrabold leading-tight sm:text-[32px] md:text-[40px] lg:text-[52px]">
+            <span className="text-blue-900">Our </span>
+            <span className="text-[#D40B0B]">Collections</span>
+          </h1>
+
+          <div className="mb-3 h-[3px] w-10 rounded-full bg-[#D40B0B] sm:w-14" />
+
+          <p className="max-w-[360px] text-[11px] leading-relaxed text-gray-500 sm:text-[13px] md:text-[15px] lg:text-[18px]">
+            Transform your memories into premium magnetic photo art.
+          </p>
+        </div>
+
+      
           </motion.div>
         </div>
       </div>
@@ -106,7 +111,7 @@ export default function ShopPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-24">
             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Frame size={40} className="text-blue-300" />
+              <Frame size={40} className="text-blue-900" />
             </div>
             <h3 className="text-2xl font-black text-slate-700 mb-2">No Products Found</h3>
             <p className="text-slate-400">Try adjusting your search.</p>
