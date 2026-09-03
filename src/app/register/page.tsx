@@ -1,15 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, MapPin } from "lucide-react";
 
-export default function RegisterPage() {
+// Same cookie check used on the shop page / login page
+function isLoggedIn(): boolean {
+  if (typeof document === "undefined") return false;
+  const match = document.cookie.match(/(?:^|;\s*)token=([^;]*)/);
+  return !!match?.[1];
+}
+
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -32,7 +42,17 @@ export default function RegisterPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
       toast.success("Account created! Welcome to Magnify");
-      router.push("/");
+
+      if (redirect) {
+        // If register auto-logs the user in (token cookie already set), go straight to the product they wanted. Otherwise send them to login, carrying the redirect forward so they land there right after signing in.
+        if (isLoggedIn()) {
+          router.push(redirect);
+        } else {
+          router.push(`/login?redirect=${encodeURIComponent(redirect)}`);
+        }
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Registration failed");
     } finally {
@@ -69,7 +89,7 @@ export default function RegisterPage() {
           y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
         }}
       >
-        <Image src="/images/product-1.png" alt="" fill className="object-cover" />
+        <Image src="/images/product1.png" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-blue-900/20" />
       </motion.div>
 
@@ -131,7 +151,9 @@ export default function RegisterPage() {
 
         <div className="text-center mb-6">
           <h2 className="text-2xl sm:text-3xl font-black text-blue-900 mb-1">Create your account</h2>
-          <p className="text-slate-500 text-sm">Join thousands of happy customers.</p>
+          <p className="text-slate-500 text-sm">
+            {redirect ? "Sign up to continue with your order." : "Join thousands of happy customers."}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -239,11 +261,22 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-slate-500 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-blue-900 hover:text-red-800">
+          <Link
+            href={redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login"}
+            className="font-bold text-blue-900 hover:text-red-800"
+          >
             Sign in
           </Link>
         </p>
       </motion.div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterForm />
+    </Suspense>
   );
 }

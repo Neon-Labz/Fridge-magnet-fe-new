@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Loader2, User, Lock } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
   const [form, setForm] = useState({ username: "", password: "", remember: false });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,7 +29,11 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
       toast.success(`Welcome back, ${data.user.fullName}`);
-      if (data.user.role === "admin") {
+
+      // Priority: explicit redirect param → admin dashboard → home
+      if (redirect) {
+        router.push(redirect);
+      } else if (data.user.role === "admin") {
         router.push("/admin");
       } else {
         router.push("/");
@@ -39,9 +46,7 @@ export default function LoginPage() {
   };
 
   return (
-    // Single flat color for the whole page — blue-900. Everything else floats on top of it.
     <div className="h-screen bg-blue-900 relative flex items-center justify-center overflow-hidden px-6 py-16">
-      {/* Two soft red-800 glows, slowly breathing — the only background motion */}
       <motion.div
         aria-hidden
         className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-red-800/25 blur-3xl"
@@ -55,7 +60,6 @@ export default function LoginPage() {
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
 
-      {/* Floating product-image spheres drifting around the card — hidden on phones, shown from sm/md up */}
       <motion.div
         aria-hidden
         className="hidden sm:block absolute top-[8%] left-[6%] md:left-[10%] w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-blue-800/40 shadow-xl"
@@ -116,7 +120,6 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-blue-900/20" />
       </motion.div>
 
-      {/* The card — white form floating on top of the blue-900 background */}
       <motion.div
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -129,86 +132,98 @@ export default function LoginPage() {
 
         <div className="text-center mb-7">
           <h2 className="text-2xl sm:text-3xl font-black text-blue-900 mb-1">Welcome back</h2>
-          <p className="text-slate-500 text-sm">Sign in to continue to your account.</p>
+          <p className="text-slate-500 text-sm">
+            {redirect
+              ? "Sign in to continue with your order."
+              : "Sign in to continue to your account."}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username */}
-            <div>
-              <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus-within:border-blue-900 focus-within:ring-2 focus-within:ring-blue-900/15 transition-colors">
-                <User size={16} className="text-slate-400 shrink-0" />
-                <input
-                  type="text"
-                  required
-                  value={form.username}
-                  onChange={(e) => setForm({ ...form, username: e.target.value })}
-                  placeholder="User name"
-                  className="w-full bg-transparent focus:outline-none text-sm text-slate-900 placeholder:text-slate-400"
-                />
-              </div>
+          <div>
+            <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus-within:border-blue-900 focus-within:ring-2 focus-within:ring-blue-900/15 transition-colors">
+              <User size={16} className="text-slate-400 shrink-0" />
+              <input
+                type="text"
+                required
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
+                placeholder="User name"
+                className="w-full bg-transparent focus:outline-none text-sm text-slate-900 placeholder:text-slate-400"
+              />
             </div>
+          </div>
 
-            {/* Password with inline Show/Hide */}
-            <div>
-              <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus-within:border-blue-900 focus-within:ring-2 focus-within:ring-blue-900/15 transition-colors">
-                <Lock size={16} className="text-slate-400 shrink-0" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  placeholder="Password"
-                  className="w-full bg-transparent focus:outline-none text-sm text-slate-900 placeholder:text-slate-400"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-slate-400 hover:text-blue-900 shrink-0"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
+          <div>
+            <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus-within:border-blue-900 focus-within:ring-2 focus-within:ring-blue-900/15 transition-colors">
+              <Lock size={16} className="text-slate-400 shrink-0" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="Password"
+                className="w-full bg-transparent focus:outline-none text-sm text-slate-900 placeholder:text-slate-400"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-slate-400 hover:text-blue-900 shrink-0"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
+          </div>
 
-            <div className="flex items-center justify-between text-sm px-1">
-              <label className="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={form.remember}
-                  onChange={(e) => setForm({ ...form, remember: e.target.checked })}
-                  className="w-4 h-4 rounded accent-blue-900"
-                />
-                Remember me
-              </label>
-              <Link href="/forgot-password" className="font-semibold text-red-700 hover:text-blue-900">
-                Forgot password?
-              </Link>
-            </div>
+          <div className="flex items-center justify-between text-sm px-1">
+            <label className="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={form.remember}
+                onChange={(e) => setForm({ ...form, remember: e.target.checked })}
+                className="w-4 h-4 rounded accent-blue-900"
+              />
+              Remember me
+            </label>
+            <Link href="/forgot-password" className="font-semibold text-red-700 hover:text-blue-900">
+              Forgot password?
+            </Link>
+          </div>
 
-            {/* Only gradient element on the page: blue-600 -> blue-900 */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-900 text-white py-3.5 rounded-xl font-black text-sm hover:shadow-lg hover:shadow-blue-900/25 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 size={18} className="animate-spin" /> Signing in...
-                </>
-              ) : (
-                "Sign in"
-              )}
-            </button>
-          </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-900 text-white py-3.5 rounded-xl font-black text-sm hover:shadow-lg hover:shadow-blue-900/25 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" /> Signing in...
+              </>
+            ) : (
+              "Sign in"
+            )}
+          </button>
+        </form>
 
         <p className="text-center text-sm text-slate-500 mt-8">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="font-bold text-blue-900 hover:text-red-700">
+          <Link
+            href={redirect ? `/register?redirect=${encodeURIComponent(redirect)}` : "/register"}
+            className="font-bold text-blue-900 hover:text-red-700"
+          >
             Sign up
           </Link>
         </p>
       </motion.div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
