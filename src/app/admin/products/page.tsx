@@ -46,10 +46,22 @@ export default function AdminProductsPage() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
   const fetchProducts = () => {
-    fetch("/api/products")
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/products`)
       .then((r) => r.json())
       .then((d) => {
-        setProducts(d.products || []);
+        const raw = d?.data?.products || [];
+        setProducts(raw.map((p: any) => ({
+          id: p._id,
+          productId: p.productId,
+          productName: p.productName,
+          description: p.description,
+          imageCount: p.imagecount,
+          stock: p.stock,
+          price: String(p.price),
+          galleryImages: (p.galleryImages || []).map((img: any) => img.secure_url),
+          isActive: p.status !== 'Out of Stock',
+          createdAt: p.createdAt,
+        })));
         setLoading(false);
       })
       .catch(() => setLoading(false));

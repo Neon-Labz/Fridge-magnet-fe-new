@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
   Upload,
@@ -22,25 +20,11 @@ import {
   Truck,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { productApi } from "@/app/api/product.api";
+import { CartItem, Product } from "@/lib/data";
 
-interface Product {
-  id: string;
-  productId: string;
-  productName: string;
-  description: string | null;
-  imageCount: number;
-  stock: number;
-  price: string;
-  galleryImages: string[];
-}
 
-export interface CartItem {
-  productId: string;
-  productName: string;
-  price: string;
-  imageCount: number;
-  uploadedImageUrls: string[];
-}
+
 
 export default function ProductDetailPage({
   params,
@@ -54,23 +38,30 @@ export default function ProductDetailPage({
   const [uploading, setUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return JSON.parse(sessionStorage.getItem("cart") || "[]").length;
+  });
 
   useEffect(() => {
-    fetch(`/api/products/${id}`)
-      .then((r) => r.json())
-      .then((d) => { setProduct(d.product); setLoading(false); })
-      .catch(() => setLoading(false));
-
-    const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    setCartCount(cart.length);
+    const fetchProduct = async () => {
+      try {
+        const res = await productApi.getProductById(id);
+        setProduct(res);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
   }, [id]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "image/*": [] },
-    maxFiles: product?.imageCount || 10,
+    maxFiles: product?.imagecount || 10,
     onDrop: (acceptedFiles) => {
-      const maxCount = product?.imageCount || 10;
+      const maxCount = product?.imagecount || 10;
       const remaining = maxCount - uploadedFiles.length;
       const toAdd = acceptedFiles.slice(0, remaining);
       if (acceptedFiles.length > remaining) {
@@ -91,26 +82,40 @@ export default function ProductDetailPage({
       toast.error("Please upload at least one photo");
       return;
     }
-    if (uploadedFiles.length < product.imageCount) {
-      toast.error(`Please upload exactly ${product.imageCount} photos`);
+    if (uploadedFiles.length < product.imagecount) {
+      toast.error(`Please upload exactly ${product.imagecount} photos`);
       return;
     }
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      uploadedFiles.forEach((f) => formData.append("files", f));
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Upload failed");
-      const data = await res.json();
+      const compressImage = (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+          const img = new window.Image();
+          const url = URL.createObjectURL(file);
+          img.onload = () => {
+            const MAX = 800;
+            const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(url);
+            resolve(canvas.toDataURL("image/jpeg", 0.7));
+          };
+          img.onerror = reject;
+          img.src = url;
+        });
+
+      const imageDataUrls = await Promise.all(uploadedFiles.map(compressImage));
 
       const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
       cart.push({
-        productId: product.id,
+        productId: product._id,
         productName: product.productName,
         price: product.price,
-        imageCount: product.imageCount,
-        uploadedImageUrls: data.urls,
+        imageCount: product.imagecount,
+        uploadedImageUrls: imageDataUrls,
       });
       sessionStorage.setItem("cart", JSON.stringify(cart));
       setCartCount(cart.length);
@@ -139,8 +144,9 @@ export default function ProductDetailPage({
         ),
         { duration: 6000 }
       );
-    } catch {
-      toast.error("Failed to upload images. Please try again.");
+    } catch (err) {
+      console.error("Cart error:", err);
+      toast.error("Failed to process images. Try using smaller photos.");
     } finally {
       setUploading(false);
     }
@@ -177,7 +183,7 @@ export default function ProductDetailPage({
     );
   }
 
-  const maxImages = product.imageCount;
+  const maxImages = product.imagecount;
   const uploadProgress = Math.round((uploadedFiles.length / maxImages) * 100);
 
   return (
@@ -221,7 +227,7 @@ export default function ProductDetailPage({
             <div className="relative h-80 lg:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-teal-50 shadow-xl shadow-blue-100/50">
               {product.galleryImages && product.galleryImages.length > 0 ? (
                 <Image
-                  src={product.galleryImages[selectedImage]}
+                  src={product.galleryImages[selectedImage].secure_url}
                   alt={product.productName}
                   fill
                   className="object-cover transition-all duration-500"
@@ -258,7 +264,7 @@ export default function ProductDetailPage({
                         : "border-slate-200 hover:border-blue-300 opacity-70 hover:opacity-100"
                     }`}
                   >
-                    <Image src={img} alt={`View ${i + 1}`} fill className="object-cover" />
+                    <Image src={img.secure_url} alt={`View ${i + 1}`} fill className="object-cover" />
                   </button>
                 ))}
               </div>
@@ -299,12 +305,12 @@ export default function ProductDetailPage({
               <div className="flex items-end justify-between pt-3 border-t border-slate-100">
                 <div className="flex gap-3">
                   <div className="bg-blue-50 rounded-2xl px-4 py-2.5 text-center">
-                    <p className="text-xl font-black text-red-500">{product.imageCount}</p>
+                    <p className="text-xl font-black text-red-500">{product.imagecount}</p>
                     <p className="text-xs text-blue-500 font-medium">Photos</p>
                   </div>
                   <div className="bg-teal-50 rounded-2xl px-4 py-2.5 text-center">
-                    <p className="text-xl font-black text-teal-700">{product.stock}</p>
-                    <p className="text-xs text-red-600 font-medium">In Stock</p>
+                    <p className="text-xl font-black text-red-500">{product.stock}</p>
+                    <p className="text-xs text-blue-500 font-medium">In Stock</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -386,7 +392,7 @@ export default function ProductDetailPage({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={uploading || product.stock === 0}
-                className="mt-5 w-full bg-gradient-to-r from-red-600 to-blue-500 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+                className="mt-5 w-full bg-blue-900 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
               >
                 {uploading ? (
                   <>

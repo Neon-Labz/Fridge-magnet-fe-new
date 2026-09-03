@@ -18,7 +18,7 @@ import {
   ImageIcon,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
-import type { CartItem } from "@/app/shop/[id]/page";
+import type { CartItem } from "@/lib/data";
 
 export default function CheckoutPage() {
   const router = useRouter();

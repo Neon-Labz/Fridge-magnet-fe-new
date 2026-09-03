@@ -30,3 +30,4 @@ export function formatDate(date: Date | string): string {
     day: "numeric",
   }).format(new Date(date));
 }
+

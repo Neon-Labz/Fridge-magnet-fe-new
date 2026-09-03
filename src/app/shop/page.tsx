@@ -9,17 +9,8 @@ import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { Frame, Search, SlidersHorizontal } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
-
-interface Product {
-  id: string;
-  productId: string;
-  productName: string;
-  description: string | null;
-  imageCount: number;
-  stock: number;
-  price: string;
-  galleryImages: string[];
-}
+import { productApi } from "@/app/api/product.api";
+import { Product } from "@/lib/data";
 
 export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -28,14 +19,13 @@ export default function ShopPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("/api/products")
-      .then((r) => r.json())
-      .then((d) => {
-        setProducts(d.products || []);
-        setFiltered(d.products || []);
-        setLoading(false);
+    productApi.getAllProducts()
+      .then((data) => {
+        setProducts(data);
+        setFiltered(data);
       })
-      .catch(() => setLoading(false));
+      .catch((e) => console.error("Failed to fetch products:", e))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -125,14 +115,14 @@ export default function ShopPage() {
           >
             {filtered.map((product) => (
               <motion.div
-                key={product.id}
+                key={product._id}
                 variants={fadeUp}
                 className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
               >
                 <div className="relative h-56 bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
-                  {product.galleryImages && product.galleryImages.length > 0 ? (
+                  {product.primaryImage ? (
                     <Image
-                      src={product.galleryImages[0]}
+                      src={product.primaryImage.secure_url}
                       alt={product.productName}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -143,7 +133,7 @@ export default function ShopPage() {
                     </div>
                   )}
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-500">
-                    {product.imageCount} photos
+                    {product.imagecount} photos
                   </div>
                   {product.stock <= 5 && product.stock > 0 && (
                     <div className="absolute top-3 right-3 bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-bold">
@@ -176,11 +166,11 @@ export default function ShopPage() {
                       <p className="text-xs text-slate-400">{product.stock} in stock</p>
                     </div>
                     <Link
-                      href={`/shop/${product.id}`}
+                      href={`/shop/${product._id}`}
                       className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                         product.stock === 0
                           ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                          : "bg-gradient-to-r from-blue-900 to-red-600 text-white hover:shadow-lg hover:shadow-cyan-200"
+                          : "bg-blue-900 text-white hover:shadow-lg hover:shadow-cyan-200"
                       }`}
                     >
                       {product.stock === 0 ? "Sold Out" : "Order Now"}
