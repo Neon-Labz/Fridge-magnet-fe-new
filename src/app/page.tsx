@@ -1,19 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
   ArrowRight,
   Magnet,
-  Frame,
-  Sparkles,
-  ShieldCheck,
+ 
   Truck,
   ImagePlus,
   UploadCloud,
@@ -24,8 +21,7 @@ import {
   Package,
   Heart,
   Image as ImageIcon,
-}
- from "lucide-react";
+} from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import {
   features,
@@ -36,20 +32,11 @@ import {
   TrustItem,
   trustItems,
 } from "@/lib/data";
+import ProductsSection from "@/components/Products";
+import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { Eyebrow } from "@/components/ui/Eyebro";
 
-interface Product {
-  id: string;
-  productId: string;
-  productName: string;
-  description: string | null;
-  imageCount: number;
-  stock: number;
-  price: string;
-  galleryImages: string[];
-}
 
-/* Shared page container — same max-width + left/right padding on every
-   section so spacing stays equal and responsive across the whole page. */
 const CONTAINER = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
 
 /* ===================== New Pricing section types/data ===================== */
@@ -83,7 +70,8 @@ const priceCards: PriceCard[] = [
     title: "Photo Magnets",
     price: "Rs. 1,500",
     details: ["Minimum 4 pieces", "Square magnetic tiles"],
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v-cutout.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v-cutout.png",
     imageAlt: "Printed photo magnet tiles stacked together",
     tone: "cream",
     icon: "photos",
@@ -92,9 +80,11 @@ const priceCards: PriceCard[] = [
     title: "Magnet Frame Set",
     price: "Rs. 2,500",
     details: ["Black or white frame", "Holds 4 tiles"],
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v2-cutout.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v2-cutout.png",
     imageAlt: "Black magnet frame set holding printed photo tiles",
-    secondaryImage: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/white-frame-product.png",
+    secondaryImage:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/white-frame-product.png",
     secondaryImageAlt: "White magnet frame set behind the black frame set",
     tone: "blue",
     popular: true,
@@ -135,49 +125,52 @@ const featureCards: FeatureCard[] = [
   },
 ];
 
-/* Occasion + trust bar data for the new pricing section — renamed so it
-   doesn't clash with the `occasionCards` / `trustItems` already imported
-   from @/lib/data above. */
 const pricingOccasionCards: OccasionCard[] = [
   {
     icon: "rings",
     title: "Weddings",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-weddings.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-weddings.png",
     imageAlt: "Wedding couple photo printed for a special keepsake",
     position: "object-center",
   },
   {
     icon: "graduation",
     title: "Graduations",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-graduations.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-graduations.png",
     imageAlt: "Graduation memory displayed on a photo magnet",
     position: "object-[52%_46%]",
   },
   {
     icon: "cake",
     title: "Birthdays",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-birthdays.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-birthdays.png",
     imageAlt: "Birthday memory printed on colorful photo magnets",
     position: "object-[58%_62%]",
   },
   {
     icon: "family",
     title: "Families",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-families.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-families.png",
     imageAlt: "Family memories arranged in a magnetic frame",
     position: "object-center",
   },
   {
     icon: "heart",
     title: "Couples",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-couples.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-couples.png",
     imageAlt: "Couple photo memory presented in a magnet frame",
     position: "object-[52%_52%]",
   },
   {
     icon: "building",
     title: "Corporate",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-corporate.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-corporate.png",
     imageAlt: "Corporate portrait used for a professional memory gift",
     position: "object-center",
   },
@@ -205,16 +198,6 @@ const pricingTrustItems: TrustItem[] = [
     description: "Thousands of happy customers trust Magnify.",
   },
 ];
-
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-3 flex items-center gap-3 font-inter text-[10px] font-extrabold uppercase tracking-[1.8px] text-[#D80000]">
-      <span className="h-px w-8 bg-[#EF3A3A]" />
-      <span>{children}</span>
-      <span className="h-px w-8 bg-[#EF3A3A]" />
-    </div>
-  );
-}
 
 function ProductTopIcon({ type }: { type: PriceCard["icon"] }) {
   return (
@@ -262,7 +245,13 @@ function OccasionImageCard({ title, image, imageAlt, position }: OccasionCard) {
   );
 }
 
-function FigmaIcon({ name, className = "h-8 w-8" }: { name: IconName; className?: string }) {
+function FigmaIcon({
+  name,
+  className = "h-8 w-8",
+}: {
+  name: IconName;
+  className?: string;
+}) {
   const stroke = "#002B73";
   const red = "#EF3A3A";
   const yellow = "#F6B544";
@@ -284,9 +273,28 @@ function FigmaIcon({ name, className = "h-8 w-8" }: { name: IconName; className?
       {name === "printer" && (
         <>
           <path d="M13 15V8h14v7" fill="none" stroke={stroke} strokeWidth="2" />
-          <rect x="10" y="16" width="20" height="12" rx="2" fill="none" stroke={stroke} strokeWidth="2" />
-          <path d="M14 24h12v8H14z" fill="none" stroke={stroke} strokeWidth="2" />
-          <path d="M15 12h10M27 20h1" stroke={red} strokeWidth="2" strokeLinecap="round" />
+          <rect
+            x="10"
+            y="16"
+            width="20"
+            height="12"
+            rx="2"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="M14 24h12v8H14z"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="M15 12h10M27 20h1"
+            stroke={red}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </>
       )}
 
@@ -318,30 +326,84 @@ function FigmaIcon({ name, className = "h-8 w-8" }: { name: IconName; className?
 
       {name === "shield" && (
         <>
-          <path d="M20 6 30 10v8c0 7-4.2 12-10 15-5.8-3-10-8-10-15v-8L20 6Z" fill="none" stroke={stroke} strokeWidth="2" />
-          <path d="m15 19 3 3 7-7" fill="none" stroke={red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M20 6 30 10v8c0 7-4.2 12-10 15-5.8-3-10-8-10-15v-8L20 6Z"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="m15 19 3 3 7-7"
+            fill="none"
+            stroke={red}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </>
       )}
 
       {name === "truck" && (
         <>
-          <path d="M8 14h17v12H8zM25 18h5l4 4v4h-9z" fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
-          <path d="M13 29a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM29 29a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="white" stroke={stroke} strokeWidth="2" />
-          <path d="M4 15h6M2 19h8M5 23h5" stroke={red} strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M8 14h17v12H8zM25 18h5l4 4v4h-9z"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M13 29a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM29 29a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+            fill="white"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="M4 15h6M2 19h8M5 23h5"
+            stroke={red}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </>
       )}
 
       {name === "box" && (
         <>
-          <path d="m20 7 12 6-12 6-12-6 12-6Z" fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
-          <path d="M8 13v14l12 6 12-6V13M20 19v14M14 10l12 6" fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
+          <path
+            d="m20 7 12 6-12 6-12-6 12-6Z"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M8 13v14l12 6 12-6V13M20 19v14M14 10l12 6"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
         </>
       )}
 
       {name === "rings" && (
         <>
-          <circle cx="17" cy="24" r="5.8" fill="none" stroke={stroke} strokeWidth="2" />
-          <circle cx="23" cy="24" r="5.8" fill="none" stroke={stroke} strokeWidth="2" />
+          <circle
+            cx="17"
+            cy="24"
+            r="5.8"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <circle
+            cx="23"
+            cy="24"
+            r="5.8"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
           <path
             d="m20 9 2.8 3H17.2L20 9Z"
             fill={yellow}
@@ -361,17 +423,46 @@ function FigmaIcon({ name, className = "h-8 w-8" }: { name: IconName; className?
       {name === "graduation" && (
         <>
           <path d="m20 10 15 7-15 7-15-7 15-7Z" fill={stroke} />
-          <path d="M12 21v5c4 3 12 3 16 0v-5" fill="none" stroke={stroke} strokeWidth="2" />
-          <path d="M31 18v7" stroke={red} strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M12 21v5c4 3 12 3 16 0v-5"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="M31 18v7"
+            stroke={red}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </>
       )}
 
       {name === "cake" && (
         <>
-          <path d="M11 18h18v14H11zM9 24h22" fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
-          <path d="M15 18v-5M20 18v-5M25 18v-5" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-          <path d="M15 10c2-2 2-3 0-5-2 2-2 3 0 5ZM20 10c2-2 2-3 0-5-2 2-2 3 0 5ZM25 10c2-2 2-3 0-5-2 2-2 3 0 5Z" fill={yellow} />
-          <path d="M11 27c4 3 6-3 9 0s5-3 9 0" fill="none" stroke={red} strokeWidth="1.6" />
+          <path
+            d="M11 18h18v14H11zM9 24h22"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M15 18v-5M20 18v-5M25 18v-5"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M15 10c2-2 2-3 0-5-2 2-2 3 0 5ZM20 10c2-2 2-3 0-5-2 2-2 3 0 5ZM25 10c2-2 2-3 0-5-2 2-2 3 0 5Z"
+            fill={yellow}
+          />
+          <path
+            d="M11 27c4 3 6-3 9 0s5-3 9 0"
+            fill="none"
+            stroke={red}
+            strokeWidth="1.6"
+          />
         </>
       )}
 
@@ -422,24 +513,73 @@ function FigmaIcon({ name, className = "h-8 w-8" }: { name: IconName; className?
 
       {name === "support" && (
         <>
-          <path d="M10 22v-3a10 10 0 0 1 20 0v3" fill="none" stroke={stroke} strokeWidth="2" />
-          <path d="M10 21h5v8h-5zM25 21h5v8h-5z" fill="none" stroke={red} strokeWidth="2" />
-          <path d="M25 31h-4" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M10 22v-3a10 10 0 0 1 20 0v3"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <path
+            d="M10 21h5v8h-5zM25 21h5v8h-5z"
+            fill="none"
+            stroke={red}
+            strokeWidth="2"
+          />
+          <path
+            d="M25 31h-4"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </>
       )}
 
       {name === "cash" && (
         <>
-          <rect x="7" y="12" width="26" height="17" rx="2" fill="none" stroke={stroke} strokeWidth="2" />
-          <circle cx="20" cy="20.5" r="4" fill="none" stroke={red} strokeWidth="2" />
-          <path d="M11 17h3M26 24h3" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
+          <rect
+            x="7"
+            y="12"
+            width="26"
+            height="17"
+            rx="2"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+          />
+          <circle
+            cx="20"
+            cy="20.5"
+            r="4"
+            fill="none"
+            stroke={red}
+            strokeWidth="2"
+          />
+          <path
+            d="M11 17h3M26 24h3"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </>
       )}
 
       {name === "trusted" && (
         <>
-          <path d="m20 6 4 5 6 .5-1.5 6 3.5 5-5.5 3-2 5.5-4.5-3.5-4.5 3.5-2-5.5-5.5-3 3.5-5-1.5-6 6-.5 4-5Z" fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
-          <path d="m16 20 3 3 6-7" fill="none" stroke={red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="m20 6 4 5 6 .5-1.5 6 3.5 5-5.5 3-2 5.5-4.5-3.5-4.5 3.5-2-5.5-5.5-3 3.5-5-1.5-6 6-.5 4-5Z"
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="m16 20 3 3 6-7"
+            fill="none"
+            stroke={red}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </>
       )}
     </svg>
@@ -596,27 +736,6 @@ function FeatureQualityCard({ icon, title, description }: FeatureCard) {
   );
 }
 
-function AnimatedSection({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  return (
-    <motion.div
-      ref={ref}
-      variants={staggerContainer}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 const carouselImages = [
   "https://images.pexels.com/photos/10821416/pexels-photo-10821416.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
@@ -655,18 +774,10 @@ const howItWorksSteps = [
 ];
 
 export default function HomePage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 3500, stopOnInteraction: false }),
-  );
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    autoplayPlugin.current,
-  ]);
+  const autoplayPlugin = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
+  const testimonialAutoplayPlugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
-  const testimonialAutoplayPlugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false }),
-  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplayPlugin.current]);
   const [testimonialRef, testimonialApi] = useEmblaCarousel(
     { loop: true, align: "start" },
     [testimonialAutoplayPlugin.current],
@@ -683,23 +794,10 @@ export default function HomePage() {
     [testimonialApi],
   );
 
-  useEffect(() => {
-    fetch("/api/products")
-      .then((r) => r.json())
-      .then((d) => {
-        setProducts(d.products || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const displayProducts = products.slice(0, 4);
-
   return (
     <div className="min-h-screen pt-10">
       {/* ================= Hero Section — bg 1: white ================= */}
       <section className="relative overflow-hidden flex items-center bg-white">
-
         {/* RIGHT SIDE IMAGE ONLY */}
         <div className="absolute inset-y-0 right-0 w-[58%]">
           <Image
@@ -718,14 +816,12 @@ export default function HomePage() {
         {/* LEFT SIDE WHITE CONTENT */}
         <div className="relative z-10 w-full">
           <div className={`${CONTAINER} pt-20 pb-16`}>
-
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="w-full lg:w-[48%] max-w-3xl"
             >
-
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -737,8 +833,8 @@ export default function HomePage() {
 
               <h1 className="text-5xl lg:text-6xl font-bold text-blue-900 mb-6 leading-tight">
                 Personalized Fridge{" "}
-                <span className="text-[#D64532]">Magnets</span>{" "}
-                You&apos;ll Love.
+                <span className="text-[#D64532]">Magnets</span> You&apos;ll
+                Love.
               </h1>
 
               <p className="text-base lg:text-lg text-slate-600 leading-relaxed mb-8 max-w-xl">
@@ -764,7 +860,6 @@ export default function HomePage() {
               <div className="mt-7 h-px w-full max-w-[420px] bg-[#E2E2E7]" />
 
               <div className="mt-6 grid grid-cols-2 gap-10 max-w-[430px]">
-
                 {/* Strong */}
                 <div className="flex items-center gap-4">
                   <div className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-[#F0F2F8] text-blue-900">
@@ -792,14 +887,10 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-
               </div>
-
             </motion.div>
-
           </div>
         </div>
-
       </section>
 
       {/* ================= Video section — bg 2: #F9F9FE ================= */}
@@ -839,105 +930,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= Products Section — bg 3: white ================= */}
-      <section className="py-20 bg-white">
-        <div className={CONTAINER}>
-          <AnimatedSection>
-            <motion.div variants={fadeUp} className="text-center mb-12">
-              <div className="flex justify-center">
-              <Eyebrow>Our Collection</Eyebrow>
-            </div>
-              <h2 className="text-4xl lg:text-5xl font-black text-blue-900 mt-2 mb-4">
-                Curated Classic
-              </h2>
-              <p className="text-slate-500 max-w-xl mx-auto">
-                Choose from our curated selection of premium magnetic photo
-                products.
-              </p>
-            </motion.div>
-
-            {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="bg-slate-100 rounded-3xl h-80 animate-pulse"
-                  />
-                ))}
-              </div>
-            ) : displayProducts.length === 0 ? (
-              <motion.div variants={fadeUp} className="text-center py-16">
-                <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Magnet size={32} className="text-blue-900" />
-                </div>
-                <p className="text-slate-500">
-                  No products yet. Check back soon!
-                </p>
-              </motion.div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {displayProducts.map((product) => (
-                  <motion.div
-                    key={product.id}
-                    variants={fadeUp}
-                    className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
-                  >
-                    <div className="relative h-52 bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
-                      {product.galleryImages &&
-                      product.galleryImages.length > 0 ? (
-                        <Image
-                          src={product.galleryImages[0]}
-                          alt={product.productName}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center h-full">
-                          <Frame size={48} className="text-blue-300" />
-                        </div>
-                      )}
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-500">
-                        {product.imageCount} photos
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <h3 className="font-bold text-blue-900 mb-1 text-base">
-                        {product.productName}
-                      </h3>
-                      <p className="text-slate-500 text-xs mb-4 line-clamp-2">
-                        {product.description
-                          ? product.description.replace(/<[^>]+>/g, "")
-                          : "Premium magnetic photo tile"}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-black text-blue-600">
-                          {formatPrice(product.price)}
-                        </span>
-                        <Link
-                          href={`/shop/${product.id}`}
-                          className="bg-gradient-to-r from-blue-900 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
-                        >
-                          Order
-                        </Link>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {products.length > 0 && (
-              <motion.div variants={fadeUp} className="text-center mt-10">
-                <Link
-                  href="/shop"
-                  className="inline-flex items-center gap-2 bg-white border-2 border-blue-900 text-blue-600 px-8 py-4 rounded-2xl font-bold hover:bg-[#F9F9FE] hover:border-blue-900 transition-all hover:-translate-y-0.5"
-                >
-                  Show More Products <ArrowRight size={18} />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatedSection>
-        </div>
-      </section>
+      <ProductsSection />
 
       {/* ================= How it works — bg 4: #F9F9FE ================= */}
       <section className="py-24 bg-[#F9F9FE] overflow-hidden">
@@ -945,8 +938,8 @@ export default function HomePage() {
           <AnimatedSection>
             <motion.div variants={fadeUp} className="text-center mb-16">
               <div className="flex justify-center">
-              <Eyebrow>How It Works</Eyebrow>
-            </div>
+                <Eyebrow>How It Works</Eyebrow>
+              </div>
               <h2 className="text-4xl lg:text-5xl font-black text-blue-900 mt-2 mb-4">
                 In 3 Simple Steps
               </h2>
@@ -984,9 +977,13 @@ export default function HomePage() {
                     <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-blue-900 to-blue-900 shadow-md ring-4 ring-white" />
 
                     {/* oversized ghost numeral */}
-                    
+
                     <div className="relative w-16 h-16 mx-auto mb-5 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100">
-                      <item.Icon size={28} className="text-blue-900" strokeWidth={2} />
+                      <item.Icon
+                        size={28}
+                        className="text-blue-900"
+                        strokeWidth={2}
+                      />
                     </div>
 
                     <h3 className="relative text-lg font-black text-blue-900 mb-2">
@@ -1077,12 +1074,14 @@ export default function HomePage() {
 
             <div className="relative mt-6 w-full overflow-hidden pb-4">
               <div className="occasion-scroll-track flex w-max flex-nowrap gap-5 will-change-transform">
-                {[...pricingOccasionCards, ...pricingOccasionCards].map((card, index) => (
-                  <OccasionImageCard
-                    key={`${card.title}-${index}`}
-                    {...card}
-                  />
-                ))}
+                {[...pricingOccasionCards, ...pricingOccasionCards].map(
+                  (card, index) => (
+                    <OccasionImageCard
+                      key={`${card.title}-${index}`}
+                      {...card}
+                    />
+                  ),
+                )}
               </div>
             </div>
 
@@ -1101,8 +1100,8 @@ export default function HomePage() {
           <AnimatedSection>
             <motion.div variants={fadeUp} className="text-center mb-12">
               <div className="flex justify-center">
-              <Eyebrow>Reviews</Eyebrow>
-            </div>
+                <Eyebrow>Reviews</Eyebrow>
+              </div>
               <h2 className="text-4xl lg:text-5xl font-black text-blue-900 mt-2 mb-4">
                 What Customers Say
               </h2>
