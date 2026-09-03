@@ -236,4 +236,24 @@ export const occasionCards: OccasionCard[] = [
     position: "object-center",
   },
 ];
+export interface Product {
+  _id: string;
+  productId: string;
+  productName: string;
+  description: string | null;
+  imagecount: number;
+  stock: number;
+  price: number;
+  primaryImage: { secure_url: string; public_id: string };
+  galleryImages: { secure_url: string; public_id: string; _id: string }[];
+  status: string;
+}
+
+export interface CartItem {
+  productId: string;
+  productName: string;
+  price: number;
+  imageCount: number;
+  uploadedImageUrls: string[];
+}
 

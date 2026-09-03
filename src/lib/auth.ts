@@ -1,4 +1,4 @@
-import dbConnect from "@/db";
+// import dbConnect from @/db";
 import { User } from "@/db/schema";
 import bcrypt from "bcryptjs";
 
@@ -11,7 +11,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 }
 
 export async function getUserByEmail(email: string) {
-  await dbConnect();
+  // await dbConnect();
   return User.findOne({ email }).lean();
 }
 
