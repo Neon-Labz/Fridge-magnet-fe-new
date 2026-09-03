@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -12,7 +12,15 @@ import { formatPrice } from "@/lib/utils";
 import { productApi } from "@/app/api/product.api";
 import { Product } from "@/lib/data";
 
+// Reads the auth token cookie the same way the axios interceptor does
+function isLoggedIn(): boolean {
+  if (typeof document === "undefined") return false;
+  const match = document.cookie.match(/(?:^|;\s*)token=([^;]*)/);
+  return !!match?.[1];
+}
+
 export default function ShopPage() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [filtered, setFiltered] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +47,15 @@ export default function ShopPage() {
     );
   }, [search, products]);
 
+  const handleOrderNow = (productId: string) => {
+    const productPath = `/shop/${productId}`;
+    if (isLoggedIn()) {
+      router.push(productPath);
+    } else {
+      router.push(`/login?redirect=${encodeURIComponent(productPath)}`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -46,7 +63,6 @@ export default function ShopPage() {
       <div className="relative pt-20 pb-10 bg-white overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          {/* <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-50/20 rounded-full blur-2xl" /> */}
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left sm:text-left">
           <motion.div
@@ -54,20 +70,16 @@ export default function ShopPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-
-          <div className="relative z-10 flex w-full shrink-0 flex-col items-center justify-center px-4 py-5 text-center sm:w-[42%] sm:items-start sm:px-4 sm:text-left md:w-[40%] md:px-6 lg:w-[40%] lg:pl-8 lg:pr-4">          <h1 className="mb-2 text-[25px] font-extrabold leading-tight sm:text-[32px] md:text-[40px] lg:text-[52px]">
-            <span className="text-blue-900">Our </span>
-            <span className="text-[#D40B0B]">Collections</span>
-          </h1>
-
-          <div className="mb-3 h-[3px] w-10 rounded-full bg-[#D40B0B] sm:w-14" />
-
-          <p className="max-w-[360px] text-[11px] leading-relaxed text-gray-500 sm:text-[13px] md:text-[15px] lg:text-[18px]">
-            Transform your memories into premium magnetic photo art.
-          </p>
-        </div>
-
-      
+            <div className="relative z-10 flex w-full shrink-0 flex-col items-center justify-center px-4 py-5 text-center sm:w-[42%] sm:items-start sm:px-4 sm:text-left md:w-[40%] md:px-6 lg:w-[40%] lg:pl-8 lg:pr-4">
+              <h1 className="mb-2 text-[25px] font-extrabold leading-tight sm:text-[32px] md:text-[40px] lg:text-[52px]">
+                <span className="text-blue-900">Our </span>
+                <span className="text-[#D40B0B]">Collections</span>
+              </h1>
+              <div className="mb-3 h-[3px] w-10 rounded-full bg-[#D40B0B] sm:w-14" />
+              <p className="max-w-[360px] text-[11px] leading-relaxed text-gray-500 sm:text-[13px] md:text-[15px] lg:text-[18px]">
+                Transform your memories into premium magnetic photo art.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -82,7 +94,7 @@ export default function ShopPage() {
               placeholder="Search products..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 shadow-sm"
+              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 shadow-sm"
             />
           </div>
           <div className="flex items-center gap-2 text-slate-500 text-sm">
@@ -129,14 +141,14 @@ export default function ShopPage() {
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <Frame size={48} className="text-cyan-200" />
+                      <Frame size={48} className="text-blue-50" />
                     </div>
                   )}
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-500">
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-red-600">
                     {product.imagecount} photos
                   </div>
                   {product.stock <= 5 && product.stock > 0 && (
-                    <div className="absolute top-3 right-3 bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-bold">
+                    <div className="absolute top-3 right-3 bg-orange-100 text-red-600 px-2 py-1 rounded-full text-xs font-bold">
                       Low stock
                     </div>
                   )}
@@ -160,21 +172,23 @@ export default function ShopPage() {
                   </p>
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xl font-black text-blue-600">
+                      <span className="text-xl font-black text-blue-900">
                         {formatPrice(product.price)}
                       </span>
                       <p className="text-xs text-slate-400">{product.stock} in stock</p>
                     </div>
-                    <Link
-                      href={`/shop/${product._id}`}
+                    <button
+                      type="button"
+                      onClick={() => handleOrderNow(product._id)}
+                      disabled={product.stock === 0}
                       className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                         product.stock === 0
                           ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                          : "bg-blue-900 text-white hover:shadow-lg hover:shadow-cyan-200"
+                          : "bg-red-600 text-white hover:shadow-lg hover:shadow-blue-50"
                       }`}
                     >
-                      {product.stock === 0 ? "Sold Out" : "Order Now"}
-                    </Link>
+                      {product.stock === 0 ? "Sold Out" : "Order"}
+                    </button>
                   </div>
                 </div>
               </motion.div>

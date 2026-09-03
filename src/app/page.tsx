@@ -845,13 +845,13 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-900 text-white px-8 py-4 rounded-2xl font-bold text-base hover:shadow-xl hover:shadow-cyan-200 transition-all hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-900 text-white px-8 py-4 rounded-2xl font-bold text-base hover:shadow-xl hover:shadow-blue-50 transition-all hover:-translate-y-1"
                 >
                   Shop Now <ArrowRight size={18} />
                 </Link>
                 <Link
                   href="/gallery"
-                  className="inline-flex items-center gap-2 bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold text-base hover:bg-[#F9F9FE] hover:border-blue-300 hover:shadow-lg transition-all hover:-translate-y-1"
+                  className="inline-flex items-center gap-2 bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold text-base hover:bg-[#F9F9FE] hover:border-blue-900 hover:shadow-lg transition-all hover:-translate-y-1"
                 >
                   View Gallery
                 </Link>
