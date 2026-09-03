@@ -187,7 +187,7 @@ export default function ShopPage() {
                           : "bg-red-600 text-white hover:shadow-lg hover:shadow-blue-50"
                       }`}
                     >
-                      {product.stock === 0 ? "Sold Out" : "Order Now"}
+                      {product.stock === 0 ? "Sold Out" : "Order"}
                     </button>
                   </div>
                 </div>
