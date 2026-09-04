@@ -73,34 +73,29 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
     try {
-      const orderIds: string[] = [];
-
-      for (const item of cart) {
-        const { data } = await api.post("/orders", {
-          orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-          customerName: form.customerName,
-          email: form.customerEmail,
-          phone: form.customerPhone,
-          shippingAddress: form.address,
-          qty: item.imageCount,
-          totalValue: Number(item.price),
-          items: [
-            {
-              productId: item.productId,
-              name: item.productName,
-              price: Number(item.price),
-              quantity: item.imageCount,
-            },
-          ],
+      const { data } = await api.post("/orders", {
+        orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        customerName: form.customerName,
+        email: form.customerEmail,
+        phone: form.customerPhone,
+        shippingAddress: form.address,
+        notes: form.notes,
+        totalValue: totalPrice,
+        items: cart.map((item) => ({
+          productId: item.productId,
+          name: item.productName,
+          price: Number(item.price),
+          quantity: 1,
+          primaryImage: item.primaryImage?.secure_url || "",
           uploadedImages: item.uploadedImageUrls,
-          paymentMethod,
-        });
-        orderIds.push(data.orderId);
-      }
+        })),
+        qty: cart.length,
+        paymentMethod,
+      });
 
       sessionStorage.removeItem("cart");
-      toast.success(`${orderIds.length} order${orderIds.length > 1 ? "s" : ""} placed successfully! 🎉`);
-      router.push(`/order-success?orderId=${orderIds[0]}`);
+      toast.success("Order placed successfully! 🎉");
+      router.push(`/order-success?orderId=${data.orderId}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to place order");
     } finally {
@@ -148,19 +143,14 @@ export default function CheckoutPage() {
             {cart.map((item, index) => (
               <div key={index} className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm">
                 <div className="flex items-start gap-4">
-                  {/* Uploaded photos preview */}
                   <div className="flex-shrink-0">
-                    {item.uploadedImageUrls.length > 0 ? (
-                      <div className="grid grid-cols-2 gap-1 w-20">
-                        {item.uploadedImageUrls.slice(0, 4).map((url, i) => (
-                          <div key={i} className="relative h-9 rounded-lg overflow-hidden bg-slate-100">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={url} alt="" className="w-full h-full object-cover" />
-                          </div>
-                        ))}
+                    {item.primaryImage?.secure_url ? (
+                      <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={item.primaryImage.secure_url} alt={item.productName} className="w-full h-full object-cover" />
                       </div>
                     ) : (
-                      <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center">
+                      <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center">
                         <ImageIcon size={20} className="text-blue-900" />
                       </div>
                     )}
@@ -334,12 +324,12 @@ export default function CheckoutPage() {
                   {submitting ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Placing {cart.length} Order{cart.length > 1 ? "s" : ""}…
+                      Placing Order…
                     </>
                   ) : (
                     <>
                       <ShoppingBag size={18} />
-                      Place {cart.length} Order{cart.length > 1 ? "s" : ""} · {formatPrice(totalPrice.toString())}
+                      Place Order · {formatPrice(totalPrice.toString())}
                     </>
                   )}
                 </button>

@@ -98,6 +98,8 @@ export default function ProductDetailPage({
         productName: product.productName,
         price: product.price,
         imageCount: product.imagecount,
+        primaryImage: product.primaryImage,
+        galleryImages: product.galleryImages,
         uploadedImageUrls: imageDataUrls,
       });
       sessionStorage.setItem("cart", JSON.stringify(cart));
