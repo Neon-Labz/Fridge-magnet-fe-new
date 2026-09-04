@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, MapPin } from "lucide-react";
+import { authApi } from "../api/auth.api";
 
 // Same cookie check used on the shop page / login page
 function isLoggedIn(): boolean {
@@ -24,8 +25,8 @@ function RegisterForm() {
     fullName: "",
     email: "",
     password: "",
-    phone: "",
-    shippingAddress: "",
+    phoneNumber: "",
+    customerAddress: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,14 +35,8 @@ function RegisterForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Registration failed");
-      toast.success("Account created! Welcome to Magnify");
+      await authApi.register(form);
+      toast.success("Account created! Verify your email before logging in.");
 
       if (redirect) {
         // If register auto-logs the user in (token cookie already set), go straight to the product they wanted. Otherwise send them to login, carrying the redirect forward so they land there right after signing in.
@@ -219,8 +214,8 @@ function RegisterForm() {
               <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="tel"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                value={form.phoneNumber}
+                onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 text-sm text-slate-900 transition-colors"
                 placeholder="+94771234569"
               />
@@ -234,8 +229,8 @@ function RegisterForm() {
             <div className="relative">
               <MapPin size={16} className="absolute left-3.5 top-3.5 text-slate-400" />
               <textarea
-                value={form.shippingAddress}
-                onChange={(e) => setForm({ ...form, shippingAddress: e.target.value })}
+                value={form.customerAddress}
+                onChange={(e) => setForm({ ...form, customerAddress: e.target.value })}
                 rows={2}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 text-sm text-slate-900 transition-colors resize-none"
                 placeholder="123 Main Street, Jaffna, Srilanka 40000"
