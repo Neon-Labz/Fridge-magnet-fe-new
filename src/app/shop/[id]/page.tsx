@@ -85,25 +85,12 @@ export default function ProductDetailPage({
 
     setUploading(true);
     try {
-      const compressImage = (file: File): Promise<string> =>
-        new Promise((resolve, reject) => {
-          const img = new window.Image();
-          const url = URL.createObjectURL(file);
-          img.onload = () => {
-            const MAX = 800;
-            const scale = Math.min(1, MAX / Math.max(img.width, img.height));
-            const canvas = document.createElement("canvas");
-            canvas.width = img.width * scale;
-            canvas.height = img.height * scale;
-            canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
-            URL.revokeObjectURL(url);
-            resolve(canvas.toDataURL("image/jpeg", 0.7));
-          };
-          img.onerror = reject;
-          img.src = url;
-        });
+      const formData = new FormData();
+      uploadedFiles.forEach((file) => formData.append("files", file));
 
-      const imageDataUrls = await Promise.all(uploadedFiles.map(compressImage));
+      const res = await fetch("/api/upload-r2", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Upload failed");
+      const { urls: imageDataUrls } = await res.json();
 
       const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
       cart.push({
@@ -142,7 +129,7 @@ export default function ProductDetailPage({
       );
     } catch (err) {
       console.error("Cart error:", err);
-      toast.error("Failed to process images. Try using smaller photos.");
+      toast.error("Failed to upload images. Please try again.");
     } finally {
       setUploading(false);
     }
