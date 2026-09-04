@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock, ArrowLeft} from "lucide-react";
 import { authApi } from "../api/auth.api";
 
 function LoginForm() {
@@ -121,9 +121,9 @@ function LoginForm() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl px-7 py-9 sm:px-10 sm:py-11"
       >
-        <Link href="/" className="relative block w-40 h-12 sm:w-48 sm:h-14 mx-auto mb-7">
+        {/* <Link href="/" className="relative block w-40 h-12 sm:w-48 sm:h-14 mx-auto mb-7">
           <Image src="/logo.png" alt="Magnify" fill className="object-contain" priority />
-        </Link>
+        </Link> */}
 
         <div className="text-center mb-7">
           <h2 className="text-2xl sm:text-3xl font-black text-blue-900 mb-1">Welcome back</h2>
@@ -210,6 +210,15 @@ function LoginForm() {
             Sign up
           </Link>
         </p>
+        <div className="mt-7 text-center">
+          <Link
+            href={"/"}
+            className="inline-flex items-center justify-center gap-2 text-sm font-bold text-blue-900 hover:text-red-700 transition-colors"
+          >
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
+        </div>
       </motion.div>
     </div>
   );

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, MapPin } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, MapPin} from "lucide-react";
 import { authApi } from "../api/auth.api";
 
 // Same cookie check used on the shop page / login page
@@ -57,7 +57,7 @@ function RegisterForm() {
 
   return (
     // Single flat color for the whole page — blue-900. Everything else floats on top of it.
-    <div className="min-h-screen bg-blue-900 relative flex items-center justify-center overflow-hidden px-6 py-16">
+    <div className="min-h-screen bg-blue-900 relative flex items-center justify-center overflow-hidden px-6 py-4">
       {/* Two soft red-800 glows, slowly breathing — the only background motion */}
       <motion.div
         aria-hidden
@@ -84,7 +84,7 @@ function RegisterForm() {
           y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
         }}
       >
-        <Image src="/images/product1.png" alt="" fill className="object-cover" />
+        <Image src="/images/product-1.png" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-blue-900/20" />
       </motion.div>
 
@@ -140,9 +140,9 @@ function RegisterForm() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl px-7 py-9 sm:px-10 sm:py-11"
       >
-        <Link href="/" className="relative block w-40 h-16 sm:w-48 sm:h-14 mx-auto mb-6">
+        {/* <Link href="/" className="relative block w-40 h-16 sm:w-48 sm:h-14 mx-auto mb-6">
           <Image src="/logo.png" alt="Magnify" fill className="object-contain" priority />
-        </Link>
+        </Link> */}
 
         <div className="text-center mb-6">
           <h2 className="text-2xl sm:text-3xl font-black text-blue-900 mb-1">Create your account</h2>
@@ -151,7 +151,7 @@ function RegisterForm() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-1.5">Full name</label>
             <div className="relative">

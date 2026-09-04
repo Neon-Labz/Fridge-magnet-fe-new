@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
   Mail,
@@ -102,8 +100,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
       <section className="relative overflow-hidden bg-white pt-18 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
