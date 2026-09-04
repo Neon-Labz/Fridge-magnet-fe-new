@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
   ChevronLeft,

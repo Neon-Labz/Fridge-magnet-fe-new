@@ -143,20 +143,20 @@ export const features = [
 
   export const testimonials = [
   {
-    name: "Sureka Appuththurai",
+    name: "Rakulan Krishnamoorthy",
     role: "Google Review",
-      initials: "S",
+      initials: "R",
     rating:5,
     review:
-      "Very satisfied with the fridge magnets! The print quality is amazing, photos are clear, and the finishing looks premium. Fast delivery and great customer service. Highly recommended.",
+      "Good and valuable gift.",
   },
   {
-    name: "Vaishu Sutha",
+    name: "Saruka Mayilvakanam",
     role: "Google Review",
-    initials: "V",
+    initials: "S",
     rating:5,
     review:
-      "Excellent quality fridge magnets 😍 Photos came out very clear and beautiful. Fast delivery and easy ordering process. Really happy with the product and highly recommend it!",
+      "Appreciate the time delivery",
   },
   {
     name: "Rakshana Varatharajan",
@@ -175,9 +175,9 @@ export const features = [
       "Good quality fridge magnet with a clear photo print. Looks nice and delivery was smooth. Happy with the order.",
   },
   {
-    name: "Infinite Bliss",
+    name: "Kadhusha Ignatius",
     role: "Google Review",
-    initials: "I",
+    initials: "K",
     rating:5,
     review:
       "Really liked the fridge magnet. The print quality and finishing were good, and it came exactly as expected.",

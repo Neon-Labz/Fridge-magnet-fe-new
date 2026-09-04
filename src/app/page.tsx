@@ -971,7 +971,7 @@ export default function HomePage() {
                     variants={fadeUp}
                     whileHover={{ rotate: 0, y: -6 }}
                     transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                    className={`relative ${item.rotate} bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_-8px_rgba(15,118,110,0.18)] px-6 pt-8 pb-7 text-center`}
+                    className={`relative ${item.rotate} bg-blue-900 rounded-2xl border border-slate-100 shadow-[0_8px_30px_-8px_rgba(15,118,110,0.18)] px-6 pt-8 pb-7 text-center`}
                   >
                     {/* magnet dot */}
                     <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-blue-900 to-blue-900 shadow-md ring-4 ring-white" />
@@ -981,15 +981,15 @@ export default function HomePage() {
                     <div className="relative w-16 h-16 mx-auto mb-5 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 border border-blue-100">
                       <item.Icon
                         size={28}
-                        className="text-blue-900"
+                        className="text-red-600"
                         strokeWidth={2}
                       />
                     </div>
 
-                    <h3 className="relative text-lg font-black text-blue-900 mb-2">
+                    <h3 className="relative text-lg font-black text-white mb-2">
                       {item.title}
                     </h3>
-                    <p className="relative text-slate-500 text-sm leading-relaxed">
+                    <p className="relative text-white text-sm leading-relaxed">
                       {item.desc}
                     </p>
                   </motion.div>
@@ -1022,9 +1022,8 @@ export default function HomePage() {
           }
         `}</style>
         <div className="mx-auto w-full max-w-[1700px] px-4 sm:px-6 lg:px-[120px]">
-          <div className="rounded-[24px] bg-white px-5 py-8 shadow-[0_16px_45px_rgba(12,28,61,0.08)] sm:px-8 lg:px-10 xl:px-12">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-14">
-              <div className="lg:border-r lg:border-[#EEF0F6] lg:pr-10 xl:pr-12">
+            <div className="rounded-[24px] bg-white px-5 py-8 shadow-[0_16px_45px_rgba(12,28,61,0.08)] sm:px-8 lg:px-10 xl:px-12">
+              <div>
                 <Eyebrow>Our Products</Eyebrow>
 
                 <h2 className="font-manrope text-[28px] font-extrabold leading-[1.08] text-blue-900 sm:text-[34px] lg:text-[31px] xl:text-[36px]">
@@ -1038,25 +1037,6 @@ export default function HomePage() {
                 <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:gap-4 xl:gap-6">
                   {priceCards.map((card) => (
                     <ProductPriceCard key={card.title} {...card} />
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Eyebrow>Why Choose Magnify</Eyebrow>
-
-                <h2 className="font-manrope text-[28px] font-extrabold leading-[1.08] text-blue-900 sm:text-[34px] lg:text-[31px] xl:text-[36px]">
-                  Premium quality you can trust.
-                </h2>
-
-                <p className="mt-3 max-w-[560px] font-inter text-[14px] leading-[23px] text-[#687086] sm:text-[16px] lg:text-[14px] xl:text-[16px]">
-                  We combine high quality materials with vibrant prints to bring
-                  your memories to life.
-                </p>
-
-                <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-4 xl:gap-5">
-                  {featureCards.map((card) => (
-                    <FeatureQualityCard key={card.title} {...card} />
                   ))}
                 </div>
               </div>
@@ -1090,8 +1070,7 @@ export default function HomePage() {
                 <TrustBarItem key={item.title} {...item} />
               ))}
             </div>
-          </div>
-        </div>
+          </div>        
       </section>
 
       {/* ================= Testimonials — bg 6: #F9F9FE ================= */}

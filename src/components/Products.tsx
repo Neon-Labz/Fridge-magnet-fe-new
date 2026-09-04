@@ -121,7 +121,7 @@ export default function ProductsSection() {
                         : "Premium magnetic photo tile"}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-blue-600">
+                      <span className="text-2xl font-black text-blue-900">
                         {formatPrice(product.price)}
                       </span>
                       <button

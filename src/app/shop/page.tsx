@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { Frame, Search, SlidersHorizontal } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
@@ -58,7 +56,6 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       {/* Header */}
       <div className="relative pt-20 pb-10 bg-white overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
