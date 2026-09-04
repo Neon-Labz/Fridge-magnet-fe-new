@@ -257,3 +257,38 @@ export interface CartItem {
   uploadedImageUrls: string[];
 }
 
+export interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  message?: string
+  error?: string
+}
+
+export interface LoginPayload {
+  email: string
+  password: string
+}
+
+export interface RegisterPayload {
+  fullName: string
+  email: string
+  password: string
+  phoneNumber: string
+  customerAddress: string
+}
+
+export interface ForgotPasswordPayload {
+  email: string
+}
+
+export type AuthResponseData = {
+  token?: string
+  user?: {
+    id?: string
+    fullName?: string
+    email?: string
+    role?: string
+  }
+}
+
+

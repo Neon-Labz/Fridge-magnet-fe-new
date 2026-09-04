@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/lib/data";
+import api from "@/lib/axios";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -42,16 +43,15 @@ export default function CheckoutPage() {
     }
     setCart(stored);
 
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => {
+    api.get("/auth/me")
+      .then(({ data: d }) => {
         if (d.user) {
           setForm((prev) => ({
             ...prev,
             customerName: d.user.fullName || "",
             customerEmail: d.user.email || "",
-            customerPhone: d.user.phone || "",
-            address: d.user.shippingAddress || "",
+            customerPhone: d.user.phoneNo || "",
+            address: d.user.ShippingAddress || "",
           }));
         }
       })
@@ -76,25 +76,25 @@ export default function CheckoutPage() {
       const orderIds: string[] = [];
 
       for (const item of cart) {
-        const res = await fetch("/api/orders", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            productId: item.productId,
-            ...form,
-            qty: 1,
-            uploadedImages: item.uploadedImageUrls,
-            paymentMethod,
-          }),
+        const { data } = await api.post("/orders", {
+          orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          customerName: form.customerName,
+          email: form.customerEmail,
+          phone: form.customerPhone,
+          shippingAddress: form.address,
+          qty: item.imageCount,
+          totalValue: Number(item.price),
+          items: [
+            {
+              productId: item.productId,
+              name: item.productName,
+              price: Number(item.price),
+              quantity: item.imageCount,
+            },
+          ],
+          paymentMethod,
         });
-
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || `Failed to place order for ${item.productName}`);
-        }
-
-        const data = await res.json();
-        orderIds.push(data.order.orderId);
+        orderIds.push(data.orderId);
       }
 
       sessionStorage.removeItem("cart");

@@ -6,14 +6,15 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Eye, EyeOff, Loader2, User, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
+import { authApi } from "../api/auth.api";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
 
-  const [form, setForm] = useState({ username: "", password: "", remember: false });
+  const [form, setForm] = useState({ email: "", password: "", remember: false });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -21,19 +22,12 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Login failed");
-      toast.success(`Welcome back, ${data.user.fullName}`);
+      const data = await authApi.login({ email: form.email, password: form.password });
+      toast.success(`Welcome back, ${data.user?.fullName ?? ""}`);
 
-      // Priority: explicit redirect param → admin dashboard → home
       if (redirect) {
         router.push(redirect);
-      } else if (data.user.role === "admin") {
+      } else if (data.user?.role === "admin") {
         router.push("/admin");
       } else {
         router.push("/");
@@ -142,13 +136,13 @@ function LoginForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus-within:border-blue-900 focus-within:ring-2 focus-within:ring-blue-900/15 transition-colors">
-              <User size={16} className="text-slate-400 shrink-0" />
+              <Mail size={16} className="text-slate-400 shrink-0" />
               <input
                 type="text"
                 required
-                value={form.username}
-                onChange={(e) => setForm({ ...form, username: e.target.value })}
-                placeholder="User name"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="Email address"
                 className="w-full bg-transparent focus:outline-none text-sm text-slate-900 placeholder:text-slate-400"
               />
             </div>
