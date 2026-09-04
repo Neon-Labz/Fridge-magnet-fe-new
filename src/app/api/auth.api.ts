@@ -15,9 +15,9 @@ export const authApi = {
     return res.data;
   },
 
-  async logout() {
-    await api.post("/auth/logout");
-    window.location.href = "/login";
+  async getCurrentUser() {
+    const res = await api.get("/auth/profile");
+    return res.data;
   },
 
    async changePassword(data: { currentPassword: string; newPassword: string }): Promise<void> {

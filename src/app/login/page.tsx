@@ -24,6 +24,7 @@ function LoginForm() {
     try {
       const data = await authApi.login({ email: form.email, password: form.password });
       toast.success(`Welcome back, ${data.user?.fullName ?? ""}`);
+      window.dispatchEvent(new Event("userLoggedIn"));
 
       if (redirect) {
         router.push(redirect);
