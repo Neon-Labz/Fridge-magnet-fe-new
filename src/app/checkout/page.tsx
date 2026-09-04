@@ -92,6 +92,7 @@ export default function CheckoutPage() {
               quantity: item.imageCount,
             },
           ],
+          uploadedImages: item.uploadedImageUrls,
           paymentMethod,
         });
         orderIds.push(data.orderId);
