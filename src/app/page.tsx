@@ -916,11 +916,10 @@ export default function HomePage() {
             {/* Image */}
             <div className="w-full lg:w-1/2 flex justify-center lg:justify-end order-1 lg:order-2">
               <div className="w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[500px] aspect-[3/2] flex items-center justify-center">
-                <Image
-                  src="/images/homepage-video.gif"
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/homepage-video.gif"
                   alt="Magnet Frame Demo"
-                  width={600}
-                  height={400}
                   className="h-full w-full object-cover rounded-[16px]"
                 />
               </div>
