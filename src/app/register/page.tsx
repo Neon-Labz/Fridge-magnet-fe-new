@@ -84,7 +84,7 @@ function RegisterForm() {
           y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
         }}
       >
-        <Image src="/images/product1.png" alt="" fill className="object-cover" />
+        <Image src="/images/product-1.png" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-blue-900/20" />
       </motion.div>
 
@@ -114,7 +114,7 @@ function RegisterForm() {
           y: { duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 },
         }}
       >
-        <Image src="/images/product-3.png" alt="" fill className="object-cover" />
+        <Image src="/images/product-4.png" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-blue-900/15" />
       </motion.div>
 
@@ -129,7 +129,7 @@ function RegisterForm() {
           y: { duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 },
         }}
       >
-        <Image src="/images/product-4.png" alt="" fill className="object-cover" />
+        <Image src="/images/product-5.png" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-blue-900/20" />
       </motion.div>
 
@@ -140,7 +140,7 @@ function RegisterForm() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl px-7 py-9 sm:px-10 sm:py-11"
       >
-        <Link href="/" className="relative block w-40 h-16 sm:w-48 sm:h-14 mx-auto mb-6">
+         <Link href="/" className="relative block sm:w-64 sm:h-20 lg:w-82 lg:h-24 mx-auto mb-2">
           <Image src="/logo.png" alt="Magnify" fill className="object-contain" priority />
         </Link>
 

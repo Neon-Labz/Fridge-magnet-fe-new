@@ -18,10 +18,15 @@ api.interceptors.request.use((config) => {
 });
 
 
+const AUTH_CHECK_URLS = ["/auth/me", "/auth/profile"];
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    const url = error.config?.url ?? "";
+    const isAuthCheck = AUTH_CHECK_URLS.some((u) => url.includes(u));
     if (
+      !isAuthCheck &&
       error.response?.status === 401 &&
       typeof window !== "undefined" &&
       !window.location.pathname.includes("/login") &&

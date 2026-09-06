@@ -43,15 +43,15 @@ export default function CheckoutPage() {
     }
     setCart(stored);
 
-    api.get("/auth/me")
+    api.get("/auth/profile")
       .then(({ data: d }) => {
         if (d.user) {
           setForm((prev) => ({
             ...prev,
             customerName: d.user.fullName || "",
             customerEmail: d.user.email || "",
-            customerPhone: d.user.phoneNo || "",
-            address: d.user.ShippingAddress || "",
+            customerPhone: d.user.phoneNumber || "",
+            address: d.user.customerAddress || "",
           }));
         }
       })
