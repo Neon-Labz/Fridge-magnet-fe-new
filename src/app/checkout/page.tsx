@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/lib/data";
+import api from "@/lib/axios";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -42,16 +43,15 @@ export default function CheckoutPage() {
     }
     setCart(stored);
 
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => {
+    api.get("/auth/profile")
+      .then(({ data: d }) => {
         if (d.user) {
           setForm((prev) => ({
             ...prev,
             customerName: d.user.fullName || "",
             customerEmail: d.user.email || "",
-            customerPhone: d.user.phone || "",
-            address: d.user.shippingAddress || "",
+            customerPhone: d.user.phoneNumber || "",
+            address: d.user.customerAddress || "",
           }));
         }
       })
@@ -73,33 +73,29 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
     try {
-      const orderIds: string[] = [];
-
-      for (const item of cart) {
-        const res = await fetch("/api/orders", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            productId: item.productId,
-            ...form,
-            qty: 1,
-            uploadedImages: item.uploadedImageUrls,
-            paymentMethod,
-          }),
-        });
-
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || `Failed to place order for ${item.productName}`);
-        }
-
-        const data = await res.json();
-        orderIds.push(data.order.orderId);
-      }
+      const { data } = await api.post("/orders", {
+        orderId: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        customerName: form.customerName,
+        email: form.customerEmail,
+        phone: form.customerPhone,
+        shippingAddress: form.address,
+        notes: form.notes,
+        totalValue: totalPrice,
+        items: cart.map((item) => ({
+          productId: item.productId,
+          name: item.productName,
+          price: Number(item.price),
+          quantity: 1,
+          primaryImage: item.primaryImage?.secure_url || "",
+          uploadedImages: item.uploadedImageUrls,
+        })),
+        qty: cart.length,
+        paymentMethod,
+      });
 
       sessionStorage.removeItem("cart");
-      toast.success(`${orderIds.length} order${orderIds.length > 1 ? "s" : ""} placed successfully! 🎉`);
-      router.push(`/order-success?orderId=${orderIds[0]}`);
+      toast.success("Order placed successfully! 🎉");
+      router.push(`/order-success?orderId=${data.orderId}`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to place order");
     } finally {
@@ -110,7 +106,7 @@ export default function CheckoutPage() {
   if (cart.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
-        <div className="w-14 h-14 border-4 border-cyan-200 border-t-blue-500 rounded-full animate-spin" />
+        <div className="w-14 h-14 border-4 border-blue-50 border-t-blue-900 rounded-full animate-spin" />
       </div>
     );
   }
@@ -122,7 +118,7 @@ export default function CheckoutPage() {
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => router.push("/shop")}
-          className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 mb-10 transition-colors text-sm font-medium group"
+          className="flex items-center gap-1.5 text-slate-400 hover:text-blue-900 mb-10 transition-colors text-sm font-medium group"
         >
           <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
           Continue Shopping
@@ -138,7 +134,7 @@ export default function CheckoutPage() {
           <motion.div variants={fadeUp} className="space-y-4">
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-xl font-black text-slate-800">Your Order</h2>
-              <span className="text-xs font-bold bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-bold bg-blue-100 text-blue-900 px-2.5 py-1 rounded-full">
                 {cart.length} item{cart.length > 1 ? "s" : ""}
               </span>
             </div>
@@ -147,20 +143,15 @@ export default function CheckoutPage() {
             {cart.map((item, index) => (
               <div key={index} className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm">
                 <div className="flex items-start gap-4">
-                  {/* Uploaded photos preview */}
                   <div className="flex-shrink-0">
-                    {item.uploadedImageUrls.length > 0 ? (
-                      <div className="grid grid-cols-2 gap-1 w-20">
-                        {item.uploadedImageUrls.slice(0, 4).map((url, i) => (
-                          <div key={i} className="relative h-9 rounded-lg overflow-hidden bg-slate-100">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={url} alt="" className="w-full h-full object-cover" />
-                          </div>
-                        ))}
+                    {item.primaryImage?.secure_url ? (
+                      <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={item.primaryImage.secure_url} alt={item.productName} className="w-full h-full object-cover" />
                       </div>
                     ) : (
-                      <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center">
-                        <ImageIcon size={20} className="text-blue-300" />
+                      <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center">
+                        <ImageIcon size={20} className="text-blue-900" />
                       </div>
                     )}
                   </div>
@@ -170,7 +161,7 @@ export default function CheckoutPage() {
                     <p className="text-xs text-slate-400 mt-1">
                       {item.uploadedImageUrls.length} photo{item.uploadedImageUrls.length > 1 ? "s" : ""} uploaded
                     </p>
-                    <p className="text-base font-black text-blue-600 mt-2">{formatPrice(item.price)}</p>
+                    <p className="text-base font-black text-blue-900 mt-2">{formatPrice(item.price)}</p>
                   </div>
 
                   <button
@@ -178,7 +169,7 @@ export default function CheckoutPage() {
                     onClick={() => removeItem(index)}
                     className="flex-shrink-0 w-8 h-8 rounded-xl bg-red-50 hover:bg-red-100 flex items-center justify-center transition-colors"
                   >
-                    <Trash2 size={14} className="text-red-400" />
+                    <Trash2 size={14} className="text-red-600" />
                   </button>
                 </div>
               </div>
@@ -194,11 +185,11 @@ export default function CheckoutPage() {
               ))}
               <div className="flex justify-between text-sm text-slate-500 pt-1">
                 <span>Delivery</span>
-                <span className="text-green-600 font-semibold">Free</span>
+                <span className="text-red-600 font-semibold">Free</span>
               </div>
               <div className="flex justify-between pt-3 border-t border-slate-100">
                 <span className="font-bold text-slate-800">Total</span>
-                <span className="text-2xl font-black text-blue-600">{formatPrice(totalPrice.toString())}</span>
+                <span className="text-2xl font-black text-blue-900">{formatPrice(totalPrice.toString())}</span>
               </div>
             </div>
           </motion.div>
@@ -210,8 +201,8 @@ export default function CheckoutPage() {
               {/* Delivery Details */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 bg-teal-100 rounded-xl flex items-center justify-center">
-                    <MapPin size={15} className="text-red-700" />
+                  <div className="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
+                    <MapPin size={15} className="text-red-600" />
                   </div>
                   <h2 className="text-lg font-black text-slate-800">Delivery Details</h2>
                 </div>
@@ -224,7 +215,7 @@ export default function CheckoutPage() {
                       value={form.customerName}
                       onChange={(e) => setForm({ ...form, customerName: e.target.value })}
                       placeholder="Your full name"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 transition-all"
                     />
                   </div>
                   <div className="col-span-2 sm:col-span-1">
@@ -234,7 +225,7 @@ export default function CheckoutPage() {
                       value={form.customerPhone}
                       onChange={(e) => setForm({ ...form, customerPhone: e.target.value })}
                       placeholder="+94 77 000 0000"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 transition-all"
                     />
                   </div>
                   <div className="col-span-2">
@@ -243,8 +234,8 @@ export default function CheckoutPage() {
                       type="email"
                       value={form.customerEmail}
                       onChange={(e) => setForm({ ...form, customerEmail: e.target.value })}
-                      placeholder="you@example.com"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all"
+                      placeholder="Your email address"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 transition-all"
                     />
                   </div>
                   <div className="col-span-2">
@@ -255,7 +246,7 @@ export default function CheckoutPage() {
                       value={form.address}
                       onChange={(e) => setForm({ ...form, address: e.target.value })}
                       placeholder="Street, city, postal code…"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all resize-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 transition-all resize-none"
                     />
                   </div>
                   <div className="col-span-2">
@@ -265,7 +256,7 @@ export default function CheckoutPage() {
                       value={form.notes}
                       onChange={(e) => setForm({ ...form, notes: e.target.value })}
                       placeholder="Any special instructions…"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition-all resize-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-50 focus:border-blue-900 transition-all resize-none"
                     />
                   </div>
                 </div>
@@ -274,8 +265,8 @@ export default function CheckoutPage() {
               {/* Payment Method */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <CreditCard size={15} className="text-blue-600" />
+                  <div className="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
+                    <CreditCard size={15} className="text-blue-900" />
                   </div>
                   <h2 className="text-lg font-black text-slate-800">Payment Method</h2>
                 </div>
@@ -286,17 +277,17 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("cod")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "cod"
-                        ? "border-blue-500 bg-blue-50 shadow-sm"
+                        ? "border-blue-900 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      paymentMethod === "cod" ? "bg-blue-500" : "bg-slate-100"
+                      paymentMethod === "cod" ? "bg-blue-900" : "bg-slate-100"
                     }`}>
                       <Truck size={16} className={paymentMethod === "cod" ? "text-white" : "text-slate-400"} />
                     </div>
                     <div className="text-left">
-                      <p className={`text-xs font-bold ${paymentMethod === "cod" ? "text-red-500" : "text-slate-600"}`}>
+                      <p className={`text-xs font-bold ${paymentMethod === "cod" ? "text-red-600" : "text-slate-600"}`}>
                         Cash on Delivery
                       </p>
                       <p className="text-xs text-slate-400">Pay on arrival</p>
@@ -307,17 +298,17 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("card")}
                     className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       paymentMethod === "card"
-                        ? "border-blue-500 bg-blue-50 shadow-sm"
+                        ? "border-blue-900 bg-blue-50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      paymentMethod === "card" ? "bg-blue-500" : "bg-slate-100"
+                      paymentMethod === "card" ? "bg-blue-900" : "bg-slate-100"
                     }`}>
                       <CreditCard size={16} className={paymentMethod === "card" ? "text-white" : "text-slate-400"} />
                     </div>
                     <div className="text-left">
-                      <p className={`text-xs font-bold ${paymentMethod === "card" ? "text-red-500" : "text-slate-600"}`}>
+                      <p className={`text-xs font-bold ${paymentMethod === "card" ? "text-red-600" : "text-slate-600"}`}>
                         Card Payment
                       </p>
                       <p className="text-xs text-slate-400">Pay online</p>
@@ -328,17 +319,17 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-gradient-to-r from-blue-500 to-red-600 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-cyan-200/60 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-900 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-blue-50 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
                 >
                   {submitting ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Placing {cart.length} Order{cart.length > 1 ? "s" : ""}…
+                      Placing Order…
                     </>
                   ) : (
                     <>
                       <ShoppingBag size={18} />
-                      Place {cart.length} Order{cart.length > 1 ? "s" : ""} · {formatPrice(totalPrice.toString())}
+                      Place Order · {formatPrice(totalPrice.toString())}
                     </>
                   )}
                 </button>

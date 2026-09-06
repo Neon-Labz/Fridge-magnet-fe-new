@@ -5,6 +5,7 @@ import "./globals.css";
 import { Space_Grotesk, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AppShell from "@/components/AppShell";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -33,9 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="bg-white text-slate-900 antialiased">
-        <Navbar />
-        {children}
-         <Footer />
+        <AppShell>{children}</AppShell>
         <Toaster
           position="top-right"
           toastOptions={{

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeUp } from "@/lib/motion";
 import { ArrowRight, Magnet, Frame } from "lucide-react";
@@ -14,7 +15,15 @@ import { Eyebrow } from "./ui/Eyebro";
 
 const CONTAINER = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
 
+// Same cookie check used on the shop page / login page
+function isLoggedIn(): boolean {
+  if (typeof document === "undefined") return false;
+  const match = document.cookie.match(/(?:^|;\s*)token=([^;]*)/);
+  return !!match?.[1];
+}
+
 export default function ProductsSection() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,6 +40,15 @@ export default function ProductsSection() {
     };
     fetchProducts();
   }, []);
+
+  const handleOrderNow = (productId: string) => {
+    const productPath = `/shop/${productId}`;
+    if (isLoggedIn()) {
+      router.push(productPath);
+    } else {
+      router.push(`/login?redirect=${encodeURIComponent(productPath)}`);
+    }
+  };
 
   return (
     <section className="py-20 bg-white">
@@ -106,12 +124,13 @@ export default function ProductsSection() {
                       <span className="text-2xl font-black text-blue-600">
                         {formatPrice(product.price)}
                       </span>
-                      <Link
-                        href={`/shop/${product._id}`}
-                        className="bg-gradient-to-r from-blue-900 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
+                      <button
+                        type="button"
+                        onClick={() => handleOrderNow(product._id)}
+                        className="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
                       >
                         Order
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -123,7 +142,7 @@ export default function ProductsSection() {
             <motion.div variants={fadeUp} className="text-center mt-10">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 bg-white border-2 border-blue-900 text-blue-600 px-8 py-4 rounded-2xl font-bold hover:bg-[#F9F9FE] hover:border-blue-900 transition-all hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 bg-white border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-2xl font-bold hover:bg-[#F9F9FE] hover:border-blue-900 transition-all hover:-translate-y-0.5"
               >
                 Show More Products <ArrowRight size={18} />
               </Link>

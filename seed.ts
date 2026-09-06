@@ -15,7 +15,6 @@ const Gallery = mongoose.model("Gallery", GallerySchema);
 
 async function seed() {
   await mongoose.connect(MONGODB_URI);
-  console.log("🌱 Seeding database...");
 
   await Promise.all([User.deleteMany({}), Product.deleteMany({}), Order.deleteMany({}), Gallery.deleteMany({})]);
 
@@ -26,32 +25,24 @@ async function seed() {
     { fullName: "John Silva", email: "john@example.com", phone: "0779876543", password: hashedPassword, shippingAddress: "45 Galle Road, Colombo 06", role: "customer" },
     { fullName: "Priya Fernando", email: "priya@example.com", phone: "0712345678", password: hashedPassword, shippingAddress: "78 Kandy Road, Kandy", role: "customer" },
   ]);
-  console.log("✅ Users seeded");
 
   const [product1, product2, product3] = await Product.insertMany([
     { productId: "FM-001", productName: "Classic Fridge Magnet (1 Photo)", description: "<p>A beautiful single-photo fridge magnet. High-quality print on durable magnetic material.</p>", imageCount: 1, stock: 50, price: "350.00", galleryImages: [], isActive: true },
     { productId: "FM-002", productName: "Collage Fridge Magnet (4 Photos)", description: "<p>Showcase four of your favourite moments in one stunning collage magnet.</p>", imageCount: 4, stock: 30, price: "650.00", galleryImages: [], isActive: true },
     { productId: "FM-003", productName: "Premium Magnet Set (6 Photos)", description: "<p>A premium set of six individual magnets, each printed with a different photo.</p>", imageCount: 6, stock: 20, price: "1200.00", galleryImages: [], isActive: true },
   ]);
-  console.log("✅ Products seeded");
 
   await Order.insertMany([
     { orderId: "ORD-20240001", productId: product1._id, userId: customer1._id, customerName: "John Silva", customerEmail: "john@example.com", customerPhone: "0779876543", address: "45 Galle Road, Colombo 06", qty: 2, uploadedImages: [], totalPrice: "700.00", paymentMethod: "cod", orderStatus: "delivered", notes: "Please pack carefully." },
     { orderId: "ORD-20240002", productId: product2._id, userId: customer2._id, customerName: "Priya Fernando", customerEmail: "priya@example.com", customerPhone: "0712345678", address: "78 Kandy Road, Kandy", qty: 1, uploadedImages: [], totalPrice: "650.00", paymentMethod: "card", orderStatus: "processing" },
     { orderId: "ORD-20240003", productId: product3._id, userId: null, customerName: "Guest Buyer", customerEmail: "guest@example.com", customerPhone: "0761112233", address: "12 Beach Road, Galle", qty: 1, uploadedImages: [], totalPrice: "1200.00", paymentMethod: "cod", orderStatus: "pending", notes: "Gift wrap please." },
   ]);
-  console.log("✅ Orders seeded");
 
   await Gallery.insertMany([
     { imageUrl: "/images/gallery/sample1.jpg", caption: "Family vacation memories", isActive: true, sortOrder: 1 },
     { imageUrl: "/images/gallery/sample2.jpg", caption: "Wedding day special", isActive: true, sortOrder: 2 },
     { imageUrl: "/images/gallery/sample3.jpg", caption: "Birthday celebration", isActive: true, sortOrder: 3 },
   ]);
-  console.log("✅ Gallery seeded");
-
-  console.log("\n🎉 Done!");
-  console.log("Admin: admin@fridgemagnet.com / password123");
-  console.log("Customer: john@example.com / password123");
 
   await mongoose.disconnect();
 }
