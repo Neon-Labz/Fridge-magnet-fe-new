@@ -31,4 +31,9 @@ export const authApi = {
    async resetPassword(token: string, newPassword: string): Promise<void> {
     await api.post("/auth/reset-password", { token, newPassword });
   },
+
+  async activateAccount(token: string): Promise<void> {
+    await api.patch(`/customers/token/${token}`, { isActive: true });
+  },
+
 };

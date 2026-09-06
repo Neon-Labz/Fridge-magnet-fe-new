@@ -56,7 +56,6 @@ export type TrustItem = {
   description: ReactNode;
 };
 
-
 export const trustItems: TrustItem[] = [
   {
     icon: "shield",
@@ -140,13 +139,12 @@ export const features = [
   },
 ];
 
-
-  export const testimonials = [
+export const testimonials = [
   {
     name: "Sureka Appuththurai",
     role: "Google Review",
-      initials: "S",
-    rating:5,
+    initials: "S",
+    rating: 5,
     review:
       "Very satisfied with the fridge magnets! The print quality is amazing, photos are clear, and the finishing looks premium. Fast delivery and great customer service. Highly recommended.",
   },
@@ -154,7 +152,7 @@ export const features = [
     name: "Vaishu Sutha",
     role: "Google Review",
     initials: "V",
-    rating:5,
+    rating: 5,
     review:
       "Excellent quality fridge magnets 😍 Photos came out very clear and beautiful. Fast delivery and easy ordering process. Really happy with the product and highly recommend it!",
   },
@@ -162,7 +160,7 @@ export const features = [
     name: "Rakshana Varatharajan",
     role: "Google Review",
     initials: "R",
-    rating:5,
+    rating: 5,
     review:
       "Thank you for this amazing idea. Packaging was good and the magnets stick well. I'm happy to order this product.",
   },
@@ -170,7 +168,7 @@ export const features = [
     name: "Geerthiga",
     role: "Google Review",
     initials: "G",
-    rating:5,
+    rating: 5,
     review:
       "Good quality fridge magnet with a clear photo print. Looks nice and delivery was smooth. Happy with the order.",
   },
@@ -178,7 +176,7 @@ export const features = [
     name: "Infinite Bliss",
     role: "Google Review",
     initials: "I",
-    rating:5,
+    rating: 5,
     review:
       "Really liked the fridge magnet. The print quality and finishing were good, and it came exactly as expected.",
   },
@@ -186,7 +184,7 @@ export const features = [
     name: "Jalani Kaneswaran",
     role: "Google Review",
     initials: "J",
-    rating:5,
+    rating: 5,
     review:
       "Good quality magnet frame with a strong magnet and nice finishing. Looks beautiful and worth the price. Happy with the purchase! 😊🥰",
   },
@@ -196,42 +194,48 @@ export const occasionCards: OccasionCard[] = [
   {
     icon: "rings",
     title: "Weddings",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-weddings.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-weddings.png",
     imageAlt: "Wedding couple photo printed for a special keepsake",
     position: "object-center",
   },
   {
     icon: "graduation",
     title: "Graduations",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-graduations.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-graduations.png",
     imageAlt: "Graduation memory displayed on a photo magnet",
     position: "object-[52%_46%]",
   },
   {
     icon: "cake",
     title: "Birthdays",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-birthdays.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-birthdays.png",
     imageAlt: "Birthday memory printed on colorful photo magnets",
     position: "object-[58%_62%]",
   },
   {
     icon: "family",
     title: "Families",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-families.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-families.png",
     imageAlt: "Family memories arranged in a magnetic frame",
     position: "object-center",
   },
   {
     icon: "heart",
     title: "Couples",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-couples.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-clean-couples.png",
     imageAlt: "Couple photo memory presented in a magnet frame",
     position: "object-[52%_52%]",
   },
   {
     icon: "building",
     title: "Corporate",
-    image: "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-corporate.png",
+    image:
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/occasion-corporate.png",
     imageAlt: "Corporate portrait used for a professional memory gift",
     position: "object-center",
   },
@@ -252,43 +256,43 @@ export interface Product {
 export interface CartItem {
   productId: string;
   productName: string;
+  primaryImage: { secure_url: string; public_id: string };
+  galleryImages: { secure_url: string; public_id: string; _id: string }[];
   price: number;
   imageCount: number;
   uploadedImageUrls: string[];
 }
 
 export interface ApiResponse<T> {
-  success: boolean
-  data?: T
-  message?: string
-  error?: string
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
 }
 
 export interface LoginPayload {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface RegisterPayload {
-  fullName: string
-  email: string
-  password: string
-  phoneNumber: string
-  customerAddress: string
+  fullName: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  customerAddress: string;
 }
 
 export interface ForgotPasswordPayload {
-  email: string
+  email: string;
 }
 
 export type AuthResponseData = {
-  token?: string
+  token?: string;
   user?: {
-    id?: string
-    fullName?: string
-    email?: string
-    role?: string
-  }
-}
-
-
+    id?: string;
+    fullName?: string;
+    email?: string;
+    role?: string;
+  };
+};

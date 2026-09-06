@@ -29,6 +29,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
 
@@ -43,6 +44,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    setMounted(true);
     fetchUser();
 
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -134,14 +136,14 @@ export default function Navbar() {
               className="relative flex h-10 w-10 items-center justify-center rounded-lg text-blue-900 transition-colors"
             >
               <ShoppingCart size={20} strokeWidth={2} className="text-blue-900" />
-              {cartCount > 0 && (
+              {mounted && cartCount > 0 && (
                 <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[9px] font-bold text-white">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            {user ? (
+            {mounted && user ? (
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -208,7 +210,7 @@ export default function Navbar() {
               className="relative flex h-10 w-10 items-center justify-center rounded-lg text-blue-900 transition-colors hover:bg-blue-50"
             >
               <ShoppingCart size={21} strokeWidth={2} className="text-blue-900" />
-              {cartCount > 0 && (
+              {mounted && cartCount > 0 && (
                 <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-blue-900 text-[9px] font-bold text-white">
                   {cartCount}
                 </span>
@@ -252,7 +254,7 @@ export default function Navbar() {
               ))}
 
               <div className="mt-2 space-y-2 border-t border-slate-100 pt-3">
-                {user ? (
+                {mounted && user ? (
                   <>
                     <div className="flex items-center gap-2 px-4 py-2">
                       <User size={15} className="text-blue-900" />

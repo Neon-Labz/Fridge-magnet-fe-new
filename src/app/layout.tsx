@@ -32,8 +32,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
-      <body className="bg-white text-slate-900 antialiased">
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body className="bg-white text-slate-900 antialiased" suppressHydrationWarning>
         <AppShell>{children}</AppShell>
         <Toaster
           position="top-right"
