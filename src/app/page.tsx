@@ -68,7 +68,7 @@ type FeatureCard = {
 const priceCards: PriceCard[] = [
   {
     title: "Photo Magnets",
-    price: "Rs. 1,500",
+    price: "Rs. 1,990",
     details: ["Minimum 6 pieces", "Square magnetic tiles"],
     image:
       "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/6magnets.png",
@@ -78,7 +78,7 @@ const priceCards: PriceCard[] = [
   },
   {
     title: "Magnet Frame Set",
-    price: "Rs. 2,500",
+    price: "Rs. 3,000",
     details: ["Black or white frame", "Holds 4 tiles"],
     image:
       "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v2-cutout.png",
