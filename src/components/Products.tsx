@@ -93,11 +93,16 @@ export default function ProductsSection() {
                   variants={fadeUp}
                   className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
                 >
+                  {(() => {
+                    const imageUrl =
+                      product.primaryImage?.secure_url ||
+                      product.galleryImages?.[0]?.secure_url;
+
+                    return (
                   <div className="relative h-52 bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
-                    {product.galleryImages &&
-                    product.galleryImages.length > 0 ? (
+                    {imageUrl ? (
                       <Image
-                        src={product.primaryImage.secure_url}
+                        src={imageUrl}
                         alt={product.productName}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -111,6 +116,8 @@ export default function ProductsSection() {
                       {product.imagecount} photos
                     </div>
                   </div>
+                    );
+                  })()}
                   <div className="p-5">
                     <h3 className="font-bold text-blue-900 mb-1 text-base">
                       {product.productName}
