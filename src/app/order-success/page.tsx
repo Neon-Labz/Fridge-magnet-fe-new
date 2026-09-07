@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
 import { CheckCircle2, ShoppingBag, Home } from "lucide-react";
 
 function OrderSuccessContent() {
@@ -80,11 +79,8 @@ function OrderSuccessContent() {
 
 export default function OrderSuccessPage() {
   return (
-    <>
-      <Navbar />
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>}>
-        <OrderSuccessContent />
-      </Suspense>
-    </>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>}>
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
