@@ -69,9 +69,9 @@ const priceCards: PriceCard[] = [
   {
     title: "Photo Magnets",
     price: "Rs. 1,500",
-    details: ["Minimum 4 pieces", "Square magnetic tiles"],
+    details: ["Minimum 6 pieces", "Square magnetic tiles"],
     image:
-      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/v-cutout.png",
+      "https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/6magnets.png",
     imageAlt: "Printed photo magnet tiles stacked together",
     tone: "cream",
     icon: "photos",
@@ -916,11 +916,10 @@ export default function HomePage() {
             {/* Image */}
             <div className="w-full lg:w-1/2 flex justify-center lg:justify-end order-1 lg:order-2">
               <div className="w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[500px] aspect-[3/2] flex items-center justify-center">
-                <Image
-                  src="/images/homepage-video.gif"
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://pub-57b44696f3e243acb6e5fdb88145606e.r2.dev/images/public/homepage-video.gif"
                   alt="Magnet Frame Demo"
-                  width={600}
-                  height={400}
                   className="h-full w-full object-cover rounded-[16px]"
                 />
               </div>
@@ -1024,16 +1023,18 @@ export default function HomePage() {
         <div className="mx-auto w-full max-w-[1700px] px-4 sm:px-6 lg:px-[120px]">
             <div className="rounded-[24px] bg-white px-5 py-8 shadow-[0_16px_45px_rgba(12,28,61,0.08)] sm:px-8 lg:px-10 xl:px-12">
               <div>
-                <Eyebrow>Our Products</Eyebrow>
-
-                <h2 className="font-manrope text-[28px] font-extrabold leading-[1.08] text-blue-900 sm:text-[34px] lg:text-[31px] xl:text-[36px]">
-                  Simple, honest pricing.
-                </h2>
-
-                <p className="mt-3 max-w-[470px] font-inter text-[14px] leading-[23px] text-[#687086] sm:text-[16px] lg:text-[14px] xl:text-[16px]">
-                  No hidden costs. Cash on delivery available across the island.
-                </p>
-
+                <motion.div variants={fadeUp} className="text-center mb-12">
+                  <div className="flex justify-center">
+                    <Eyebrow>Our Products</Eyebrow>
+                  </div>
+                  <h2 className="text-4xl lg:text-5xl font-black text-blue-900 mt-2 mb-4">
+                    Simple, honest pricing
+                  </h2>
+                  <p className="text-slate-500 max-w-xl mx-auto">
+                    No hidden costs. Cash on delivery available across the island.
+                  </p>
+                </motion.div>
+              
                 <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:gap-4 xl:gap-6">
                   {priceCards.map((card) => (
                     <ProductPriceCard key={card.title} {...card} />

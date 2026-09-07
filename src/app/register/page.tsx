@@ -57,7 +57,7 @@ function RegisterForm() {
 
   return (
     // Single flat color for the whole page — blue-900. Everything else floats on top of it.
-    <div className="min-h-screen bg-blue-900 relative flex items-center justify-center overflow-hidden px-6 py-4">
+    <div className="min-h-screen bg-blue-900 relative flex items-center justify-center overflow-hidden px-6 py-2">
       {/* Two soft red-800 glows, slowly breathing — the only background motion */}
       <motion.div
         aria-hidden
@@ -72,79 +72,18 @@ function RegisterForm() {
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
 
-      {/* Floating product-image spheres drifting around the card — hidden on phones, shown from sm/md up */}
-      <motion.div
-        aria-hidden
-        className="hidden sm:block absolute top-[8%] right-[6%] md:right-[10%] w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-blue-800/40 shadow-xl"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1, y: [0, -14, 0] }}
-        transition={{
-          opacity: { duration: 0.6 },
-          scale: { duration: 0.6 },
-          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-        }}
-      >
-        <Image src="/images/product-1.png" alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-blue-900/20" />
-      </motion.div>
-
-      <motion.div
-        aria-hidden
-        className="hidden sm:block absolute bottom-[10%] right-[8%] md:right-[13%] w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-4 ring-red-700/40 shadow-xl"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1, y: [0, 12, 0] }}
-        transition={{
-          opacity: { duration: 0.6, delay: 0.15 },
-          scale: { duration: 0.6, delay: 0.15 },
-          y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 },
-        }}
-      >
-        <Image src="/images/product-2.png" alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-blue-900/15" />
-      </motion.div>
-
-      <motion.div
-        aria-hidden
-        className="hidden md:block absolute top-[12%] left-[10%] w-28 h-28 rounded-full overflow-hidden ring-4 ring-red-700/40 shadow-xl"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
-        transition={{
-          opacity: { duration: 0.6, delay: 0.3 },
-          scale: { duration: 0.6, delay: 0.3 },
-          y: { duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 },
-        }}
-      >
-        <Image src="/images/product-3.png" alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-blue-900/15" />
-      </motion.div>
-
-      <motion.div
-        aria-hidden
-        className="hidden sm:block absolute bottom-[8%] left-[6%] md:left-[12%] w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden ring-4 ring-blue-800/40 shadow-xl"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1, y: [0, 10, 0] }}
-        transition={{
-          opacity: { duration: 0.6, delay: 0.45 },
-          scale: { duration: 0.6, delay: 0.45 },
-          y: { duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 },
-        }}
-      >
-        <Image src="/images/product-4.png" alt="" fill className="object-cover" />
-        <div className="absolute inset-0 bg-blue-900/20" />
-      </motion.div>
-
       {/* The card — white form floating on top of the blue-900 background */}
       <motion.div
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl px-7 py-9 sm:px-10 sm:py-11"
+        className="relative z-10 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl px-7 py-9 sm:px-6 sm:py-8"
       >
-        {/* <Link href="/" className="relative block w-40 h-16 sm:w-48 sm:h-14 mx-auto mb-6">
+        {/* <Link href="/" className="relative block sm:w-64 sm:h-20 lg:w-82 lg:h-34 mx-auto mb-2">
           <Image src="/logo.png" alt="Magnify" fill className="object-contain" priority />
         </Link> */}
 
-        <div className="text-center mb-6">
+        <div className="text-center mb-2">
           <h2 className="text-2xl sm:text-3xl font-black text-blue-900 mb-1">Create your account</h2>
           <p className="text-slate-500 text-sm">
             {redirect ? "Sign up to continue with your order." : "Join thousands of happy customers."}
