@@ -19,6 +19,14 @@ import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/lib/data";
 import api from "@/lib/axios";
 
+const JAFFNA_COD_DELIVERY_FEE = 300;
+
+function getDeliveryFee(address: string, paymentMethod: "cod" | "card") {
+  return paymentMethod === "cod" && address.toLowerCase().includes("jaffna")
+    ? JAFFNA_COD_DELIVERY_FEE
+    : 0;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -60,14 +68,26 @@ export default function CheckoutPage() {
     const updated = cart.filter((_, i) => i !== index);
     setCart(updated);
     sessionStorage.setItem("cart", JSON.stringify(updated));
+    window.dispatchEvent(new Event("cartUpdated"));
     if (updated.length === 0) router.push("/shop");
   };
 
-  const totalPrice = cart.reduce((sum, item) => sum + Number(item.price), 0);
+  const subtotal = cart.reduce((sum, item) => sum + Number(item.price), 0);
+  const deliveryFee = getDeliveryFee(form.address, paymentMethod);
+  const totalPrice = subtotal + deliveryFee;
+
+  //COD avilable only Jaffna
+  const isJaffnaAddress = form.address.toLowerCase().includes("jaffna");
+  const codUnavailable = paymentMethod === "cod" && form.address.trim() !== "" && !isJaffnaAddress;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (cart.length === 0) return;
+
+    if (paymentMethod === "cod" && !form.address.toLowerCase().includes("jaffna")) {
+      toast.error("Cash on Delivery is available only for Jaffna addresses.");
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -78,6 +98,7 @@ export default function CheckoutPage() {
         phone: form.customerPhone,
         shippingAddress: form.address,
         notes: form.notes,
+        deliveryFee,
         totalValue: totalPrice,
         items: cart.map((item) => ({
           productId: item.productId,
@@ -92,6 +113,7 @@ export default function CheckoutPage() {
       });
 
       sessionStorage.removeItem("cart");
+  window.dispatchEvent(new Event("cartUpdated"));
       toast.success("Order placed successfully! 🎉");
       router.push(`/order-success?orderId=${data.orderId}`);
     } catch (err) {
@@ -163,6 +185,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <button
+                  
                     type="button"
                     onClick={() => removeItem(index)}
                     className="flex-shrink-0 w-8 h-8 rounded-xl bg-red-50 hover:bg-red-100 flex items-center justify-center transition-colors"
@@ -183,7 +206,9 @@ export default function CheckoutPage() {
               ))}
               <div className="flex justify-between text-sm text-slate-500 pt-1">
                 <span>Delivery</span>
-                <span className="text-red-600 font-semibold">Free</span>
+                <span className="text-red-600 font-semibold">
+                  {deliveryFee === 0 ? "-" : formatPrice(deliveryFee.toString())}
+                </span>
               </div>
               <div className="flex justify-between pt-3 border-t border-slate-100">
                 <span className="font-bold text-slate-800">Total</span>
@@ -316,7 +341,7 @@ export default function CheckoutPage() {
 
                 <button
                   type="submit"
-                  disabled={submitting}
+                  disabled={submitting || codUnavailable}
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-900 text-white font-black py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-blue-50 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base"
                 >
                   {submitting ? (
@@ -331,6 +356,11 @@ export default function CheckoutPage() {
                     </>
                   )}
                 </button>
+                {codUnavailable && (
+                  <p className="text-xs text-red-600 font-semibold mb-3 mt-2">
+                    Cash on Delivery is only available for Jaffna addresses. Please enter your delivery address or choose Card Payment.
+                  </p>
+                )}
               </div>
             </form>
           </motion.div>

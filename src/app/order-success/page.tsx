@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -10,8 +10,12 @@ function OrderSuccessContent() {
   const params = useSearchParams();
   const orderId = params.get("orderId");
 
+  useEffect(() => {
+    window.dispatchEvent(new Event("cartUpdated"));
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4 mt-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -22,7 +26,7 @@ function OrderSuccessContent() {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", delay: 0.3 }}
-          className="w-20 h-20 bg-gradient-to-br from-blue-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6"
+          className="w-20 h-20 bg-gradient-to-br from-blue-900 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6"
         >
           <CheckCircle2 size={40} className="text-white" />
         </motion.div>
@@ -30,7 +34,7 @@ function OrderSuccessContent() {
         <h1 className="text-3xl font-black text-slate-900 mb-2">Order Placed! 🎉</h1>
         {orderId && (
           <p className="text-slate-500 mb-2">
-            Order ID: <span className="font-mono font-bold text-blue-600">{orderId}</span>
+            Order ID: <span className="font-mono font-bold text-red-600">{orderId}</span>
           </p>
         )}
         <p className="text-slate-500 text-sm leading-relaxed mb-8">
@@ -66,7 +70,7 @@ function OrderSuccessContent() {
           </Link>
           <Link
             href="/shop"
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-blue-500 to-red-600 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all"
+            className="flex-1 flex items-center justify-center text-white gap-2 py-3 bg-gradient-to-r from-blue-900 to-blue-600 rounded-xl font-semibold text-sm hover:shadow-lg transition-all"
           >
             <ShoppingBag size={16} />
             Shop More
