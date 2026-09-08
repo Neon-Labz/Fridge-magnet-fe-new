@@ -13,6 +13,7 @@ import {
   Loader2,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import api from "@/lib/axios";
 
 const socialIcons = [
   {
@@ -82,20 +83,19 @@ export default function ContactPage() {
     e.preventDefault();
 
     setSending(true);
-
-    // Simulate sending
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setSending(false);
-
-    toast.success("Message sent! We'll get back to you soon 📬");
-
-    setForm({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    try {
+      await api.post("/contact", form);
+      toast.success("Message sent! We'll get back to you soon 📬");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (error: any) {
+      console.error("Failed to send contact message:", error);
+      toast.error(
+        error?.response?.data?.message ||
+          "Unable to send your message right now. Please try again.",
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -336,7 +336,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-900 py-4 text-base font-black text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-200 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-900 py-4 text-base font-black text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {sending ? (
                     <>

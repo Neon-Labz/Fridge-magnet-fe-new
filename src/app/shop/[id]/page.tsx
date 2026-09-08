@@ -75,7 +75,7 @@ export default function ProductDetailPage({
     if (!product) return;
 
     if (uploadedFiles.length === 0) {
-      toast.error("Please upload at least one photo");
+      toast.error("Please upload photos");
       return;
     }
     if (uploadedFiles.length < product.imagecount) {
@@ -139,10 +139,53 @@ export default function ProductDetailPage({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center bg-gradient-to-b from-blue-50/30 to-white">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-14 h-14 border-4 border-blue-50 border-t-blue-900 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm font-medium">Loading product…</p>
+      <div className="bg-gradient-to-b from-blue-50/30 to-white">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-24 sm:pt-28 pb-16 sm:pb-16 md:pb-14 lg:pb-75">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 lg:gap-10 xl:gap-16 animate-pulse">
+            {/* ── Left: Image skeleton ── */}
+            <div className="space-y-4">
+              <div className="h-64 sm:h-80 md:h-[380px] lg:h-[440px] xl:h-[480px] rounded-3xl bg-slate-200" />
+              <div className="flex gap-3 p-2">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="w-20 h-20 rounded-2xl bg-slate-200 flex-shrink-0" />
+                ))}
+              </div>
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="h-7 w-28 rounded-full bg-slate-200" />
+                ))}
+              </div>
+            </div>
+
+            {/* ── Right: Info skeleton ── */}
+            <div className="space-y-5">
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-100 shadow-sm space-y-4">
+                <div className="h-3 w-24 bg-slate-200 rounded mx-auto lg:mx-0" />
+                <div className="h-6 w-3/4 bg-slate-200 rounded mx-auto lg:mx-0" />
+                <div className="space-y-2">
+                  <div className="h-3 w-full bg-slate-200 rounded" />
+                  <div className="h-3 w-5/6 bg-slate-200 rounded mx-auto lg:mx-0" />
+                </div>
+                <div className="flex flex-wrap items-center justify-center lg:justify-between gap-4 pt-3 border-t border-slate-100">
+                  <div className="flex gap-3">
+                    <div className="h-16 w-20 bg-slate-200 rounded-2xl" />
+                    <div className="h-16 w-20 bg-slate-200 rounded-2xl" />
+                  </div>
+                  <div className="h-8 w-24 bg-slate-200 rounded" />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-100 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="h-7 w-40 bg-slate-200 rounded" />
+                  <div className="h-6 w-14 bg-slate-200 rounded-full" />
+                </div>
+                <div className="h-1.5 w-full bg-slate-200 rounded-full" />
+                <div className="h-32 sm:h-40 rounded-2xl bg-slate-200" />
+                <div className="h-14 w-full bg-slate-200 rounded-2xl" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -170,6 +213,10 @@ export default function ProductDetailPage({
 
   const maxImages = product.imagecount;
   const uploadProgress = Math.round((uploadedFiles.length / maxImages) * 100);
+  const productImageUrls = [
+    product.primaryImage?.secure_url,
+    ...(product.galleryImages || []).map((image) => image?.secure_url),
+  ].filter((url): url is string => Boolean(url));
 
   return (
     <div className="bg-gradient-to-b from-blue-50/30 to-white">
@@ -211,9 +258,9 @@ export default function ProductDetailPage({
           {/* ── Left: Product Images ── */}
           <motion.div variants={fadeUp} className="space-y-4">
             <div className="relative h-64 sm:h-80 md:h-[380px] lg:h-[440px] xl:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50 shadow-xl shadow-blue-100/50">
-              {product.galleryImages && product.galleryImages.length > 0 ? (
+              {productImageUrls.length > 0 ? (
                 <Image
-                  src={product.galleryImages[selectedImage].secure_url}
+                  src={productImageUrls[selectedImage] || productImageUrls[0]}
                   alt={product.productName}
                   fill
                   className="object-cover transition-all duration-500"
@@ -238,9 +285,9 @@ export default function ProductDetailPage({
               )}
             </div>
 
-            {product.galleryImages && product.galleryImages.length > 1 && (
+            {productImageUrls.length > 1 && (
               <div className="flex gap-3 overflow-x-auto p-2">
-                {product.galleryImages.map((img, i) => (
+                {productImageUrls.map((imageUrl, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
@@ -250,7 +297,7 @@ export default function ProductDetailPage({
                         : "border-slate-200 hover:border-blue-50 opacity-70 hover:opacity-100"
                     }`}
                   >
-                    <Image src={img.secure_url} alt={`View ${i + 1}`} fill className="object-cover" />
+                    <Image src={imageUrl} alt={`View ${i + 1}`} fill className="object-cover" />
                   </button>
                 ))}
               </div>
