@@ -466,7 +466,7 @@ export default function GalleryPage() {
               <button
                 type="button"
                 onClick={() => setShowAll((prev) => !prev)}
-                className="cursor-pointer rounded-full bg-[#D40B0B] px-8 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b50909] hover:shadow-lg"
+                className="cursor-pointer rounded-full bg-gradient-to-r from-blue-600 to-blue-900 px-8 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b50909] hover:shadow-lg"
               >
                 {showAll ? "Show Less" : "View All Gallery"}
               </button>

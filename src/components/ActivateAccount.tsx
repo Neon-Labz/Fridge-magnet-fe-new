@@ -62,9 +62,9 @@ function ActivateAccountContent() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm bg-white rounded-3xl shadow-2xl px-8 py-10 text-center"
       >
-        <Link href="/" className="relative block w-40 h-14 mx-auto mb-6">
+        {/* <Link href="/" className="relative block w-40 h-14 mx-auto mb-6">
           <Image src="/logo.png" alt="Magnify" fill className="object-contain" priority />
-        </Link>
+        </Link> */}
 
         {/* Idle — show activate button */}
         {status === "idle" && (
