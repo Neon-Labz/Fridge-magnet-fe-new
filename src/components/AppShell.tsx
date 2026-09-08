@@ -11,7 +11,7 @@ export default function AppShell({
 }) {
   const pathname = usePathname();
   const hideHeaderFooter =
-    pathname === "/login" || pathname === "/register" || pathname ==="/forgot-password" || pathname === "/reset-password";
+    pathname === "/login" || pathname === "/register" || pathname ==="/forgot-password" || pathname === "/reset-password" || pathname === "/activate-account";
 
   return (
     <>

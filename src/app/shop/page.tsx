@@ -126,7 +126,16 @@ export default function ShopPage() {
               <motion.div
                 key={product._id}
                 variants={fadeUp}
-                className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
+                onClick={() => {
+                  if (product.stock > 0) {
+                    handleOrderNow(product._id);
+                  }
+                }}
+                className={`group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm ${
+                  product.stock > 0
+                    ? "cursor-pointer card-hover"
+                    : "cursor-not-allowed opacity-75"
+                }`}
               >
                 <div className="relative h-56 bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
                   {product.primaryImage ? (
@@ -176,7 +185,13 @@ export default function ShopPage() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleOrderNow(product._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+
+                        if (product.stock > 0) {
+                          handleOrderNow(product._id);
+                        }
+                      }}
                       disabled={product.stock === 0}
                       className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                         product.stock === 0

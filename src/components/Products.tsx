@@ -91,8 +91,8 @@ export default function ProductsSection() {
                 <motion.div
                   key={product._id}
                   variants={fadeUp}
-                  className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm"
-                >
+                  onClick={() => handleOrderNow(product._id)}
+                  className="group bg-white rounded-3xl overflow-hidden border border-slate-100 card-hover shadow-sm cursor-pointer"                >
                   {(() => {
                     const imageUrl =
                       product.primaryImage?.secure_url ||
@@ -133,8 +133,11 @@ export default function ProductsSection() {
                       </span>
                       <button
                         type="button"
-                        onClick={() => handleOrderNow(product._id)}
-                        className="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-200 transition-all"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOrderNow(product._id);
+                        }}
+                        className="bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-blue-50 transition-all"
                       >
                         Order
                       </button>
