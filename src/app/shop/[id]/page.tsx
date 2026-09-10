@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
+import imageCompression from "browser-image-compression";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import {
   Upload,
@@ -21,6 +22,13 @@ import {
 import { formatPrice } from "@/lib/utils";
 import { productApi } from "@/app/api/product.api";
 import { CartItem, Product } from "@/lib/data";
+
+const COMPRESSION_OPTIONS = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true,
+  fileType: "image/webp",
+};
 
 export default function ProductDetailPage({
   params,
@@ -85,8 +93,20 @@ export default function ProductDetailPage({
 
     setUploading(true);
     try {
+      const compressedFiles = await Promise.all(
+        uploadedFiles.map(async (file) => {
+          const compressed = await imageCompression(file, COMPRESSION_OPTIONS);
+          const filename = `${file.name.replace(/\.[^/.]+$/, "")}.webp`;
+
+          return new File([compressed], filename, {
+            type: "image/webp",
+            lastModified: file.lastModified,
+          });
+        }),
+      );
+
       const formData = new FormData();
-      uploadedFiles.forEach((file) => formData.append("files", file));
+      compressedFiles.forEach((file) => formData.append("files", file));
 
       const res = await fetch("/api/upload-r2", { method: "POST", body: formData });
       if (!res.ok) throw new Error("Upload failed");
