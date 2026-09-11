@@ -57,7 +57,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {[
                 { href: "/privacy", label: "Privacy Policy" },
-                { href: "/terms", label: "Terms of Service" },
+                { href: "/terms-of-service", label: "Terms of Service" },
                 { href: "/shipping", label: "Shipping Policy" },
                 { href: "/contact", label: "Contact Us" },
               ].map((link) => (

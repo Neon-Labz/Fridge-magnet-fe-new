@@ -160,7 +160,7 @@ export default function ProductDetailPage({
   if (loading) {
     return (
       <div className="bg-gradient-to-b from-blue-50/30 to-white">
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-24 sm:pt-28 pb-16 sm:pb-16 md:pb-14 lg:pb-75">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-24 sm:pt-28 pb-16 sm:pb-16 md:pb-14 lg:pb-50">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 lg:gap-10 xl:gap-16 animate-pulse">
             {/* ── Left: Image skeleton ── */}
             <div className="space-y-4">
@@ -241,7 +241,7 @@ export default function ProductDetailPage({
   return (
     <div className="bg-gradient-to-b from-blue-50/30 to-white">
       {/* Consistent left/right padding across all breakpoints */}
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-24 sm:pt-28 pb-16 sm:pb-16 md:pb-14 lg:pb-75">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-20 sm:pt-24 pb-10 sm:pb-12 md:pb-10">
         {/* <div className="flex items-center justify-between mb-8 sm:mb-10">
           <motion.button
             initial={{ opacity: 0, x: -10 }}
@@ -273,11 +273,11 @@ export default function ProductDetailPage({
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 lg:gap-10 xl:gap-16"
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 lg:gap-8 xl:gap-12"
         >
           {/* ── Left: Product Images ── */}
           <motion.div variants={fadeUp} className="space-y-4">
-            <div className="relative h-64 sm:h-80 md:h-[380px] lg:h-[440px] xl:h-[480px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50 shadow-xl shadow-blue-100/50">
+            <div className="relative h-56 sm:h-72 md:h-[320px] lg:h-[360px] xl:h-[400px] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50 shadow-xl shadow-blue-100/50">
               {productImageUrls.length > 0 ? (
                 <Image
                   src={productImageUrls[selectedImage] || productImageUrls[0]}
@@ -375,7 +375,7 @@ export default function ProductDetailPage({
 
             {/* Photo Upload */}
             <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-100 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
                     <ImageIcon size={14} className="text-blue-900" />
