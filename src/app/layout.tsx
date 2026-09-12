@@ -6,7 +6,6 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppShell from "@/components/AppShell";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -48,7 +47,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             },
           }}
         />
-        <SpeedInsights />
       </body>
     </html>
   );
